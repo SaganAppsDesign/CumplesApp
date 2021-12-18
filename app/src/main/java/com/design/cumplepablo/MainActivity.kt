@@ -11,11 +11,15 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.core.view.isInvisible
+import com.design.cumplepablo.databinding.ActivityMainBinding
 import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding : ActivityMainBinding
     lateinit var resultText: TextView
+    lateinit var textYear: TextView
     lateinit var fecha: TextView
     lateinit var foto: ImageView
 
@@ -23,23 +27,26 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        //Creando binding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        //Texto
-        resultText = findViewById(R.id.texto1)
+        //Textos
+        resultText = binding.texto1
+        textYear = binding.textYear
         //Fecha
-        fecha = findViewById(R.id.fecha)
+        fecha = binding.fecha
 
         //Fotos
-        foto = findViewById(R.id.fotopablo)
+        foto = binding.carruselFotos
+        foto.setBackgroundColor(R.drawable.image_border)
+        foto.setVisibility(View.VISIBLE)
 
         //Botón
-        val buttonCalc: Button
-        buttonCalc = findViewById(R.id.boton1)
-        buttonCalc.setOnClickListener { calculoEdad() }
+        binding.button3.setOnClickListener { calculoEdad()}
 
         //Fondo de pantalla
-        val fondo: ImageView = findViewById(R.id.imagenCumple)
+        var fondo = binding.imagenCumple
         fondo.setImageResource(R.drawable.cumple)
 
     }
@@ -48,16 +55,14 @@ class MainActivity : AppCompatActivity() {
    fun calculoEdad() {
 
         val resultFecha = datosFecha()
+
         val felicidades = "Felicidades Pablo, este año cumples $resultFecha primaveras"
-        foto.setBackgroundColor(R.drawable.image_border)
-        //val ramdomInt = (1..6).random()
-        //resultText.text = ramdomInt.toString()
-        //Log.i("Número aleatorio: ", ramdomInt.toString())
+        foto.setVisibility(View.VISIBLE)
 
 
         when (resultFecha) {
 
-            in -10000..-1 -> {
+            in -8000..-1 -> {
                 resultText.text = "No has nacido todavía Pablo ¡¡Disfruta de tu soledad cósmica!!"
                 foto.setImageResource(R.drawable.pablononacido)
 
@@ -65,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             0 -> {
                 resultText.text = "¡¡Acabas de nacer, Pablo!! ¡¡Bienvenido a este mundo!!"
                 foto.setImageResource(R.drawable.happybirthday)
-
+5
             }
             1 -> {
                 "Felicidades Pablo, hoy cumples " + resultFecha + " año"
@@ -122,9 +127,9 @@ class MainActivity : AppCompatActivity() {
                 foto.setImageResource(R.drawable.pabloanciano)
             }
             else -> {
-                resultText.text =
-                    "Introduce valor correcto"
-                foto.setImageResource(R.drawable.pablo200)
+                resultText.text = "Introduce una fecha para continuar"
+                foto.setVisibility(View.INVISIBLE)
+
             }
 
 
@@ -134,20 +139,23 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    //Toma la fecha del input text
     fun datosFecha(): Int {
 
         if (fecha.text.isNotEmpty()) {
 
             val fechaString = fecha.getText().toString();
             val fechaInt = fechaString.toInt()
+            textYear.text = "Año " + fechaInt.toString()
             return fechaInt - 2013
 
-        } else {Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
-            return 0
+        } else {
+            textYear.text = "Año no definido"
+            Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
+            return -9999
         }
 
     }
-
 
 
 

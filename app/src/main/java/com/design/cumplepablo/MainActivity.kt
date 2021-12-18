@@ -15,9 +15,9 @@ import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var resultText : TextView
-    lateinit var fecha : TextView
-    lateinit var foto : ImageView
+    lateinit var resultText: TextView
+    lateinit var fecha: TextView
+    lateinit var foto: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,91 +29,126 @@ class MainActivity : AppCompatActivity() {
         resultText = findViewById(R.id.texto1)
         //Fecha
         fecha = findViewById(R.id.fecha)
+
         //Fotos
         foto = findViewById(R.id.fotopablo)
 
-
         //Botón
-        val roll_boton: Button = findViewById(R.id.boton1)
+        val buttonCalc: Button
+        buttonCalc = findViewById(R.id.boton1)
+        buttonCalc.setOnClickListener { calculoEdad() }
 
         //Fondo de pantalla
-        val fondo : ImageView = findViewById(R.id.imagenCumple)
+        val fondo: ImageView = findViewById(R.id.imagenCumple)
         fondo.setImageResource(R.drawable.cumple)
-
-        roll_boton.setOnClickListener{calculoEdad()}
-/*
-        val drawableResource 0.= when (randomInt) {
-            1 -> R.drawable.dice_1
-            2 -> R.drawable.dice_2
-            3 -> R.drawable.dice_3
-            4 -> R.drawable.dice_4
-            5 -> R.drawable.dice_5
-            else -> R.drawable.dice_6
-        }
-*/
 
     }
 //Functions
 
-    private fun calculoEdad() {
-        val fechaString = fecha.getText().toString();
-        val fechaInt = fechaString.toInt()
-        val result = fechaInt - 2013
-        val resultString = result.toString()
+   fun calculoEdad() {
 
+        val resultFecha = datosFecha()
+        val felicidades = "Felicidades Pablo, este año cumples $resultFecha primaveras"
+        foto.setBackgroundColor(R.drawable.image_border)
         //val ramdomInt = (1..6).random()
         //resultText.text = ramdomInt.toString()
         //Log.i("Número aleatorio: ", ramdomInt.toString())
-        //Toast.makeText(this, "¡¡Muchas Felicidades, Pablo!!", Toast.LENGTH_SHORT).show()
-        if (result < 0){
 
-            resultText.text = "No has nacido todavía Pablo ¡¡Disfruta de tu soledad cósmica!!"
-            foto.setImageResource(R.drawable.pablononacido)
 
-        } else if (result == 0) {
+        when (resultFecha) {
 
-            resultText.text = "¡¡Acabas de nacer, Pablo!! ¡¡Bienvenido a este mundo!!"
-            foto.setImageResource(R.drawable.pablobebe)
-        } else if (result == 1) {
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " año"
-            foto.setImageResource(R.drawable.happybirthday)
-        } else if (result == 2){
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años"
-            foto.setImageResource(R.drawable.pablo2015)
-        } else if (result == 3){
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años"
-            foto.setImageResource(R.drawable.pablo2016)
-        } else if (result == 4){
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años"
-            foto.setImageResource(R.drawable.pablo2017)
-        } else if (result == 5){
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años"
-            foto.setImageResource(R.drawable.happybirthday)
-        } else if (result == 6){
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años"
-            foto.setImageResource(R.drawable.pablo2019)
-        } else if (result == 7){
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años"
-            foto.setImageResource(R.drawable.happybirthday)
-        } else if (result == 8){
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años"
-            foto.setImageResource(R.drawable.pablo2021)
+            in -10000..-1 -> {
+                resultText.text = "No has nacido todavía Pablo ¡¡Disfruta de tu soledad cósmica!!"
+                foto.setImageResource(R.drawable.pablononacido)
 
-        } else if (result > 8 && result < 18){
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años. Estás en la etapa adolescente..."
-            foto.setImageResource(R.drawable.pabloadolescente)
-        } else if (result >= 18 && result < 60){
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años. Ya eres un hombre hecho y derecho..."
-            foto.setImageResource(R.drawable.pablomaduro)
-        } else if (result >= 60 && result <= 120) {
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años. ¡¡Ya eres un viejete!!"
-            foto.setImageResource(R.drawable.pabloanciano)
-        } else {
-            resultText.text = "Felicidades Pablo, hoy cumples " + resultString + " años. Pero es imposible..."
-            foto.setImageResource(R.drawable.pablo200)
+            }
+            0 -> {
+                resultText.text = "¡¡Acabas de nacer, Pablo!! ¡¡Bienvenido a este mundo!!"
+                foto.setImageResource(R.drawable.happybirthday)
+
+            }
+            1 -> {
+                "Felicidades Pablo, hoy cumples " + resultFecha + " año"
+                foto.setImageResource(R.drawable.pablobebe)
+
+            }
+            2 -> {
+                resultText.text = felicidades
+                foto.setImageResource(R.drawable.pablo2015)
+            }
+            3 -> {
+                resultText.text = felicidades
+                foto.setImageResource(R.drawable.pablo2016)
+            }
+            4 -> {
+                resultText.text = felicidades
+                foto.setImageResource(R.drawable.pablo2017)
+            }
+            5 -> {
+                resultText.text = felicidades
+                foto.setImageResource(R.drawable.happybirthday)
+            }
+            6 -> {
+                resultText.text = felicidades
+                foto.setImageResource(R.drawable.pablo2019)
+            }
+            7 -> {
+                resultText.text = felicidades
+                foto.setImageResource(R.drawable.happybirthday)
+            }
+            8 -> {
+                resultText.text = felicidades
+                foto.setImageResource(R.drawable.pablo2021)
+            }
+            in 9..17 -> {
+                resultText.text =
+                    "$felicidades. Estás en la etapa adolescente..."
+                foto.setImageResource(R.drawable.pabloadolescente)
+            }
+            in 18..60 -> {
+                resultText.text =
+                    "$felicidades. Ya vas siendo una persona madurita..."
+                foto.setImageResource(R.drawable.pablomaduro)
+            }
+            in 61..120 -> {
+                resultText.text =
+                    "$felicidades. ¡¡Ya eres un viejete!!"
+                foto.setImageResource(R.drawable.pabloanciano)
+            }
+
+            in 121..6000 -> {
+                resultText.text =
+                    "$felicidades. Pero es imposible con la tecnología actual..."
+                foto.setImageResource(R.drawable.pabloanciano)
+            }
+            else -> {
+                resultText.text =
+                    "Introduce valor correcto"
+                foto.setImageResource(R.drawable.pablo200)
+            }
+
+
+        }
+
+
+
+    }
+
+    fun datosFecha(): Int {
+
+        if (fecha.text.isNotEmpty()) {
+
+            val fechaString = fecha.getText().toString();
+            val fechaInt = fechaString.toInt()
+            return fechaInt - 2013
+
+        } else {Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
+            return 0
         }
 
     }
+
+
 
 
 }

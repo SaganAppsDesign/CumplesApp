@@ -6,15 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
-    android:background="#2A44DD"
+    android:background="#303030"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
     <Button
         android:id="@+id/boton1"
-        android:layout_width="139dp"
-        android:layout_height="55dp"
-        android:background="@drawable/shapeboton"
+        android:layout_width="154dp"
+        android:layout_height="48dp"
+        android:background="@drawable/button_custom"
         android:fontFamily="monospace"
         android:text="@string/button1"
         android:textColor="#040404"
@@ -34,18 +34,19 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="TODO"
+        android:background="@drawable/image_border"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.579"
+        app:layout_constraintVertical_bias="0.602"
         tools:ignore="ImageContrastCheck"
         tools:srcCompat="@drawable/cumple" />
 
     <TextView
         android:id="@+id/texto1"
-        android:layout_width="311dp"
-        android:layout_height="115dp"
+        android:layout_width="328dp"
+        android:layout_height="156dp"
         android:background="@drawable/round_corner"
         android:fontFamily="monospace"
         android:gravity="center|center_horizontal"
@@ -69,7 +70,7 @@
         android:layout_height="26dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="52dp"
-        android:background="@drawable/shapeboton"
+        android:background="@drawable/button_pressed"
         android:fontFamily="monospace"
         android:gravity="center"
         android:text="Introduce año"
@@ -113,6 +114,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/texto1"
         app:layout_constraintVertical_bias="0.339"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

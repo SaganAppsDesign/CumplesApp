@@ -32,10 +32,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //Textos
-        resultText = binding.texto1
+        resultText = binding.cuadroTextoResultadoCalculo
         textYear = binding.textYear
         //Fecha
-        fecha = binding.fecha
+        fecha = binding.editTextFecha
 
         //Fotos
         foto = binding.carruselFotos
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         foto.setVisibility(View.VISIBLE)
 
         //Botón
-        binding.button3.setOnClickListener { calculoEdad()}
+        binding.calculoEdad.setOnClickListener { calculoEdad(it) }
 
         //Fondo de pantalla
         var fondo = binding.imagenCumple
@@ -52,13 +52,16 @@ class MainActivity : AppCompatActivity() {
     }
 //Functions
 
-   fun calculoEdad() {
+   fun calculoEdad (view: View) {
 
-        val resultFecha = datosFecha()
+       val resultFecha = datosFecha()
 
-        val felicidades = "Felicidades Pablo, este año cumples $resultFecha primaveras"
+       val felicidades = "Felicidades Pablo, este año cumples $resultFecha primaveras"
         foto.setVisibility(View.VISIBLE)
 
+       //Esconder teclado
+       val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+       inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
         when (resultFecha) {
 
@@ -156,6 +159,8 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+
 
 
 

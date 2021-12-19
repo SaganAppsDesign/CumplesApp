@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">CumplePablo</string>
     <string name="button1">Calcula tu edad</string>
+    <string name="calcula_tu_edad">Calcula tu edad</string>
+    <string name="texto_etiqueta">Introduce año</string>
+    <string name="hint">Pablo, aquí verás el cálculo de tu edad…</string>
+    <string name="hint_fecha">MMMM</string>
+    <string name="carrusel_imagenes">carrusel_imagenes</string>
+    <string name="fondo_imagen_cumple">fondo imagen cumple</string>
 </resources>

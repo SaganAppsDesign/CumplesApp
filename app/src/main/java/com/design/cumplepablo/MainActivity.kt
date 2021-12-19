@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     lateinit var resultText: TextView
-    lateinit var textYear: TextView
+    lateinit var textoYear: TextView
     lateinit var fecha: TextView
     lateinit var foto: ImageView
 
@@ -28,27 +28,63 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         //Creando binding
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        //Textos
-        resultText = binding.cuadroTextoResultadoCalculo
-        textYear = binding.textYear
-        //Fecha
-        fecha = binding.editTextFecha
+            Log.i("info","OnCreate")
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
 
-        //Fotos
-        foto = binding.carruselFotos
-        foto.setBackgroundColor(R.drawable.image_border)
-        foto.setVisibility(View.VISIBLE)
+            //Textos
+            resultText = binding.cuadroTextoResultadoCalculo
+            textoYear = binding.textYear
+            //Fecha
+            fecha = binding.editTextFecha
 
-        //Botón
-        binding.calculoEdad.setOnClickListener { calculoEdad(it) }
+            //Fotos
+            foto = binding.carruselFotos
+            foto.setBackgroundColor(R.drawable.image_border)
+            foto.setVisibility(View.VISIBLE)
 
-        //Fondo de pantalla
-        var fondo = binding.imagenCumple
-        fondo.setImageResource(R.drawable.cumple)
+            //Botón
+            binding.calculoEdad.setOnClickListener { calculoEdad(it) }
 
+            //Fondo de pantalla
+            var fondo = binding.imagenCumple
+            fondo.setImageResource(R.drawable.cumple)
+
+
+
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("info","onStart")
+    }
+
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.i("info","onRestart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("info","OnResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("info","OnPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("info","OnStop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("info","OnDestroy")
     }
 //Functions
 
@@ -149,11 +185,11 @@ class MainActivity : AppCompatActivity() {
 
             val fechaString = fecha.getText().toString();
             val fechaInt = fechaString.toInt()
-            textYear.text = "Año " + fechaInt.toString()
+            textoYear.text = "Año " + fechaInt.toString()
             return fechaInt - 2013
 
         } else {
-            textYear.text = "Año no definido"
+            textoYear.text = "Año no definido"
             Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
             return -9999
         }

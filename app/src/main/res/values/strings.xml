@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">CumplePablo</string>
-    <string name="button1">Calcula tu edad</string>
     <string name="calcula_tu_edad">Calcula tu edad</string>
     <string name="texto_etiqueta">Introduce año</string>
     <string name="hint">Pablo, aquí verás el cálculo de tu edad…</string>

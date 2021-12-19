@@ -22,10 +22,6 @@ android {
         enabled = true
     }
 
-    viewBinding{
-
-        enabled = true
-    }
 
     buildTypes {
         release {

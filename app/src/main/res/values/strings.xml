@@ -6,4 +6,9 @@
     <string name="hint_fecha">MMMM</string>
     <string name="carrusel_imagenes">carrusel_imagenes</string>
     <string name="fondo_imagen_cumple">fondo imagen cumple</string>
+    <string name="texto_fragment">Pasa a calcular tu edad</string>
+    <string name="texto_fragment2">Pasa a calcular tu edad</string>
+
+
+
 </resources>

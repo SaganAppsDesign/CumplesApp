@@ -1,19 +1,16 @@
-package com.design.cumplepablo
+package com.design.cumplepablo.activities
 
 import android.app.Activity
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import androidx.core.view.isInvisible
+import com.design.cumplepablo.R
 import com.design.cumplepablo.databinding.ActivityMainBinding
-import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,10 +49,9 @@ class MainActivity : AppCompatActivity() {
             fondo.setImageResource(R.drawable.cumple)
 
 
-
-
     }
 
+    //Ciclo de vida
     override fun onStart() {
         super.onStart()
         Log.i("info","onStart")
@@ -171,10 +167,7 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-
         }
-
-
 
     }
 
@@ -189,7 +182,7 @@ class MainActivity : AppCompatActivity() {
             return fechaInt - 2013
 
         } else {
-            textoYear.text = "Año no definido"
+            textoYear.text = getString(R.string.calcula_tu_edad)
             Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
             return -9999
         }

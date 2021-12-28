@@ -1,4 +1,4 @@
-package com.design.cumplepablo.activities
+package com.design.cumplepablo
 
 import android.content.Intent
 import android.os.Build
@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import androidx.annotation.RequiresApi
-import com.design.cumplepablo.R
 
 class SplashScreen : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.HONEYCOMB)

@@ -1,4 +1,4 @@
-package com.design.cumplepablo.activities
+package com.design.cumplepablo
 
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
-import com.design.cumplepablo.R
 import com.design.cumplepablo.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -38,14 +37,14 @@ class MainActivity : AppCompatActivity() {
 
             //Fotos
             foto = binding.carruselFotos
-            foto.setBackgroundColor(R.drawable.image_border)
+            foto.setCropToPadding(true)
             foto.setVisibility(View.VISIBLE)
 
             //Botón
             binding.calculoEdad.setOnClickListener { calculoEdad(it) }
 
             //Fondo de pantalla
-            var fondo = binding.imagenCumple
+            var fondo = binding.imagenCumple2
             fondo.setImageResource(R.drawable.cumple)
 
 
@@ -113,53 +112,70 @@ class MainActivity : AppCompatActivity() {
 
             }
             2 -> {
-                resultText.text = felicidades
+                resultText.text = felicidades + "\uD83D\uDE0D"
                 foto.setImageResource(R.drawable.pablo2015)
             }
             3 -> {
-                resultText.text = felicidades
+                resultText.text = felicidades + "\uD83D\uDE0D"
                 foto.setImageResource(R.drawable.pablo2016)
             }
             4 -> {
-                resultText.text = felicidades
+                resultText.text = felicidades + "\uD83D\uDE0D"
                 foto.setImageResource(R.drawable.pablo2017)
             }
             5 -> {
-                resultText.text = felicidades
+                resultText.text = felicidades + "\uD83D\uDE0D"
                 foto.setImageResource(R.drawable.happybirthday)
             }
             6 -> {
-                resultText.text = felicidades
+                resultText.text = felicidades + "\uD83D\uDE0D"
                 foto.setImageResource(R.drawable.pablo2019)
             }
             7 -> {
-                resultText.text = felicidades
+                resultText.text = felicidades + "\uD83D\uDE0D"
                 foto.setImageResource(R.drawable.happybirthday)
             }
             8 -> {
-                resultText.text = felicidades
+                resultText.text = felicidades + "\uD83D\uDE0D"
                 foto.setImageResource(R.drawable.pablo2021)
             }
-            in 9..17 -> {
+            9 -> {
+                resultText.text = felicidades + "\uD83D\uDE0D"
+                foto.setImageResource(R.drawable.pablo2021)
+            }
+            10 -> {
+                resultText.text = felicidades + "\uD83D\uDE0D"
+                foto.setImageResource(R.drawable.pablo2021)
+            }
+
+            11 -> {
+                resultText.text = felicidades + "\uD83D\uDE0D"
+                foto.setImageResource(R.drawable.pablo2021)
+            }
+            12 -> {
+                resultText.text = felicidades + "\uD83D\uDE0D"
+                foto.setImageResource(R.drawable.pablo2021)
+            }
+            in 13..17 -> {
                 resultText.text =
-                    "$felicidades. Estás en la etapa adolescente..."
+                    "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
                 foto.setImageResource(R.drawable.pabloadolescente)
             }
             in 18..60 -> {
                 resultText.text =
-                    "$felicidades. Ya vas siendo una persona madurita..."
+                    "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
                 foto.setImageResource(R.drawable.pablomaduro)
             }
             in 61..120 -> {
                 resultText.text =
-                    "$felicidades. ¡¡Ya eres un viejete!!"
+                    "$felicidades. ¡¡Ya eres un viejete!! \uD83D\uDE05"
                 foto.setImageResource(R.drawable.pabloanciano)
             }
 
             in 121..6000 -> {
                 resultText.text =
-                    "$felicidades. Pero es imposible con la tecnología actual..."
-                foto.setImageResource(R.drawable.pabloanciano)
+                    "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
+                foto.setImageResource(R.drawable.pablo200)
             }
             else -> {
                 resultText.text = "Introduce una fecha para continuar"

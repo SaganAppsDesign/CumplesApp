@@ -11,14 +11,13 @@
     tools:context=".MainActivity">
 
     <ImageView
-        android:id="@+id/imagenCumple"
+        android:id="@+id/imagenCumple2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/image_border"
         android:contentDescription="@string/fondo_imagen_cumple"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,44 +27,23 @@
         tools:ignore="ImageContrastCheck"
         tools:srcCompat="@drawable/cumple" />
 
-    <TextView
-        android:id="@+id/cuadro_texto_resultado_calculo"
-        android:layout_width="328dp"
-        android:layout_height="156dp"
-        android:layout_marginTop="212dp"
-        android:background="@drawable/round_corner"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center|center_horizontal"
-        android:hint="@string/hint"
-        android:padding="10dp"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/etiqueta_encima_edit_text"
         style="@style/style_button"
         android:layout_width="121dp"
         android:layout_height="28dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
         android:text="@string/texto_etiqueta"
-        app:layout_constraintBottom_toTopOf="@+id/edit_text_fecha"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.65999997" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edit_text_fecha"
         android:layout_width="120dp"
         android:layout_height="60dp"
-        android:layout_marginStart="48dp"
+        android:layout_marginStart="32dp"
         android:elegantTextHeight="true"
         android:ems="10"
         android:fontFamily="@font/roboto_medium"
@@ -98,20 +76,18 @@
 
     <Button
         android:id="@+id/calculo_edad"
-        android:layout_width="138dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="151dp"
+        android:layout_height="38dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/button_custom"
         android:text="@string/calcula_tu_edad"
         android:textColor="#090909"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imagenCumple"
+        app:layout_constraintBottom_toTopOf="@+id/imagenCumple2"
         app:layout_constraintDimensionRatio="h,3:1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.309"
-        app:layout_constraintStart_toEndOf="@+id/edit_text_fecha"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.889" />
+        app:layout_constraintVertical_bias="0.697" />
 
     <ImageView
         android:id="@+id/carruselFotos"
@@ -123,8 +99,47 @@
         app:layout_constraintBottom_toTopOf="@+id/textYear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cuadro_texto_resultado_calculo"
         app:layout_constraintVertical_bias="0.19"
         tools:srcCompat="@tools:sample/avatars" />
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="327dp"
+        android:layout_height="175dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:gravity="center|center_horizontal"
+        app:cardCornerRadius="25dp"
+        app:cardElevation="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/carruselFotos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.435"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.875">
+
+
+        <TextView
+            android:id="@+id/cuadro_texto_resultado_calculo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EFCF6D"
+            android:fontFamily="@font/roboto_medium"
+            android:gravity="center|center_horizontal"
+            android:hint="@string/hint"
+            android:autofillHints="#151414"
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.518"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

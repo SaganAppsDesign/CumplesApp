@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "49043493278",
+    "project_id": "cumplesdepablo",
+    "storage_bucket": "cumplesdepablo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:49043493278:android:1ae5dc8cb9f36a159a068f",
+        "android_client_info": {
+          "package_name": "com.design.cumplepablo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "49043493278-6ohhjhmdpmd68srmqo2sog433qkm3nbv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6WKeLlaQXf5miEDARR5Va3VQEBgxxhoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "49043493278-6ohhjhmdpmd68srmqo2sog433qkm3nbv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

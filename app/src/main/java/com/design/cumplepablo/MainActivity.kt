@@ -1,6 +1,8 @@
 package com.design.cumplepablo
 
 import android.app.Activity
+import android.graphics.BitmapFactory
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
@@ -9,7 +11,12 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import androidx.annotation.RequiresApi
 import com.design.cumplepablo.databinding.ActivityMainBinding
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.File
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,10 +26,16 @@ class MainActivity : AppCompatActivity() {
     lateinit var fecha: TextView
     lateinit var foto: ImageView
 
-
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+
+
+
+        // Create a storage reference from our app
+
+
         //Creando binding
 
             Log.i("info","OnCreate")
@@ -47,8 +60,9 @@ class MainActivity : AppCompatActivity() {
             var fondo = binding.imagenCumple2
             fondo.setImageResource(R.drawable.cumple)
 
-
     }
+
+
 
     //Ciclo de vida
     override fun onStart() {
@@ -85,97 +99,114 @@ class MainActivity : AppCompatActivity() {
 
    fun calculoEdad (view: View) {
 
+
        val resultFecha = datosFecha()
 
        val felicidades = "Felicidades Pablo, este año cumples $resultFecha primaveras"
-        foto.setVisibility(View.VISIBLE)
+       foto.setVisibility(View.VISIBLE)
 
        //Esconder teclado
        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
+
         when (resultFecha) {
 
             in -8000..-1 -> {
                 resultText.text = "No has nacido todavía Pablo ¡¡Disfruta de tu soledad cósmica!!"
-                foto.setImageResource(R.drawable.pablononacido)
+                getImagesFirebase("pablononacido")
 
             }
             0 -> {
                 resultText.text = "¡¡Acabas de nacer, Pablo!! ¡¡Bienvenido a este mundo!!"
-                foto.setImageResource(R.drawable.happybirthday)
+                //foto.setImageResource(R.drawable.happybirthday)
+                getImagesFirebase("happybirthday")
 5
             }
             1 -> {
                 "Felicidades Pablo, hoy cumples " + resultFecha + " año"
-                foto.setImageResource(R.drawable.pablobebe)
+                //foto.setImageResource(R.drawable.pablobebe)
+                getImagesFirebase("pablobebe")
+
 
             }
             2 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.pablo2015)
+                getImagesFirebase("pablo2015")
+
             }
             3 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.pablo2016)
+                getImagesFirebase("pablo2016")
+
             }
             4 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.pablo2017)
-            }
+                getImagesFirebase("pablo2017")
+                }
+
             5 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
+                getImagesFirebase("happybirthday")
                 foto.setImageResource(R.drawable.happybirthday)
             }
             6 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.pablo2019)
+                getImagesFirebase("pablo2019")
+
             }
             7 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.happybirthday)
+                getImagesFirebase("happybirthday")
+
             }
             8 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.pablo2021)
+                getImagesFirebase("pablo2021")
+
             }
             9 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.pablo2021)
+                getImagesFirebase("happybirthday")
+
             }
             10 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.pablo2021)
+                getImagesFirebase("happybirthday")
             }
 
             11 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.pablo2021)
+                getImagesFirebase("happybirthday")
             }
             12 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                foto.setImageResource(R.drawable.pablo2021)
+                getImagesFirebase("happybirthday")
             }
             in 13..17 -> {
                 resultText.text =
                     "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
-                foto.setImageResource(R.drawable.pabloadolescente)
+                //foto.setImageResource(R.drawable.pabloadolescente)
+                getImagesFirebase("pabloadolescente")
             }
             in 18..60 -> {
                 resultText.text =
                     "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
-                foto.setImageResource(R.drawable.pablomaduro)
+                //foto.setImageResource(R.drawable.pablomaduro)
+                getImagesFirebase("pablomaduro")
+
             }
             in 61..120 -> {
                 resultText.text =
                     "$felicidades. ¡¡Ya eres un viejete!! \uD83D\uDE05"
-                foto.setImageResource(R.drawable.pabloanciano)
-            }
+                    getImagesFirebase("pabloanciano")
+                }
 
             in 121..6000 -> {
                 resultText.text =
                     "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
-                foto.setImageResource(R.drawable.pablo200)
+                //foto.setImageResource(R.drawable.pablo200)
+                getImagesFirebase("pablo200")
             }
             else -> {
                 resultText.text = "Introduce una fecha para continuar"
@@ -206,7 +237,29 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    fun getImagesFirebase (name: String){
+
+        //Firebase
+        val storage = Firebase.storage
+        var storageRef = storage.reference
+        var spaceRef = storageRef.child("$name.png")
+
+        var localfile = File.createTempFile("$name", "png")
+        spaceRef.getFile(localfile).addOnSuccessListener {
+
+            val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+            binding.carruselFotos.setImageBitmap(bitmap)
+
+        }.addOnFailureListener{
+
+            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+
 
 
 
 }
+

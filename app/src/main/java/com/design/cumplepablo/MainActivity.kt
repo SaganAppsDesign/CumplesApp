@@ -11,7 +11,9 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
+import androidx.core.view.isVisible
 import com.design.cumplepablo.databinding.ActivityMainBinding
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -25,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var textoYear: TextView
     lateinit var fecha: TextView
     lateinit var foto: ImageView
+    lateinit var progressbar: ProgressBar
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +62,9 @@ class MainActivity : AppCompatActivity() {
             //Fondo de pantalla
             var fondo = binding.imagenCumple2
             fondo.setImageResource(R.drawable.cumple)
+
+            //Progress bar
+            progressbar = binding.determinateBar
 
     }
 
@@ -99,9 +105,8 @@ class MainActivity : AppCompatActivity() {
 
    fun calculoEdad (view: View) {
 
-
+       progressbar.visibility = View.VISIBLE
        val resultFecha = datosFecha()
-
        val felicidades = "Felicidades Pablo, este año cumples $resultFecha primaveras"
        foto.setVisibility(View.VISIBLE)
 
@@ -239,21 +244,25 @@ class MainActivity : AppCompatActivity() {
 
     fun getImagesFirebase (name: String){
 
-        //Firebase
-        val storage = Firebase.storage
-        var storageRef = storage.reference
-        var spaceRef = storageRef.child("$name.png")
+            //Firebase
+            val storage = Firebase.storage
+            var storageRef = storage.reference
+            var spaceRef = storageRef.child("$name.png")
 
-        var localfile = File.createTempFile("$name", "png")
-        spaceRef.getFile(localfile).addOnSuccessListener {
+            var localfile = File.createTempFile("$name", "png")
 
-            val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
-            binding.carruselFotos.setImageBitmap(bitmap)
+            spaceRef.getFile(localfile).addOnSuccessListener {
 
-        }.addOnFailureListener{
+                val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+                binding.carruselFotos.setImageBitmap(bitmap)
+                progressbar.visibility = View.INVISIBLE
 
-            Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
-        }
+
+            }.addOnFailureListener {
+
+                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+            }
+
     }
 
 

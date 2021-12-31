@@ -13,19 +13,19 @@
 
     <ImageView
         android:id="@+id/imagenCumple2"
-        android:layout_width="369dp"
-        android:layout_height="394dp"
+        android:layout_width="411dp"
+        android:layout_height="395dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:contentDescription="@string/fondo_imagen_cumple"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.537"
+        app:layout_constraintVertical_bias="0.693"
         tools:ignore="ImageContrastCheck"
-        tools:srcCompat="@drawable/cumple" />
-
+        tools:srcCompat="@drawable/fondocalculo" />
 
     <TextView
         android:id="@+id/etiqueta_encima_edit_text"

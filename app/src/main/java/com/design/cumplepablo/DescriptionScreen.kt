@@ -18,11 +18,18 @@ class DescriptionScreen : AppCompatActivity() {
         val message = intent.getStringExtra("texto")
         binding.textDescription.setText(message)
 
-//Fondo de pantalla
+        //Imagen efemérides
         val bundle = intent.extras
         val imagen = bundle!!.getInt("imagen")
 
         binding.imageDescription.setImageResource(imagen)
+
+        //Año efemérides
+
+        val bundle2 = intent.extras
+        val year = bundle2!!.getInt("year")
+
+        binding.textEfemerides.setText("Efemérides año " + year)
 
 
 

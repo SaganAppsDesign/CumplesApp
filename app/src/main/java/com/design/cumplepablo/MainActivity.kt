@@ -105,6 +105,7 @@ class MainActivity : AppCompatActivity() {
 
        progressbar.visibility = View.VISIBLE
        val resultFecha = datosFecha()
+       val year = datosFecha() + 2013
        val felicidades = "Felicidades Pablo, este año cumples $resultFecha primaveras"
        foto.setVisibility(View.VISIBLE)
 
@@ -123,8 +124,8 @@ class MainActivity : AppCompatActivity() {
             0 -> {
                 resultText.text = "¡¡Acabas de nacer, Pablo!! ¡¡Bienvenido a este mundo!!"
                 getImagesFirebase("happybirthday")
-                foto.setOnClickListener{yearDescription("En este año, el 10 de octubre, fue el bicentenario " +
-                        "del nacimiento del compositor italiano Giuseppe Verdi.", R.drawable.giuseppeverdi)}
+                foto.setOnClickListener{yearDescription("En este año $year, en concreto el 10 de octubre, fue el bicentenario " +
+                        "del nacimiento del compositor italiano Giuseppe Verdi.", R.drawable.giuseppeverdi, year)}
 
 
             }
@@ -132,9 +133,9 @@ class MainActivity : AppCompatActivity() {
                 "Felicidades Pablo, hoy cumples " + resultFecha + " año"
                 getImagesFirebase("pablobebe")
                 foto.setOnClickListener{Toast.makeText(this, "Prueba fecha = $resultFecha", Toast.LENGTH_SHORT).show()}
-                foto.setOnClickListener{yearDescription("El 2 de junio de 2014 en Madrid (España), el rey de España, " +
+                foto.setOnClickListener{yearDescription("El 2 de junio de $year en Madrid (España), el rey de España, " +
                         "Juan Carlos I anuncia en mensaje oficial a las 13:00 que abdica en favor de su hijo el Príncipe Felipe, " +
-                        "que reinará bajo el nombre de Felipe VI de España..", R.drawable.reyjuancarlos)}
+                        "que reinará bajo el nombre de Felipe VI de España..", R.drawable.reyjuancarlos , year)}
 
             }
             2 -> {
@@ -265,16 +266,18 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun yearDescription (texto: String, imagen: Int){
+    fun yearDescription (texto: String, imagen: Int, year: Int){
 
                val intent = Intent(this, DescriptionScreen::class.java).apply {
-            putExtra("texto", texto)
-            putExtra("imagen", imagen)
+                    putExtra("texto", texto)
+                    putExtra("imagen", imagen)
+                    putExtra("year", year)
         }
         startActivity(intent)
 
 
     }
+
 
 
 

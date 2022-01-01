@@ -46,14 +46,14 @@
         app:layout_constraintTop_toBottomOf="@+id/cardViewEfemerides">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="342dp"
-            android:layout_height="296dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/textDescription"
-                android:layout_width="305dp"
-                android:layout_height="149dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center|center_horizontal"
                 android:padding="10dp"
@@ -70,12 +70,12 @@
 
             <ImageView
                 android:id="@+id/imageDescription"
-                android:layout_width="150dp"
-                android:layout_height="142dp"
-                android:layout_marginTop="24dp"
+                android:layout_width="match_parent"
+                android:layout_height="131dp"
+                android:layout_marginTop="40dp"
                 app:layout_constraintBottom_toTopOf="@+id/textDescription"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.447"
+                app:layout_constraintHorizontal_bias="0.258"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"

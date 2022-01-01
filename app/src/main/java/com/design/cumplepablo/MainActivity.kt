@@ -141,11 +141,17 @@ class MainActivity : AppCompatActivity() {
             2 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getImagesFirebase("pablo2015")
+                foto.setOnClickListener{yearDescription("El 9 de mayo de $year la Organización Mundial de la Salud declara que el brote de la " +
+                        "epidemia de Ebola en Liberia ha terminado, después de más de un año.", R.drawable.onu , year)}
 
             }
             3 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getImagesFirebase("pablo2016")
+                foto.setOnClickListener{yearDescription("El 28 de mayo de $year, el Real Madrid gana su undécima Liga de Campeones de la UEFA tras vencer " +
+                        "en los penalties 5-3 al Atlético de Madrid.", R.drawable.realmadrid , year)}
+
+
 
             }
             4 -> {
@@ -277,8 +283,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-
 
 
 }

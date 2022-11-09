@@ -247,14 +247,12 @@ class MainActivity : AppCompatActivity() {
                 binding.carruselFotos.setImageBitmap(bitmap)
                 progressbar.visibility = View.INVISIBLE
 
-
             }.addOnFailureListener {
 
                 Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
             }
 
     }
-
 
     private fun yearDescription (texto: String, imagen: Int, year: Int){
 
@@ -265,7 +263,5 @@ class MainActivity : AppCompatActivity() {
         }
         startActivity(intent)
     }
-
-
 }
 

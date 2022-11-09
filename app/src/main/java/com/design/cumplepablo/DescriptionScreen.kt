@@ -16,7 +16,7 @@ class DescriptionScreen : AppCompatActivity() {
 
         // Get the Intent that started this activity and extract the string
         val message = intent.getStringExtra("texto")
-        binding.textDescription.setText(message)
+        binding.textDescription.text = message
 
         //Imagen efemérides
         val bundle = intent.extras
@@ -30,11 +30,5 @@ class DescriptionScreen : AppCompatActivity() {
         val year = bundle2!!.getInt("year")
 
         binding.textEfemerides.setText("Efemérides año " + year)
-
-
-
-
-
-
     }
 }

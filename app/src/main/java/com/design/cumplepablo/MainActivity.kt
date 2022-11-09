@@ -66,8 +66,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
     //Ciclo de vida
     override fun onStart() {
         super.onStart()
@@ -106,28 +104,24 @@ class MainActivity : AppCompatActivity() {
        progressbar.visibility = View.VISIBLE
        val resultFecha = datosFecha()
        val year = datosFecha() + 2013
-       val felicidades = "Felicidades Pablo, este año cumples $resultFecha primaveras"
+       val felicidades = String.format(getString(R.string.felicidades), resultFecha)
        foto.setVisibility(View.VISIBLE)
 
        //Esconder teclado
        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
-
         when (resultFecha) {
 
             in -8000..-1 -> {
                 resultText.text = "No has nacido todavía Pablo ¡¡Disfruta de tu soledad cósmica!!"
                 getImagesFirebase("pablononacido")
-
             }
             0 -> {
                 resultText.text = "¡¡Acabas de nacer, Pablo!! ¡¡Bienvenido a este mundo!!"
                 getImagesFirebase("happybirthday")
                 foto.setOnClickListener{yearDescription("En este año $year, en concreto el 10 de octubre, fue el bicentenario " +
                         "del nacimiento del compositor italiano Giuseppe Verdi.", R.drawable.giuseppeverdi, year)}
-
-
             }
             1 -> {
                 "Felicidades Pablo, hoy cumples " + resultFecha + " año"
@@ -136,23 +130,18 @@ class MainActivity : AppCompatActivity() {
                 foto.setOnClickListener{yearDescription("El 2 de junio de $year en Madrid (España), el rey de España, " +
                         "Juan Carlos I anuncia en mensaje oficial a las 13:00 que abdica en favor de su hijo el Príncipe Felipe, " +
                         "que reinará bajo el nombre de Felipe VI de España..", R.drawable.reyjuancarlos , year)}
-
             }
             2 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getImagesFirebase("pablo2015")
                 foto.setOnClickListener{yearDescription("El 9 de mayo de $year la Organización Mundial de la Salud declara que el brote de la " +
                         "epidemia de Ebola en Liberia ha terminado, después de más de un año.", R.drawable.onu , year)}
-
             }
             3 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getImagesFirebase("pablo2016")
                 foto.setOnClickListener{yearDescription("El 28 de mayo de $year, el Real Madrid gana su undécima Liga de Campeones de la UEFA tras vencer " +
                         "en los penalties 5-3 al Atlético de Madrid.", R.drawable.realmadrid , year)}
-
-
-
             }
             4 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
@@ -220,13 +209,10 @@ class MainActivity : AppCompatActivity() {
                getImagesFirebase("pablo200")
             }
             else -> {
-                resultText.text = "Introduce una fecha para continuar"
-                foto.setVisibility(View.INVISIBLE)
-
+                resultText.text = getString(R.string.introduce_fecha)
+                foto.visibility = View.INVISIBLE
             }
-
         }
-
     }
 
     //Toma la fecha del input text
@@ -244,18 +230,16 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
             return -9999
         }
-
     }
 
-
-          fun getImagesFirebase (name: String){
+    private fun getImagesFirebase (name: String){
 
             //Firebase
             val storage = Firebase.storage
-            var storageRef = storage.reference
-            var spaceRef = storageRef.child("$name.png")
+            val storageRef = storage.reference
+            val spaceRef = storageRef.child("$name.png")
 
-            var localfile = File.createTempFile("$name", "png")
+            val localfile = File.createTempFile(name, "png")
 
             spaceRef.getFile(localfile).addOnSuccessListener {
 
@@ -263,16 +247,13 @@ class MainActivity : AppCompatActivity() {
                 binding.carruselFotos.setImageBitmap(bitmap)
                 progressbar.visibility = View.INVISIBLE
 
-
             }.addOnFailureListener {
-
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error cargando imagen", Toast.LENGTH_SHORT).show()
             }
 
     }
 
-
-    fun yearDescription (texto: String, imagen: Int, year: Int){
+    private fun yearDescription (texto: String, imagen: Int, year: Int){
 
                val intent = Intent(this, DescriptionScreen::class.java).apply {
                     putExtra("texto", texto)
@@ -280,10 +261,6 @@ class MainActivity : AppCompatActivity() {
                     putExtra("year", year)
         }
         startActivity(intent)
-
-
     }
-
-
 }
 

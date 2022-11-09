@@ -66,8 +66,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
     //Ciclo de vida
     override fun onStart() {
         super.onStart()
@@ -248,14 +246,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-          fun getImagesFirebase (name: String){
+          private fun getImagesFirebase (name: String){
 
             //Firebase
             val storage = Firebase.storage
-            var storageRef = storage.reference
-            var spaceRef = storageRef.child("$name.png")
+            val storageRef = storage.reference
+            val spaceRef = storageRef.child("$name.png")
 
-            var localfile = File.createTempFile("$name", "png")
+            val localfile = File.createTempFile(name, "png")
 
             spaceRef.getFile(localfile).addOnSuccessListener {
 
@@ -272,7 +270,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun yearDescription (texto: String, imagen: Int, year: Int){
+    private fun yearDescription (texto: String, imagen: Int, year: Int){
 
                val intent = Intent(this, DescriptionScreen::class.java).apply {
                     putExtra("texto", texto)

@@ -248,8 +248,7 @@ class MainActivity : AppCompatActivity() {
                 progressbar.visibility = View.INVISIBLE
 
             }.addOnFailureListener {
-
-                Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Error cargando imagen", Toast.LENGTH_SHORT).show()
             }
 
     }

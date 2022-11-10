@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">CumplePablo</string>
     <string name="calcula_tu_edad">Calcula tu edad</string>
+    <string name="siguiente">Siguiente</string>
     <string name="texto_etiqueta">Introduce año</string>
     <string name="hint">Pablo, aquí podrás ver el cálculo de tu edad…</string>
     <string name="hint_fecha">MMMM</string>

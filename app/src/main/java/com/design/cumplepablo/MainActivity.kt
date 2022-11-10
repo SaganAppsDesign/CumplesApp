@@ -237,7 +237,7 @@ class MainActivity : AppCompatActivity() {
             //Firebase
             val storage = Firebase.storage
             val storageRef = storage.reference
-            val spaceRef = storageRef.child("$name.png")
+            val spaceRef = storageRef.child("imagenesCumple/$name.png")
 
             val localfile = File.createTempFile(name, "png")
 
@@ -255,7 +255,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun yearDescription (texto: String, imagen: Int, year: Int){
 
-               val intent = Intent(this, DescriptionScreen::class.java).apply {
+        val intent = Intent(this, DescriptionScreen::class.java).apply {
                     putExtra("texto", texto)
                     putExtra("imagen", imagen)
                     putExtra("year", year)

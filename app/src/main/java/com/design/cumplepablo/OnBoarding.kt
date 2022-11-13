@@ -8,6 +8,8 @@ import com.design.cumplepablo.databinding.ActivityOnBoardingBinding
 
 class OnBoarding : AppCompatActivity() {
 
+    var name = ""
+
     private lateinit var binding : ActivityOnBoardingBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,9 +18,10 @@ class OnBoarding : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btSiguiente.setOnClickListener{
+            name = binding.etPersonName.text.toString()
             val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("name", name)
             startActivity(intent)
         }
-
     }
 }

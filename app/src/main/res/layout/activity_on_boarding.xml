@@ -4,20 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#303030"
+    android:orientation="vertical"
     tools:context=".OnBoarding">
+
+    <ImageView
+        android:id="@+id/tvBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:layout_marginBottom="9dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/fondoinfo"
+        android:contentDescription="@string/fondoinfo" />
 
     <Button
         android:id="@+id/btSiguiente"
         android:layout_width="151dp"
-        android:layout_height="38dp"
-        android:layout_marginEnd="28dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="144dp"
         android:background="@drawable/button_custom"
         android:text="@string/siguiente"
         android:textColor="#090909"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="h,3:1"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="52dp"
+        android:text="@string/introduce_tu_nombre"
+        android:textColor="#EFEAEA"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/etPersonName"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvBackground"
+        app:layout_constraintVertical_bias="0.746" />
+
+    <EditText
+        android:id="@+id/etPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="248dp"
+        android:ems="10"
+        android:hint="@string/nombre"
+        android:inputType="textPersonName"
+        android:minHeight="48dp"
+        android:textColor="#F6F4F4"
+        android:textColorHint="#F4EFEF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.942" />
+        app:layout_constraintHorizontal_bias="0.258"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

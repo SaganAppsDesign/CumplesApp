@@ -31,12 +31,17 @@ class MainActivity : AppCompatActivity() {
     lateinit var fecha: TextView
     lateinit var foto: ImageView
     lateinit var progressbar: ProgressBar
+    lateinit var hint: String
+    lateinit var welcomeText: String
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
+        val name: String? = intent.getStringExtra("name")
+        hint = String.format(getString(R.string.hint), name)
+        welcomeText = String.format(getString(R.string.texto_etiqueta), name)
         //Creando binding
 
             Log.i("info","OnCreate")
@@ -45,6 +50,8 @@ class MainActivity : AppCompatActivity() {
 
             //Textos
             resultText = binding.cuadroTextoResultadoCalculo
+            binding.cuadroTextoResultadoCalculo.hint = hint
+            binding.etiquetaEncimaEditText.text = welcomeText
             textoYear = binding.textYear
             //Fecha
             fecha = binding.editTextFecha
@@ -55,11 +62,11 @@ class MainActivity : AppCompatActivity() {
             foto.setVisibility(View.VISIBLE)
 
             //Botón
-            binding.calculoEdad.setOnClickListener { calculoEdad(it) }
+            binding.btnCalculaEdad.setOnClickListener{ calculoEdad(it) }
 
             //Fondo de pantalla
 
-            binding.imagenCumple2.setImageResource(R.drawable.fondocalculo)
+            binding.ivBackground.setImageResource(R.drawable.fondocalculo)
 
             //Progress bar
             progressbar = binding.determinateBar

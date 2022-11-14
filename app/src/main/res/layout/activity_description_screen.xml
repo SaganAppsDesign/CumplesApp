@@ -36,7 +36,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="328dp"
-        android:layout_height="322dp"
+        android:layout_height="wrap_content"
 
         android:layout_marginTop="60dp"
         app:cardCornerRadius="25dp"
@@ -71,7 +71,7 @@
             <ImageView
                 android:id="@+id/imageDescription"
                 android:layout_width="match_parent"
-                android:layout_height="131dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
                 app:layout_constraintBottom_toTopOf="@+id/textDescription"
                 app:layout_constraintEnd_toEndOf="parent"

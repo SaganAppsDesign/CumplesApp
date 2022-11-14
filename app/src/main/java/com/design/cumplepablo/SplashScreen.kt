@@ -35,7 +35,7 @@ class SplashScreen : AppCompatActivity() {
 
     private fun activityMain(activity: Class<MainActivity>){
         Handler().postDelayed({
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, activity)
             val pref = getSharedPreferences("datos", MODE_PRIVATE)
             name = pref.getString("name", "").toString()
             intent.putExtra("name", name)

@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Android/cumplePablo/app/src/main/res/layout/activity_main.xml" value="0.536" />
+        <entry key="..\:/Android/cumplePablo/app/src/main/res/layout/activity_description_screen.xml" value="0.36666666666666664" />
+        <entry key="..\:/Android/cumplePablo/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Android/cumplePablo/app/src/main/res/layout/activity_splash_screen.xml" value="0.246875" />
         <entry key="..\:/Users/David/Desktop/Solfium_android/CumplePablo2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3828125" />
         <entry key="..\:/Users/David/Desktop/Solfium_android/CumplePablo2/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3828125" />

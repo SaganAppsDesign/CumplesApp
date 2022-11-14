@@ -72,7 +72,6 @@ class MainActivity : AppCompatActivity() {
 
             //Progress bar
             progressbar = binding.determinateBar
-
     }
 
    private fun calculoEdad (view: View) {
@@ -88,7 +87,6 @@ class MainActivity : AppCompatActivity() {
        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
         when (resultFecha) {
-
             in -8000..-1 -> {
                 resultText.text = getString(R.string.text1)
                 getBirthdayImage("pablononacido")
@@ -191,20 +189,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     //Toma la fecha del input text
     private fun datosFecha(): Int {
-        if (fecha.text.isNotEmpty()) {
-
+        return if (fecha.text.isNotEmpty()) {
             val fechaString = fecha.getText().toString();
             val fechaInt = fechaString.toInt()
             textoYear.text = "Año " + fechaInt.toString()
-            return fechaInt - 2013
-
+            fechaInt - 2013
         } else {
             textoYear.text = getString(R.string.calcula_tu_edad)
             Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
-            return -9999
+            -9999
         }
     }
 

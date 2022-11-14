@@ -15,8 +15,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.databinding.ActivityMainBinding
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import java.io.File
@@ -34,18 +34,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var welcomeText: String
     private lateinit var database: DatabaseReference
     var firebaseDatabase: FirebaseDatabase? = null
-
     var name: String = ""
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
 
         firebaseDatabase = FirebaseDatabase.getInstance("https://cumplesdepablo-default-rtdb.europe-west1.firebasedatabase.app/")
-
-
-
-
         name = intent.getStringExtra("name").toString()
         hint = String.format(getString(R.string.hint), name)
         welcomeText = String.format(getString(R.string.texto_etiqueta), name)
@@ -78,8 +74,6 @@ class MainActivity : AppCompatActivity() {
             progressbar = binding.determinateBar
 
     }
-
-//Functions
 
    private fun calculoEdad (view: View) {
 
@@ -200,7 +194,6 @@ class MainActivity : AppCompatActivity() {
 
     //Toma la fecha del input text
     private fun datosFecha(): Int {
-
         if (fecha.text.isNotEmpty()) {
 
             val fechaString = fecha.getText().toString();
@@ -230,7 +223,6 @@ class MainActivity : AppCompatActivity() {
             }.addOnFailureListener {
                 Toast.makeText(this, "Error cargando imagen", Toast.LENGTH_SHORT).show()
             }
-
     }
 
     private fun yearDescription (imagen: String, year: Int){

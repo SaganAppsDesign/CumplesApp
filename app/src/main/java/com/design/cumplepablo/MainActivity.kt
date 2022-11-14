@@ -41,7 +41,6 @@ class MainActivity : AppCompatActivity() {
         welcomeText = String.format(getString(R.string.texto_etiqueta), name)
         //Creando binding
 
-            Log.i("info","OnCreate")
             binding = ActivityMainBinding.inflate(layoutInflater)
             setContentView(binding.root)
 

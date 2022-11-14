@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
             binding.cuadroTextoResultadoCalculo.hint = hint
             binding.etiquetaEncimaEditText.text = welcomeText
             textoYear = binding.textYear
+
             //Fecha
             fecha = binding.editTextFecha
 
@@ -62,7 +63,6 @@ class MainActivity : AppCompatActivity() {
             binding.btnCalculaEdad.setOnClickListener{ calculoEdad(it) }
 
             //Fondo de pantalla
-
             binding.ivBackground.setImageResource(R.drawable.fondocalculo)
 
             //Progress bar
@@ -75,7 +75,6 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         Log.i("info","onStart")
     }
-
 
     override fun onRestart() {
         super.onRestart()
@@ -118,11 +117,11 @@ class MainActivity : AppCompatActivity() {
         when (resultFecha) {
 
             in -8000..-1 -> {
-                resultText.text = "No has nacido todavía Pablo ¡¡Disfruta de tu soledad cósmica!!"
+                resultText.text = getString(R.string.text1)
                 getBirthdayImage("pablononacido")
             }
             0 -> {
-                resultText.text = "¡¡Acabas de nacer, Pablo!! ¡¡Bienvenido a este mundo!!"
+                resultText.text = getString(R.string.text2)
                 getBirthdayImage("happybirthday")
                 foto.setOnClickListener{yearDescription("En este año $year, en concreto el 10 de octubre, fue el bicentenario " +
                         "del nacimiento del compositor italiano Giuseppe Verdi.", "giuseppeverdi", year)}

@@ -36,6 +36,7 @@
         android:background="#CCC0AE"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center"
+        android:padding="5dp"
         android:text="@string/texto_etiqueta"
         android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/edit_text_fecha"
@@ -97,11 +98,13 @@
         android:id="@+id/carruselFotos"
         android:layout_width="277dp"
         android:layout_height="267dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="4dp"
         android:contentDescription="@string/carrusel_imagenes"
         app:layout_constraintBottom_toTopOf="@+id/textYear"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ProgressBar
@@ -116,6 +119,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="327dp"
         android:layout_height="175dp"
         android:layout_marginStart="32dp"

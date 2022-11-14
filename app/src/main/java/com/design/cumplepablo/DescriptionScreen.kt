@@ -1,9 +1,15 @@
 package com.design.cumplepablo
 
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import com.design.cumplepablo.databinding.ActivityDescriptionScreenBinding
 import com.design.cumplepablo.databinding.ActivityMainBinding
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import java.io.File
 
 class DescriptionScreen : AppCompatActivity() {
 
@@ -19,10 +25,8 @@ class DescriptionScreen : AppCompatActivity() {
         binding.textDescription.text = message
 
         //Imagen efemérides
-        val bundle = intent.extras
-        val imagen = bundle!!.getInt("imagen")
-
-        binding.imageDescription.setImageResource(imagen)
+        val imagen = intent.getStringExtra("imagen")
+        imagen?.let { getEfemeridesImage(it) }
 
         //Año efemérides
 
@@ -31,4 +35,22 @@ class DescriptionScreen : AppCompatActivity() {
 
         binding.textEfemerides.setText("Efemérides año " + year)
     }
+
+    private fun getEfemeridesImage (name: String){
+        val storage = Firebase.storage
+        val storageRef = storage.reference
+        val spaceRef = storageRef.child("efemerides/$name.png")
+        val localfile = File.createTempFile(name, "png")
+
+        spaceRef.getFile(localfile).addOnSuccessListener {
+
+            val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
+            binding.imageDescription.setImageBitmap(bitmap)
+
+        }.addOnFailureListener {
+            Toast.makeText(this, "Error cargando imagen", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
 }

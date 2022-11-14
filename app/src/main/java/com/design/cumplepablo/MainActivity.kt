@@ -1,7 +1,6 @@
 package com.design.cumplepablo
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -15,8 +14,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.annotation.RequiresApi
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import com.design.cumplepablo.databinding.ActivityMainBinding
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -122,98 +119,97 @@ class MainActivity : AppCompatActivity() {
 
             in -8000..-1 -> {
                 resultText.text = "No has nacido todavía Pablo ¡¡Disfruta de tu soledad cósmica!!"
-                getImagesFirebase("pablononacido")
+                getBirthdayImage("pablononacido")
             }
             0 -> {
                 resultText.text = "¡¡Acabas de nacer, Pablo!! ¡¡Bienvenido a este mundo!!"
-                getImagesFirebase("happybirthday")
+                getBirthdayImage("happybirthday")
                 foto.setOnClickListener{yearDescription("En este año $year, en concreto el 10 de octubre, fue el bicentenario " +
-                        "del nacimiento del compositor italiano Giuseppe Verdi.", R.drawable.giuseppeverdi, year)}
+                        "del nacimiento del compositor italiano Giuseppe Verdi.", "giuseppeverdi", year)}
             }
             1 -> {
                 "Felicidades Pablo, hoy cumples " + resultFecha + " año"
-                getImagesFirebase("pablobebe")
+                getBirthdayImage("pablobebe")
                 foto.setOnClickListener{Toast.makeText(this, "Prueba fecha = $resultFecha", Toast.LENGTH_SHORT).show()}
                 foto.setOnClickListener{yearDescription("El 2 de junio de $year en Madrid (España), el rey de España, " +
                         "Juan Carlos I anuncia en mensaje oficial a las 13:00 que abdica en favor de su hijo el Príncipe Felipe, " +
-                        "que reinará bajo el nombre de Felipe VI de España..", R.drawable.reyjuancarlos , year)}
+                        "que reinará bajo el nombre de Felipe VI de España..", "reyjuancarlos" , year)}
             }
             2 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("pablo2015")
+                getBirthdayImage("pablo2015")
                 foto.setOnClickListener{yearDescription("El 9 de mayo de $year la Organización Mundial de la Salud declara que el brote de la " +
-                        "epidemia de Ebola en Liberia ha terminado, después de más de un año.", R.drawable.onu , year)}
+                        "epidemia de Ebola en Liberia ha terminado, después de más de un año.", "onu" , year)}
             }
             3 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("pablo2016")
+                getBirthdayImage("pablo2016")
                 foto.setOnClickListener{yearDescription("El 28 de mayo de $year, el Real Madrid gana su undécima Liga de Campeones de la UEFA tras vencer " +
-                        "en los penalties 5-3 al Atlético de Madrid.", R.drawable.realmadrid , year)}
+                        "en los penalties 5-3 al Atlético de Madrid.", "realmadrid" , year)}
             }
             4 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("pablo2017")
+                getBirthdayImage("pablo2017")
                 }
 
             5 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("happybirthday")
-                foto.setImageResource(R.drawable.happybirthday)
-            }
+                getBirthdayImage("happybirthday")
+                }
             6 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("pablo2019")
+                getBirthdayImage("pablo2019")
 
             }
             7 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("happybirthday")
+                getBirthdayImage("happybirthday")
 
             }
             8 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("pablo2021")
+                getBirthdayImage("pablo2021")
 
             }
             9 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("happybirthday")
+                getBirthdayImage("happybirthday")
 
             }
             10 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("happybirthday")
+                getBirthdayImage("happybirthday")
             }
 
             11 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("happybirthday")
+                getBirthdayImage("happybirthday")
             }
             12 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getImagesFirebase("happybirthday")
+                getBirthdayImage("happybirthday")
             }
             in 13..17 -> {
                 resultText.text =
                     "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
-                getImagesFirebase("pabloadolescente")
+                getBirthdayImage("pabloadolescente")
             }
             in 18..60 -> {
                 resultText.text =
                     "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
-               getImagesFirebase("pablomaduro")
+               getBirthdayImage("pablomaduro")
 
             }
             in 61..120 -> {
                 resultText.text =
                     "$felicidades. ¡¡Ya eres un viejete!! \uD83D\uDE05"
-                    getImagesFirebase("pabloanciano")
+                    getBirthdayImage("pabloanciano")
                 }
 
             in 121..6000 -> {
                 resultText.text =
                     "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
-               getImagesFirebase("pablo200")
+               getBirthdayImage("pablo200")
             }
             else -> {
                 resultText.text = getString(R.string.introduce_fecha)
@@ -239,13 +235,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getImagesFirebase (name: String){
-
-            //Firebase
+    private fun getBirthdayImage (name: String){
             val storage = Firebase.storage
             val storageRef = storage.reference
             val spaceRef = storageRef.child("imagenesCumple/$name.png")
-
             val localfile = File.createTempFile(name, "png")
 
             spaceRef.getFile(localfile).addOnSuccessListener {
@@ -260,7 +253,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun yearDescription (texto: String, imagen: Int, year: Int){
+    private fun yearDescription (texto: String, imagen: String, year: Int){
 
         val intent = Intent(this, DescriptionScreen::class.java).apply {
                     putExtra("texto", texto)

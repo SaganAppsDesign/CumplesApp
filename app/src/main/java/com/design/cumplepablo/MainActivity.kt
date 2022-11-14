@@ -101,88 +101,88 @@ class MainActivity : AppCompatActivity() {
             }
             0 -> {
                 resultText.text = getString(R.string.text2)
-                getBirthdayImage("happybirthday")
-                foto.setOnClickListener{yearDescription( "giuseppeverdi", year)}
+                getBirthdayImage(HAPPYBIRTHDAY)
+                foto.setOnClickListener{yearDescription(GIUSEPPE_VERDI_NAME, year)}
             }
             1 -> {
                 resultText.text = felicidades2
                 getBirthdayImage("pablobebe")
-                foto.setOnClickListener{yearDescription("reyjuancarlos" , year)}
+                foto.setOnClickListener{yearDescription(REY_NAME, year)}
             }
             2 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2015")
-                foto.setOnClickListener{yearDescription("onu" , year)}
+                foto.setOnClickListener{yearDescription(ONU, year)}
             }
             3 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2016")
-                foto.setOnClickListener{yearDescription("realmadrid" , year)}
+                foto.setOnClickListener{yearDescription(REAL_MADRID , year)}
             }
             4 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2017")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
                 }
 
             5 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getBirthdayImage("happybirthday")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                getBirthdayImage(HAPPYBIRTHDAY)
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
                 }
             6 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2019")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             7 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getBirthdayImage("happybirthday")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                getBirthdayImage(HAPPYBIRTHDAY)
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             8 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2021")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             9 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getBirthdayImage("happybirthday")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                getBirthdayImage(HAPPYBIRTHDAY)
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             10 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getBirthdayImage("happybirthday")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                getBirthdayImage(HAPPYBIRTHDAY)
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
 
             11 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getBirthdayImage("happybirthday")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                getBirthdayImage(HAPPYBIRTHDAY)
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             12 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getBirthdayImage("happybirthday")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                getBirthdayImage(HAPPYBIRTHDAY)
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             in 13..17 -> {
                 resultText.text =
                     "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
                 getBirthdayImage("pabloadolescente")
-                foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             in 18..60 -> {
                 resultText.text =
                     "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
                getBirthdayImage("pablomaduro")
-               foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+               foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             in 61..120 -> {
                 resultText.text =
                     "$felicidades. ¡¡Ya eres un viejete!! \uD83D\uDE05"
                     getBirthdayImage("pabloanciano")
-                    foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                    foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
                 }
 
             in 121..6000 -> {

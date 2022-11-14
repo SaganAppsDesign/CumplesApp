@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     var firebaseDatabase: FirebaseDatabase? = null
     var name: String = ""
+    var birthday: String = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         firebaseDatabase = FirebaseDatabase.getInstance("https://cumplesdepablo-default-rtdb.europe-west1.firebasedatabase.app/")
         name = intent.getStringExtra("name").toString()
+        birthday = intent.getStringExtra("birthday").toString()
         hint = String.format(getString(R.string.hint), name)
         welcomeText = String.format(getString(R.string.texto_etiqueta), name)
         //Creando binding
@@ -79,8 +81,8 @@ class MainActivity : AppCompatActivity() {
        progressbar.visibility = View.VISIBLE
        val resultFecha = datosFecha()
        val year = datosFecha() + 2013
-       val felicidades = String.format(getString(R.string.felicidades), name, resultFecha)
-       val felicidades2 = String.format(getString(R.string.felicidades2), name, resultFecha)
+       val felicidades = String.format(getString(R.string.felicidades), name, birthday)
+       val felicidades2 = String.format(getString(R.string.felicidades2), name, birthday)
        foto.setVisibility(View.VISIBLE)
        //Esconder teclado
        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -91,93 +93,93 @@ class MainActivity : AppCompatActivity() {
                 resultText.text = getString(R.string.text1)
                 getBirthdayImage("pablononacido")
             }
-            0 -> {
+            2013 -> {
                 resultText.text = getString(R.string.text2)
                 getBirthdayImage(HAPPYBIRTHDAY)
-                foto.setOnClickListener{yearDescription(GIUSEPPE_VERDI_NAME, year)}
+                foto.setOnClickListener{yearDescription(GIUSEPPE_VERDI_NAME, birthday.toInt())}
             }
-            1 -> {
+            2014 -> {
                 resultText.text = felicidades2
                 getBirthdayImage("pablobebe")
-                foto.setOnClickListener{yearDescription(REY_NAME, year)}
+                foto.setOnClickListener{yearDescription(REY_NAME, birthday.toInt())}
             }
-            2 -> {
+            2015 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2015")
-                foto.setOnClickListener{yearDescription(ONU, year)}
+                foto.setOnClickListener{yearDescription(ONU, birthday.toInt())}
             }
-            3 -> {
+            2016 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2016")
-                foto.setOnClickListener{yearDescription(REAL_MADRID , year)}
+                foto.setOnClickListener{yearDescription(REAL_MADRID, birthday.toInt())}
             }
-            4 -> {
+            2017 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2017")
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
                 }
 
-            5 -> {
+            2018 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage(HAPPYBIRTHDAY)
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
                 }
-            6 -> {
+            2019 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2019")
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
-            7 -> {
+            2020 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage(HAPPYBIRTHDAY)
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
-            8 -> {
+            2021 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2021")
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
-            9 -> {
+            2022 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage(HAPPYBIRTHDAY)
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
-            10 -> {
+            2023 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage(HAPPYBIRTHDAY)
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
 
-            11 -> {
+            2024 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage(HAPPYBIRTHDAY)
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
-            12 -> {
+            2025 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage(HAPPYBIRTHDAY)
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
-            in 13..17 -> {
+            in 2026..2029 -> {
                 resultText.text =
                     "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
                 getBirthdayImage("pabloadolescente")
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
-            in 18..60 -> {
+            in 2030..2072 -> {
                 resultText.text =
                     "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
                getBirthdayImage("pablomaduro")
                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
-            in 61..120 -> {
+            in 2073..2133 -> {
                 resultText.text =
                     "$felicidades. ¡¡Ya eres un viejete!! \uD83D\uDE05"
                     getBirthdayImage("pabloanciano")
                     foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
                 }
 
-            in 121..6000 -> {
+            in 2134..6000 -> {
                 resultText.text =
                     "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
                     getBirthdayImage("pablo200")
@@ -192,10 +194,10 @@ class MainActivity : AppCompatActivity() {
     //Toma la fecha del input text
     private fun datosFecha(): Int {
         return if (fecha.text.isNotEmpty()) {
-            val fechaString = fecha.getText().toString();
+            val fechaString = fecha.text.toString();
             val fechaInt = fechaString.toInt()
             textoYear.text = "Año " + fechaInt.toString()
-            fechaInt - 2013
+            fechaInt
         } else {
             textoYear.text = getString(R.string.calcula_tu_edad)
             Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()

@@ -15,8 +15,9 @@
     <string name="felicidades">Felicidades  %1$s, este año cumples %2$s primaveras</string>
     <string name="felicidades2">Felicidades %1$s, hoy cumples %2$s año</string>
     <string name="introduce_fecha">Introduce una fecha para continuar</string>
-    <string name="introduce_tu_nombre">Introduce tu nombre, por favor:</string>
+    <string name="introduce_tu_nombre">Introduce tu nombre y fecha de cumple:</string>
     <string name="nombre">Nombre</string>
+    <string name="birthday">Fecha cumpleaños</string>
     <string name="los_cumples_de">Los Cumples de…</string>
     <string name="fondoinfo">fondoinfo</string>
     <string name="text1">No has nacido todavía %1$s ¡¡Disfruta de tu soledad cósmica!!</string>

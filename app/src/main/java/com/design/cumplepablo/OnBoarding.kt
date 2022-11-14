@@ -17,6 +17,7 @@ import com.google.firebase.ktx.Firebase
 class OnBoarding : AppCompatActivity() {
 
     var name = ""
+    var birthday = ""
 
     private lateinit var binding : ActivityOnBoardingBinding
     private lateinit var auth: FirebaseAuth
@@ -52,11 +53,14 @@ class OnBoarding : AppCompatActivity() {
 
             val editor: SharedPreferences.Editor = pref.edit()
             editor.putString("name", binding.etPersonName.text.toString())
+            editor.putString("birthday", binding.etBirthday.text.toString())
             editor.apply()
             finish()
             name = binding.etPersonName.text.toString()
+            birthday = binding.etBirthday.text.toString()
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("name", name)
+            intent.putExtra("birthday", birthday)
             startActivity(intent)
         }
     }

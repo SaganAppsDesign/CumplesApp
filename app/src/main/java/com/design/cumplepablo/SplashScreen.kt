@@ -11,26 +11,37 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
 class SplashScreen : AppCompatActivity() {
+    var name = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-        var name = ""
+
         val user = Firebase.auth.currentUser
         if (user != null) {
-            Handler().postDelayed({
-                val intent = Intent(this, MainActivity::class.java)
-                val pref = getSharedPreferences("datos", MODE_PRIVATE)
-                name = pref.getString("name", "").toString()
-                intent.putExtra("name", name)
-                finish()
-                startActivity(intent)
-            }, 1500)
+            activityMain(MainActivity::class.java)
         } else {
-            Handler().postDelayed({
-                val intent = Intent(this, OnBoarding::class.java)
-                startActivity(intent)
-                finish()
-            }, 1500)
+            activityOnboarding(OnBoarding::class.java)
         }
    }
+
+    private fun activityOnboarding(activity: Class<OnBoarding>){
+        Handler().postDelayed({
+            val intent = Intent(this, activity)
+            startActivity(intent)
+            finish()
+        }, 1500)
+    }
+
+    private fun activityMain(activity: Class<MainActivity>){
+        Handler().postDelayed({
+            val intent = Intent(this, MainActivity::class.java)
+            val pref = getSharedPreferences("datos", MODE_PRIVATE)
+            name = pref.getString("name", "").toString()
+            intent.putExtra("name", name)
+            finish()
+            startActivity(intent)
+        }, 1500)
+    }
+
 }

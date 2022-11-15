@@ -32,6 +32,7 @@ class OnBoarding : AppCompatActivity() {
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
+        binding.etPersonName.setText(pref.getString("birthday", ""))
 
         binding.btSiguiente.setOnClickListener{
 

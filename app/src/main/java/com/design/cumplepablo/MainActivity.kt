@@ -42,9 +42,13 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        val pref = getSharedPreferences("datos", MODE_PRIVATE)
+        name = pref.getString("name", "").toString()
+        birthday = pref.getString("birthday", "").toString()
+
         firebaseDatabase = FirebaseDatabase.getInstance("https://cumplesdepablo-default-rtdb.europe-west1.firebasedatabase.app/")
-        name = intent.getStringExtra("name").toString()
-        birthday = intent.getStringExtra("birthday").toString()
+//        name = intent.getStringExtra("name").toString()
+//        birthday = intent.getStringExtra("birthday").toString()
         hint = String.format(getString(R.string.hint), name)
         welcomeText = String.format(getString(R.string.texto_etiqueta), name)
         //Creando binding
@@ -80,21 +84,29 @@ class MainActivity : AppCompatActivity() {
 
        progressbar.visibility = View.VISIBLE
        val resultFecha = datosFecha()
-       val year = datosFecha() + 2013
-       val felicidades = String.format(getString(R.string.felicidades), name, birthday)
-       val felicidades2 = String.format(getString(R.string.felicidades2), name, birthday)
+       val year = datosFecha() - birthday.toInt()
+       val felicidades = String.format(getString(R.string.felicidades), name, year)
+       val felicidades2 = String.format(getString(R.string.felicidades2), name, year)
        foto.setVisibility(View.VISIBLE)
        //Esconder teclado
        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
         when (resultFecha) {
-            in -8000..-1 -> {
+
+            in -8000 until birthday.toInt() -> {
                 resultText.text = getString(R.string.text1)
                 getBirthdayImage("pablononacido")
             }
-            2013 -> {
+
+            birthday.toInt() -> {
                 resultText.text = getString(R.string.text2)
+                getBirthdayImage(HAPPYBIRTHDAY)
+                foto.setOnClickListener{yearDescription(GIUSEPPE_VERDI_NAME, birthday.toInt())}
+            }
+
+            2013 -> {
+                resultText.text = felicidades2
                 getBirthdayImage(HAPPYBIRTHDAY)
                 foto.setOnClickListener{yearDescription(GIUSEPPE_VERDI_NAME, birthday.toInt())}
             }
@@ -194,10 +206,9 @@ class MainActivity : AppCompatActivity() {
     //Toma la fecha del input text
     private fun datosFecha(): Int {
         return if (fecha.text.isNotEmpty()) {
-            val fechaString = fecha.text.toString();
-            val fechaInt = fechaString.toInt()
-            textoYear.text = "Año " + fechaInt.toString()
-            fechaInt
+            val fechaString = fecha.text.toString().toInt()
+            textoYear.text = "Año $fechaString"
+            fechaString
         } else {
             textoYear.text = getString(R.string.calcula_tu_edad)
             Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()

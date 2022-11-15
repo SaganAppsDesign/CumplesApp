@@ -104,28 +104,28 @@ class MainActivity : AppCompatActivity() {
             0 -> {
                 resultText.text = frase2
                 getBirthdayImage(HAPPYBIRTHDAY)
-                foto.setOnClickListener{yearDescription(GIUSEPPE_VERDI_NAME, datosFecha())}
+                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
             }
 
             1 -> {
                 resultText.text = felicidades2
                 getBirthdayImage(HAPPYBIRTHDAY)
-                foto.setOnClickListener{yearDescription(GIUSEPPE_VERDI_NAME, datosFecha())}
+                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
             }
             2 -> {
                 resultText.text = felicidades2
                 getBirthdayImage("pablobebe")
-                foto.setOnClickListener{yearDescription(REY_NAME, datosFecha())}
+                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
             }
             3 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2015")
-                foto.setOnClickListener{yearDescription(ONU, datosFecha())}
+                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
             }
             4 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage("pablo2016")
-                foto.setOnClickListener{yearDescription(REAL_MADRID, datosFecha())}
+                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
             }
             5 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
@@ -176,28 +176,27 @@ class MainActivity : AppCompatActivity() {
             }
             in 14..18 -> {
                 resultText.text =
-                    "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
+                "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
                 getBirthdayImage("pabloadolescente")
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             in 19..50 -> {
-                resultText.text =
-                    "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
-               getBirthdayImage("pablomaduro")
-               foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
+                resultText.text = "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
+                getBirthdayImage("pablomaduro")
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             in 51..100 -> {
                 resultText.text =
-                    "$felicidades. ¡¡Ya eres un viejete!! \uD83D\uDE05"
-                    getBirthdayImage("pabloanciano")
-                    foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
-                }
+                "$felicidades. ¡¡Se te ve joven todavía!! \uD83D\uDE05"
+                getBirthdayImage("pabloanciano")
+                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
+            }
 
             in 100..6000 -> {
                 resultText.text =
                     "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
                     getBirthdayImage("pablo200")
-                    foto.setOnClickListener{Toast.makeText(this, "No existen datos de momento. Estamos en ello", Toast.LENGTH_LONG).show()}
+                    foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             else -> {
                 resultText.text = getString(R.string.introduce_fecha)
@@ -221,7 +220,7 @@ class MainActivity : AppCompatActivity() {
     private fun getBirthdayImage (name: String){
             val storage = Firebase.storage
             val storageRef = storage.reference
-            val spaceRef = storageRef.child("imagenesCumple/$name.png")
+            val spaceRef = storageRef.child("imagenesCumple/${datosFecha()}.png")
             val localfile = File.createTempFile(name, "png")
 
             spaceRef.getFile(localfile).addOnSuccessListener {

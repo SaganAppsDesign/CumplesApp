@@ -3,8 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android/cumpleApp/app/src/main/res/drawable/button_custom.xml" value="0.231" />
+        <entry key="..\:/Android/cumpleApp/app/src/main/res/drawable/button_default.xml" value="0.231" />
+        <entry key="..\:/Android/cumpleApp/app/src/main/res/drawable/button_focused.xml" value="0.231" />
+        <entry key="..\:/Android/cumpleApp/app/src/main/res/drawable/button_pressed.xml" value="0.231" />
+        <entry key="..\:/Android/cumpleApp/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.231" />
+        <entry key="..\:/Android/cumpleApp/app/src/main/res/drawable/round_corner.xml" value="0.231" />
+        <entry key="..\:/Android/cumpleApp/app/src/main/res/drawable/splashscreen.xml" value="0.231" />
         <entry key="..\:/Android/cumpleApp/app/src/main/res/layout/activity_description_screen.xml" value="0.21510416666666668" />
-        <entry key="..\:/Android/cumpleApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Android/cumpleApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Android/cumpleApp/app/src/main/res/layout/activity_on_boarding.xml" value="0.2671875" />
         <entry key="..\:/Android/cumplePablo/app/src/main/res/layout/activity_description_screen.xml" value="0.36666666666666664" />
         <entry key="..\:/Android/cumplePablo/app/src/main/res/layout/activity_main.xml" value="0.264" />

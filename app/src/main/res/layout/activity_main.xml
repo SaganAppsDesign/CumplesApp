@@ -28,10 +28,10 @@
 
     <TextView
         android:id="@+id/etiqueta_encima_edit_text"
-        android:layout_width="wrap_content"
-        android:layout_height="29dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:background="#CCC0AE"
+        android:background="@drawable/text_background"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center"
         android:padding="5dp"
@@ -64,22 +64,6 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/btnCalculaEdad"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/textYear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:fontFamily="@font/roboto_medium"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carruselFotos"
-        tools:text="2018" />
-
-
     <Button
         android:id="@+id/btnCalculaEdad"
         android:layout_width="151dp"
@@ -96,16 +80,16 @@
 
     <ImageView
         android:id="@+id/carruselFotos"
-        android:layout_width="243dp"
-        android:layout_height="242dp"
+        android:layout_width="320dp"
+        android:layout_height="338dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="79dp"
         android:background="@color/black_70"
-        android:padding="10dp"
         android:contentDescription="@string/carrusel_imagenes"
-        app:layout_constraintBottom_toTopOf="@+id/textYear"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
@@ -124,14 +108,15 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="327dp"
-        android:layout_height="175dp"
+        android:layout_width="347dp"
+        android:layout_height="124dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="32dp"
         android:gravity="center|center_horizontal"
         app:cardCornerRadius="25dp"
         app:cardElevation="10dp"
+        android:background="#FFF3E0"
         app:layout_constraintBottom_toTopOf="@+id/carruselFotos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.435"

@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.design.cumplepablo.databinding.ActivityDescriptionScreenBinding
 import com.design.cumplepablo.databinding.ActivityMainBinding
 import com.google.firebase.ktx.Firebase
@@ -13,7 +15,9 @@ import java.io.File
 
 class DescriptionScreen : AppCompatActivity() {
 
+    var radius: Int = 0
     private lateinit var binding : ActivityDescriptionScreenBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,13 +45,17 @@ class DescriptionScreen : AppCompatActivity() {
         val storageRef = storage.reference
         val spaceRef = storageRef.child("efemerides/$name.png")
         val localfile = File.createTempFile(name, "png")
+        radius = 30
 
         spaceRef.getFile(localfile).addOnSuccessListener {
 
-            val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
-            binding.imageDescription.setImageBitmap(bitmap)
+            Glide.with(this)
+                .load(localfile)
+                .transform(RoundedCorners(radius))
+                .fitCenter()
+                .into(binding.imageDescription)
 
-        }.addOnFailureListener {
+            }.addOnFailureListener {
             Toast.makeText(this, "Error cargando imagen", Toast.LENGTH_SHORT).show()
         }
 

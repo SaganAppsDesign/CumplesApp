@@ -1,6 +1,7 @@
 package com.design.cumplepablo
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Build
@@ -14,6 +15,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.design.cumplepablo.databinding.ActivityMainBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -26,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
     lateinit var resultText: TextView
-    lateinit var textoYear: TextView
     lateinit var fecha: TextView
     lateinit var foto: ImageView
     lateinit var progressbar: ProgressBar
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     var firebaseDatabase: FirebaseDatabase? = null
     var name: String = ""
     var birthday: String = ""
+    var radius: Int = 0
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +65,6 @@ class MainActivity : AppCompatActivity() {
             resultText = binding.cuadroTextoResultadoCalculo
             binding.cuadroTextoResultadoCalculo.hint = hint
             binding.etiquetaEncimaEditText.text = welcomeText
-            textoYear = binding.textYear
 
             //Fecha
             fecha = binding.editTextFecha
@@ -106,18 +110,18 @@ class MainActivity : AppCompatActivity() {
             }
             in 1..13 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getBirthdayNoImage (datosFecha().toString())
+                getBirthdayImage(datosFecha().toString())
                 foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
             }
             in 14..18 -> {
                 resultText.text =
                 "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
-                getBirthdayNoImage (datosFecha().toString())
+                getBirthdayImage(datosFecha().toString())
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             in 19..70 -> {
                 resultText.text = "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
-                getBirthdayNoImage (datosFecha().toString())
+                getBirthdayImage(datosFecha().toString())
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             in 71..100 -> {
@@ -126,13 +130,10 @@ class MainActivity : AppCompatActivity() {
                 getBirthdayImage(datosFecha().toString())
                 foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
             }
-
             in 100..6000 -> {
                 resultText.text =
                 "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
-
-                    getBirthdayImage(datosFecha().toString())
-
+                getBirthdayImage(datosFecha().toString())
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             else -> {
@@ -145,10 +146,8 @@ class MainActivity : AppCompatActivity() {
     private fun datosFecha(): Int {
         return if (fecha.text.isNotEmpty()) {
             val fechaString = fecha.text.toString().toInt()
-            textoYear.text = "Año $fechaString"
             fechaString
         } else {
-            textoYear.text = getString(R.string.calcula_tu_edad)
             Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
             -9999
         }
@@ -159,15 +158,19 @@ class MainActivity : AppCompatActivity() {
             val storageRef = storage.reference
             val spaceRef = storageRef.child("imagenesCumple/${datosFecha()}.png")
             val localfile = File.createTempFile(name, "png")
-
+            radius = 30
             spaceRef.getFile(localfile).addOnSuccessListener {
 
-                val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
-                binding.carruselFotos.setImageBitmap(bitmap)
+                Glide.with(this)
+                    .load(localfile)
+                    .transform(RoundedCorners(radius))
+                    .fitCenter()
+                    .into(binding.carruselFotos)
+
                 progressbar.visibility = View.INVISIBLE
 
             }.addOnFailureListener {
-                Toast.makeText(this, "Error cargando imagen", Toast.LENGTH_SHORT).show()
+                getBirthdayNoImage (HAPPYBIRTHDAY)
             }
     }
 
@@ -176,11 +179,13 @@ class MainActivity : AppCompatActivity() {
         val storageRef = storage.reference
         val spaceRef = storageRef.child("imagenesCumple/$name.png")
         val localfile = File.createTempFile(name, "png")
-
+        radius = 30
         spaceRef.getFile(localfile).addOnSuccessListener {
+            Glide.with(this)
+                .load(localfile)
+                .transform(RoundedCorners(radius))
+                .into(binding.carruselFotos)
 
-            val bitmap = BitmapFactory.decodeFile(localfile.absolutePath)
-            binding.carruselFotos.setImageBitmap(bitmap)
             progressbar.visibility = View.INVISIBLE
 
         }.addOnFailureListener {

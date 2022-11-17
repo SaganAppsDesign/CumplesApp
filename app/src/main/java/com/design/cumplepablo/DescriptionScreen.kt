@@ -8,6 +8,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.design.cumplepablo.databinding.ActivityDescriptionScreenBinding
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.io.File
 
 class DescriptionScreen : AppCompatActivity() {
@@ -27,7 +30,10 @@ class DescriptionScreen : AppCompatActivity() {
 
         //Imagen efemérides
         val imagen = intent.getStringExtra("imagen")
-        imagen?.let { getEfemeridesImage(it) }
+
+        runBlocking {
+            imagen?.let {getEfemeridesImage(it)}
+        }
 
         //Año efemérides
         val bundle2 = intent.extras
@@ -36,15 +42,14 @@ class DescriptionScreen : AppCompatActivity() {
         binding.textEfemerides.text = "Efemérides año " + year
     }
 
-    private fun getEfemeridesImage (name: String){
+    private suspend fun getEfemeridesImage (name: String){
         val storage = Firebase.storage
         val storageRef = storage.reference
-        val spaceRef = storageRef.child("efemerides/$name.png")
+        val spaceRef = withContext(Dispatchers.IO){(storageRef.child("efemerides/$name.png"))}
         val localfile = File.createTempFile(name, "png")
         radius = 30
 
         spaceRef.getFile(localfile).addOnSuccessListener {
-
             Glide.with(this)
                 .load(localfile)
                 .transform(RoundedCorners(radius))

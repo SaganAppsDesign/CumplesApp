@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
@@ -41,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         name = pref.getString("name", "").toString()
         birthday = pref.getString("birthday", "").toString()
@@ -103,30 +103,29 @@ class MainActivity : AppCompatActivity() {
             in 1..13 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 getBirthdayImage(datosFecha().toString())
-                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
+                checkFireRef()
             }
             in 14..18 -> {
-                resultText.text =
-                "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
+                resultText.text =  "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
                 getBirthdayImage(datosFecha().toString())
-                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
+                checkFireRef()
             }
             in 19..70 -> {
                 resultText.text = "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
                 getBirthdayImage(datosFecha().toString())
-                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
+                checkFireRef()
             }
             in 71..100 -> {
                 resultText.text =
                 "$felicidades. ¡¡Se te ve joven todavía!! \uD83D\uDE05"
                 getBirthdayImage(datosFecha().toString())
-                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
+                checkFireRef()
             }
             in 100..6000 -> {
                 resultText.text =
                 "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
                 getBirthdayImage(datosFecha().toString())
-                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.mayor_100), Toast.LENGTH_LONG).show()}
             }
             else -> {
                 resultText.text = getString(R.string.introduce_fecha)
@@ -186,7 +185,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun yearDescription (imagen: String, year: Int){
-        database = firebaseDatabase!!.getReference("efemerides").child(year.toString()).child("title")
+
         database.get().addOnSuccessListener {
            val intent = Intent(this, DescriptionScreen::class.java).apply {
                 putExtra("texto", it.value.toString())
@@ -197,6 +196,16 @@ class MainActivity : AppCompatActivity() {
 
         }.addOnFailureListener{
             Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun checkFireRef() {
+        database = firebaseDatabase!!.getReference("efemerides").child(datosFecha().toString())
+        Log.i("database", database.toString())
+        if(database.get().isSuccessful){
+            foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
+        }else{
+            foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
         }
     }
 }

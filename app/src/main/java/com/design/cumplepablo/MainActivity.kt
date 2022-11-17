@@ -20,6 +20,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.io.File
 
 
@@ -102,29 +105,39 @@ class MainActivity : AppCompatActivity() {
             }
             in 1..13 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
-                getBirthdayImage(datosFecha().toString())
+                runBlocking {
+                    getBirthdayImage(datosFecha().toString())
+                }
                 checkFireRef()
             }
             in 14..18 -> {
                 resultText.text =  "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
-                getBirthdayImage(datosFecha().toString())
+                runBlocking {
+                    getBirthdayImage(datosFecha().toString())
+                }
                 checkFireRef()
             }
             in 19..70 -> {
                 resultText.text = "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
-                getBirthdayImage(datosFecha().toString())
+                runBlocking {
+                    getBirthdayImage(datosFecha().toString())
+                }
                 checkFireRef()
             }
             in 71..100 -> {
                 resultText.text =
                 "$felicidades. ¡¡Se te ve joven todavía!! \uD83D\uDE05"
-                getBirthdayImage(datosFecha().toString())
+                runBlocking {
+                    getBirthdayImage(datosFecha().toString())
+                }
                 checkFireRef()
             }
             in 100..6000 -> {
                 resultText.text =
                 "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
-                getBirthdayImage(datosFecha().toString())
+                runBlocking {
+                    getBirthdayImage(datosFecha().toString())
+                }
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.mayor_100), Toast.LENGTH_LONG).show()}
             }
             else -> {
@@ -144,10 +157,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getBirthdayImage (name: String){
+    private suspend fun getBirthdayImage (name: String){
             val storage = Firebase.storage
             val storageRef = storage.reference
-            val spaceRef = storageRef.child("imagenesCumple/${datosFecha()}.png")
+            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesCumple/${datosFecha()}.png")}
             val localfile = File.createTempFile(name, "png")
             radius = 30
             spaceRef.getFile(localfile).addOnSuccessListener {
@@ -200,12 +213,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkFireRef() {
-        database = firebaseDatabase!!.getReference("efemerides").child(datosFecha().toString())
-        Log.i("database", database.toString())
-        if(database.get().isSuccessful){
-            foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
-        }else{
-            foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
+        database = firebaseDatabase!!.getReference("efemerides").child(datosFecha().toString()).child("title")
+        database.get().addOnSuccessListener{
+            if(it.value.toString().isNotEmpty()){
+                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
+            } else {
+                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
+            }
+          }.addOnFailureListener {
+            Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()
         }
     }
 }

@@ -75,4 +75,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx'
     //Glide
     implementation "com.github.bumptech.glide:glide:4.13.0"
+    //PhotoView
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 }

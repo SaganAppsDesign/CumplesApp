@@ -1,11 +1,13 @@
 package com.design.cumplepablo
 
+import android.app.Activity
 import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.databinding.ActivityOnBoardingBinding
@@ -35,6 +37,10 @@ class OnBoarding : AppCompatActivity() {
         binding.etPersonName.setText(pref.getString("birthday", ""))
 
         binding.btSiguiente.setOnClickListener{
+
+            //Esconder teclado
+            val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
 
             auth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->

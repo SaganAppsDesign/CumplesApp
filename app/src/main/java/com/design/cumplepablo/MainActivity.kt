@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                 resultText.text =
                 "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
                 runBlocking {
-                    getBirthdayImage("9999")
+                    getBirthdayNoImage("9999")
                 }
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.mayor_100), Toast.LENGTH_LONG).show()}
             }

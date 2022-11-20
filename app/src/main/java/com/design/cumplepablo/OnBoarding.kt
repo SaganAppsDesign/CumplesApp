@@ -23,6 +23,7 @@ class OnBoarding : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var goToMain: Intent
+    private lateinit var inputMethodManager: InputMethodManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +39,7 @@ class OnBoarding : AppCompatActivity() {
         binding.btSiguiente.setOnClickListener{
 
             //Esconder teclado
-            val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
 
             auth.signInAnonymously()

@@ -36,6 +36,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var hint: String
     lateinit var welcomeText: String
     private lateinit var database: DatabaseReference
+    private lateinit var inputMethodManager: InputMethodManager
     var firebaseDatabase: FirebaseDatabase? = null
     var name: String = ""
     var birthday: String = ""
@@ -88,7 +89,7 @@ class MainActivity : AppCompatActivity() {
        val frase2 = String.format((getString(R.string.text2)), name, year)
        foto.setVisibility(View.VISIBLE)
        //Esconder teclado
-       val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+       inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
         when (year) {
@@ -200,7 +201,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun yearDescription (imagen: String, year: Int){
-
         database.get().addOnSuccessListener {
            val intent = Intent(this, DescriptionScreen::class.java).apply {
                 putExtra("texto", it.value.toString())

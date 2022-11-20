@@ -148,12 +148,14 @@ class MainActivity : AppCompatActivity() {
     }
     //Toma la fecha del input text
     private fun datosFecha(): Int {
-        return if (fecha.text.isNotEmpty()) {
-            val fechaString = fecha.text.toString().toInt()
-            fechaString
-        } else {
-            Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
-            -9999
+       return if (fecha.text.isEmpty() || fecha.text.contains(".") || fecha.text.contains("/")
+            || fecha.text.contains("*") || fecha.text.contains("-") || fecha.text.contains("+")){
+           progressbar.visibility = View.INVISIBLE
+           Toast.makeText(this, "Fecha no válida", Toast.LENGTH_SHORT).show()
+           -9999
+           } else {
+           val fechaInt = fecha.text.toString().toInt()
+           fechaInt
         }
     }
 

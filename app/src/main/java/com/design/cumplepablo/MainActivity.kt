@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
 
             in -8000 until 0 -> {
                 resultText.text = frase1
-                getBirthdayNoImage (HAPPYBIRTHDAY)
+                getBirthdayNoImage ("0000")
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             0 -> {
@@ -136,7 +136,7 @@ class MainActivity : AppCompatActivity() {
                 resultText.text =
                 "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
                 runBlocking {
-                    getBirthdayImage(datosFecha().toString())
+                    getBirthdayImage("9999")
                 }
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.mayor_100), Toast.LENGTH_LONG).show()}
             }

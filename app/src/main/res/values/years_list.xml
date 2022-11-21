@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="years_array">
+        <item>1944</item>
+        <item>1947</item>
+        <item>1949</item>
+        <item>1954</item>
+        <item>1956</item>
+        <item>1962</item>
+        <item>1967</item>
+        <item>1969</item>
+        <item>1971</item>
+        <item>1972</item>
+        <item>1973</item>
+        <item>1974</item>
+        <item>1975</item>
+        <item>1976</item>
+        <item>1977</item>
+        <item>1979</item>
+        <item>1982</item>
+        <item>1983</item>
+        <item>1985</item>
+        <item>2007</item>
+        <item>2015</item>
+        <item>2016</item>
+        <item>2017</item>
+        <item>2018</item>
+        <item>2019</item>
+        <item>2020</item>
+        <item>2021</item>
+        <item>2022</item>
+   </string-array>
+</resources>

@@ -1,17 +1,30 @@
 <resources>
-    <string name="app_name">CumplePablo</string>
-    <string name="calcula_tu_edad">Calcula tu edad</string>
-    <string name="texto_etiqueta">Introduce año</string>
-    <string name="hint">Pablo, aquí podrás ver el cálculo de tu edad…</string>
+    <string name="app_name">Cumples</string>
+    <string name="calcula_tu_edad">⬅️ Calcula tu edad</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="texto_etiqueta">¡Hola %1$s!</string>
+    <string name="hint">%1$s, aquí podrás ver el cálculo de tu edad…</string>
     <string name="hint_fecha">MMMM</string>
     <string name="carrusel_imagenes">carrusel_imagenes</string>
     <string name="fondo_imagen_cumple">fondo imagen cumple</string>
-    <string name="texto_fragment">¡Hola Pablo! En esta App podrás calcular tu edad, introduciendo el año que te interese. \uD83D\uDE09</string>
+    <string name="texto_fragment">¡Hola %1$s! En esta App podrás calcular tu edad, introduciendo el año que te interese. \uD83D\uDE09</string>
     <string name="texto_fragment_more">¡¡Será muy divertido, ya verás!! \uD83D\uDE0A</string>
     <string name="texto_fragment_more2">Aparecerán fotos tuyas asociadas a dicho año.</string>
     <string name="texto_fragment2">Pasa a calcular tu edad</string>
     <string name="efemerides">Efemérides</string>
-    <string name="felicidades">Felicidades Pablo, este año cumples %1$s primaveras</string>
+    <string name="felicidades">Felicidades  %1$s, este año cumples %2$s primaveras</string>
+    <string name="felicidades2">Felicidades %1$s, hoy cumples %2$s años</string>
     <string name="introduce_fecha">Introduce una fecha para continuar</string>
+    <string name="introduce_tu_nombre">Introduce tu nombre y fecha de tu cumple:</string>
+    <string name="nombre">Nombre</string>
+    <string name="birthday">Fecha cumpleaños</string>
+    <string name="los_cumples_de">Tus cumples</string>
+    <string name="fondoinfo">fondoinfo</string>
+    <string name="text1">No has nacido todavía %1$s ¡¡Disfruta de tu soledad cósmica!!</string>
+    <string name="text2">¡¡Acabas de nacer, %1$s!! ¡¡Bienvenido a este mundo!!</string>
+    <string name="no_data">No existen imágenes de momento. Estamos en ello</string>
+    <string name="mayor_100">¡Todavía no tenemos fotos tuyas con esta edad!</string>
+
+
 
 </resources>

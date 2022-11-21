@@ -5,24 +5,43 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.annotation.RequiresApi
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class SplashScreen : AppCompatActivity() {
-    @RequiresApi(Build.VERSION_CODES.HONEYCOMB)
+    var name = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
-        // we used the postDelayed(Runnable, time) method
-        // to send a message with a delayed time.
-         Handler().postDelayed({
-            val intent = Intent(this, InfoScreen::class.java)
+
+        val user = Firebase.auth.currentUser
+        if (user != null) {
+            activityMain(MainActivity::class.java)
+        } else {
+            activityOnboarding(OnBoarding::class.java)
+        }
+   }
+
+    private fun activityOnboarding(activity: Class<OnBoarding>){
+        Handler().postDelayed({
+            val intent = Intent(this, activity)
             startActivity(intent)
             finish()
-        }, 3000) // 3000 is the delayed time in milliseconds.
-
-
-
-
-
+        }, 1500)
     }
+
+    private fun activityMain(activity: Class<MainActivity>){
+        Handler().postDelayed({
+            val intent = Intent(this, activity)
+            val pref = getSharedPreferences("datos", MODE_PRIVATE)
+            name = pref.getString("name", "").toString()
+            intent.putExtra("name", name)
+            finish()
+            startActivity(intent)
+        }, 1500)
+    }
+
 }

@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var hint: String
     lateinit var welcomeText: String
     private lateinit var database: DatabaseReference
+    private lateinit var inputMethodManager: InputMethodManager
     var firebaseDatabase: FirebaseDatabase? = null
     var name: String = ""
     var birthday: String = ""
@@ -101,14 +102,14 @@ class MainActivity : AppCompatActivity() {
        val frase2 = String.format((getString(R.string.text2)), name, year)
        foto.setVisibility(View.VISIBLE)
        //Esconder teclado
-       val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+       inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
         when (year) {
 
             in -8000 until 0 -> {
                 resultText.text = frase1
-                getBirthdayNoImage (HAPPYBIRTHDAY)
+                getBirthdayNoImage ("0000")
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
             0 -> {
@@ -149,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                 resultText.text =
                 "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
                 runBlocking {
-                    getBirthdayImage(datosFecha().toString())
+                    getBirthdayNoImage("9999")
                 }
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.mayor_100), Toast.LENGTH_LONG).show()}
             }
@@ -161,12 +162,14 @@ class MainActivity : AppCompatActivity() {
     }
     //Toma la fecha del input text
     private fun datosFecha(): Int {
-        return if (fecha.text.isNotEmpty()) {
-            val fechaString = fecha.text.toString().toInt()
-            fechaString
-        } else {
-            Toast.makeText(this, "Introduce una fecha para continuar", Toast.LENGTH_SHORT).show()
-            -9999
+       return if (fecha.text.isEmpty() || fecha.text.contains(".") || fecha.text.contains("/")
+            || fecha.text.contains("*") || fecha.text.contains("-") || fecha.text.contains("+")){
+           progressbar.visibility = View.INVISIBLE
+           Toast.makeText(this, "Fecha no válida", Toast.LENGTH_SHORT).show()
+           -9999
+           } else {
+           val fechaInt = fecha.text.toString().toInt()
+           fechaInt
         }
     }
 
@@ -211,7 +214,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun yearDescription (imagen: String, year: Int){
-
         database.get().addOnSuccessListener {
            val intent = Intent(this, DescriptionScreen::class.java).apply {
                 putExtra("texto", it.value.toString())

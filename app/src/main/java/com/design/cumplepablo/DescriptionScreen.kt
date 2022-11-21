@@ -16,6 +16,9 @@ import java.io.File
 class DescriptionScreen : AppCompatActivity() {
 
     var radius: Int = 0
+    var message = ""
+    var imagen = ""
+    var year = 0
     private lateinit var binding : ActivityDescriptionScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,22 +28,18 @@ class DescriptionScreen : AppCompatActivity() {
         setContentView(binding.root)
 
         // Get the Intent that started this activity and extract the string
-        val message = intent.getStringExtra("texto")
+        message = intent.getStringExtra("texto").toString()
         binding.textDescription.text = message
-
         //Imagen efemérides
-        val imagen = intent.getStringExtra("imagen")
+        imagen = intent.getStringExtra("imagen").toString()
+        //Año efemérides
+        year = intent.getIntExtra("year", 0)
+        binding.textEfemerides.text = "Efemérides año " + year
 
         runBlocking {
             imagen?.let {getEfemeridesImage(it)}
         }
-
-        //Año efemérides
-        val bundle2 = intent.extras
-        val year = bundle2!!.getInt("year")
-
-        binding.textEfemerides.text = "Efemérides año " + year
-    }
+     }
 
     private suspend fun getEfemeridesImage (name: String){
         val storage = Firebase.storage
@@ -59,7 +58,5 @@ class DescriptionScreen : AppCompatActivity() {
             }.addOnFailureListener {
             Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()
         }
-
     }
-
 }

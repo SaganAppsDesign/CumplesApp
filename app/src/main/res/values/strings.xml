@@ -2,7 +2,7 @@
     <string name="app_name">Cumples</string>
     <string name="calcula_tu_edad">Calcula tu edad</string>
     <string name="siguiente">Siguiente</string>
-    <string name="texto_etiqueta">¡Hola %1$s! ¡Vamos a jugar! Introduce un año y verás el resultado...</string>
+    <string name="texto_etiqueta">¡Hola %1$s!</string>
     <string name="hint">%1$s, aquí podrás ver el cálculo de tu edad…</string>
     <string name="hint_fecha">MMMM</string>
     <string name="carrusel_imagenes">carrusel_imagenes</string>
@@ -15,7 +15,7 @@
     <string name="felicidades">Felicidades  %1$s, este año cumples %2$s primaveras</string>
     <string name="felicidades2">Felicidades %1$s, hoy cumples %2$s años</string>
     <string name="introduce_fecha">Introduce una fecha para continuar</string>
-    <string name="introduce_tu_nombre">Introduce tu nombre y fecha de cumple:</string>
+    <string name="introduce_tu_nombre">Introduce tu nombre y fecha de tu cumple:</string>
     <string name="nombre">Nombre</string>
     <string name="birthday">Fecha cumpleaños</string>
     <string name="los_cumples_de">Tus cumples</string>

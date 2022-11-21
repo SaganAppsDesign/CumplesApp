@@ -18,44 +18,92 @@
 
     <ImageView
         android:id="@+id/ivBackground"
-        android:layout_width="660dp"
+        android:layout_width="match_parent"
         android:layout_height="407dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:alpha="0.2"
         android:contentDescription="@string/fondo_imagen_cumple"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.697"
+        app:layout_constraintTop_toTopOf="@+id/carruselFotos"
         tools:ignore="ImageContrastCheck"
         tools:srcCompat="@drawable/fondocalculo" />
 
-    <TextView
-        android:id="@+id/etiqueta_encima_edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/text_background"
-        android:fontFamily="@font/roboto_medium"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="@string/texto_etiqueta"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/edit_text_fecha"
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/carruselFotos"
+        android:layout_width="395dp"
+        android:layout_height="737dp"
+        android:background="@color/black_70"
+        android:contentDescription="@string/carrusel_imagenes"
+        android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.035" />
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ProgressBar
+        android:id="@+id/determinateBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/carruselFotos"
+        app:layout_constraintVertical_bias="0.635"
+        tools:visibility="visible"/>
+
+    <TextView
+        android:id="@+id/etiqueta_encima_edit_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/text_background"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:padding="7dp"
+        android:text="@string/texto_etiqueta"
+        android:textColor="#000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cuadro_texto_resultado_calculo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:autofillHints="#151414"
+        android:background="@drawable/text_background2"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center|center_horizontal"
+        android:hint="@string/hint"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        android:textColorHint="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/carruselFotos" />
 
     <EditText
         android:id="@+id/edit_text_fecha"
         android:layout_width="120dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="32dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
         android:elegantTextHeight="true"
         android:ems="10"
+        android:background="@drawable/text_background2"
         android:fontFamily="@font/roboto_medium"
         android:freezesText="false"
         android:gravity="center"
@@ -67,91 +115,21 @@
         android:singleLine="true"
         android:textColor="#FBFBFB"
         android:textSize="24sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/btnCalculaEdad"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCalculaEdad"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnCalculaEdad"
         android:layout_width="151dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="28dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/button_custom"
         android:text="@string/calcula_tu_edad"
         android:textColor="#090909"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/ivBackground"
-        app:layout_constraintDimensionRatio="h,3:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etiqueta_encima_edit_text" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="5dp"
-        android:background="@drawable/text_background2"
-        android:gravity="center|center_horizontal"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/carruselFotos"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.435"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnCalculaEdad">
-
-
-        <TextView
-            android:id="@+id/cuadro_texto_resultado_calculo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:autofillHints="#151414"
-            android:background="@drawable/text_background2"
-            android:fontFamily="@font/roboto_medium"
-            android:gravity="center|center_horizontal"
-            android:hint="@string/hint"
-            android:padding="10dp"
-            android:textAlignment="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/black"
-            android:textColorHint="#887C7C"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.518"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.cardview.widget.CardView>
-
-    <com.github.chrisbanes.photoview.PhotoView
-        android:id="@+id/carruselFotos"
-        android:layout_width="match_parent"
-        android:layout_height="425dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="32dp"
-        android:background="@color/black_70"
-        android:contentDescription="@string/carrusel_imagenes"
-        android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <ProgressBar
-        android:id="@+id/determinateBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="96dp"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

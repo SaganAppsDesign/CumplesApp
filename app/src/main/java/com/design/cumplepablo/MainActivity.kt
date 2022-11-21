@@ -27,20 +27,23 @@ import java.io.File
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var binding : ActivityMainBinding
-    lateinit var resultText: TextView
-    lateinit var fecha: TextView
-    lateinit var foto: PhotoView
-    lateinit var progressbar: ProgressBar
-    lateinit var spinner: Spinner
-    lateinit var hint: String
-    lateinit var welcomeText: String
-    private lateinit var database: DatabaseReference
+    private lateinit var resultText: TextView
+    private lateinit var foto: PhotoView
+    private lateinit var progressbar: ProgressBar
+    private lateinit var spinner: Spinner
+    private lateinit var hint: String
+    private lateinit var welcomeText: String
+    private var database: DatabaseReference? = null
     private lateinit var inputMethodManager: InputMethodManager
-    var firebaseDatabase: FirebaseDatabase? = null
+    private var firebaseDatabase: FirebaseDatabase? = null
+    private var storage = Firebase.storage
+    private val storageRef = storage.reference
+    private var yearList: MutableList<String> = mutableListOf()
+    private var yearSelected: Int = 0
     var name: String = ""
     var birthday: String = ""
     var radius: Int = 0
-    var yearSelected: Int = 0
+    var yearItems = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,20 +52,36 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         //Creando binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val spaceRef2 = storageRef.child("imagenesCumple/")
+        spaceRef2.listAll()
+            .addOnSuccessListener {
+                for (i in it.items){
+                    yearItems = i.toString().substring(i.toString().length-8,i.toString().length-4)
+                    yearList.add(yearItems)
+                }
+                Log.i("yearList",yearList.toString())
+            }
+            .addOnFailureListener {
+                // Uh-oh, an error occurred!
+            }
+
         //Spinner
         spinner = binding.spYearList
         spinner.onItemSelectedListener = this
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter.createFromResource(
+        ArrayAdapter(
             this,
-            R.array.years_array,
-            android.R.layout.simple_spinner_item
+            android.R.layout.simple_spinner_item, yearList
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner
             spinner.adapter = adapter
         }
+
+
+        //shared preferences
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         name = pref.getString("name", "").toString()
         birthday = pref.getString("birthday", "").toString()
@@ -111,7 +130,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
             0 -> {
                 resultText.text = frase2
-                getBirthdayNoImage (HAPPYBIRTHDAY)
+                getBirthdayNoImage ("0000")
                 foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
             }
             in 1..13 -> {
@@ -157,22 +176,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
         }
     }
-    //Toma la fecha del input text
-//    private fun datosFecha(): Int {
-//       return if (fecha.text.isEmpty() || fecha.text.contains(".") || fecha.text.contains("/")
-//            || fecha.text.contains("*") || fecha.text.contains("-") || fecha.text.contains("+")){
-//           progressbar.visibility = View.INVISIBLE
-//           Toast.makeText(this, "Fecha no válida", Toast.LENGTH_SHORT).show()
-//           -9999
-//           } else {
-//           val fechaInt = fecha.text.toString().toInt()
-//           fechaInt
-//        }
-//    }
 
     private suspend fun getBirthdayImage (name: String){
-            val storage = Firebase.storage
-            val storageRef = storage.reference
+
             val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesCumple/${yearSelected}.png")}
             val localfile = File.createTempFile(name, "png")
             radius = 30
@@ -192,8 +198,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun getBirthdayNoImage (name: String){
-        val storage = Firebase.storage
-        val storageRef = storage.reference
         val spaceRef = storageRef.child("imagenesCumple/$name.png")
         val localfile = File.createTempFile(name, "png")
         radius = 30
@@ -211,7 +215,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun yearDescription (imagen: String, year: Int){
-        database.get().addOnSuccessListener {
+        database?.get()?.addOnSuccessListener {
            val intent = Intent(this, DescriptionScreen::class.java).apply {
                 putExtra("texto", it.value.toString())
                 putExtra("imagen", imagen)
@@ -219,20 +223,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
             startActivity(intent)
 
-        }.addOnFailureListener{
+        }?.addOnFailureListener{
             Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()
         }
     }
 
     private fun checkFireRef() {
         database = firebaseDatabase!!.getReference("efemerides").child(yearSelected.toString()).child("title")
-        database.get().addOnSuccessListener{
+        database?.get()?.addOnSuccessListener{
             if(it.value.toString().isNotEmpty()){
                 foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
             } else {
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
-          }.addOnFailureListener {
+          }?.addOnFailureListener {
             Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()
         }
     }
@@ -242,7 +246,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     override fun onNothingSelected(p0: AdapterView<*>?) {
-
+            Log.i("hola", "hola")
     }
 }
 

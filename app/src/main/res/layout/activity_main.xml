@@ -10,6 +10,12 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <Spinner
+        android:id="@+id/spYear_List"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </Spinner>
+
     <ImageView
         android:id="@+id/ivBackground"
         android:layout_width="660dp"

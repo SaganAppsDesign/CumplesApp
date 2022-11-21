@@ -43,7 +43,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     var name: String = ""
     var birthday: String = ""
     var radius: Int = 0
-    var yearItems = ""
+    var yearItem = ""
+    var list = emptyList<String>()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,13 +58,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         spaceRef2.listAll()
             .addOnSuccessListener {
                 for (i in it.items){
-                    yearItems = i.toString().substring(i.toString().length-8,i.toString().length-4)
-                    yearList.add(yearItems)
+                    yearItem = i.toString().substring(i.toString().length-8,i.toString().length-4)
+                    yearList.add(yearItem)
                 }
                 Log.i("yearList",yearList.toString())
             }
             .addOnFailureListener {
-                // Uh-oh, an error occurred!
+                Log.e("yearList","Error charging list")
             }
 
         //Spinner
@@ -79,7 +80,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             // Apply the adapter to the spinner
             spinner.adapter = adapter
         }
-
 
         //shared preferences
         val pref = getSharedPreferences("datos", MODE_PRIVATE)

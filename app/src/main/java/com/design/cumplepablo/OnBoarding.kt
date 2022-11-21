@@ -41,7 +41,7 @@ class OnBoarding : AppCompatActivity() {
             //Esconder teclado
             inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
             inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
-//
+
 //            auth.signInAnonymously()
 //                .addOnCompleteListener(this) { task ->
 //                    if (task.isSuccessful) {

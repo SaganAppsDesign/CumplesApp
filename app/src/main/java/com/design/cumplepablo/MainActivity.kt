@@ -24,13 +24,14 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var binding : ActivityMainBinding
     lateinit var resultText: TextView
     lateinit var fecha: TextView
     lateinit var foto: PhotoView
     lateinit var progressbar: ProgressBar
+    lateinit var spinner: Spinner
     lateinit var hint: String
     lateinit var welcomeText: String
     private lateinit var database: DatabaseReference
@@ -39,13 +40,18 @@ class MainActivity : AppCompatActivity() {
     var name: String = ""
     var birthday: String = ""
     var radius: Int = 0
+    var yearSelected: Int = 0
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        //Creando binding
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         //Spinner
-        val spinner: Spinner = findViewById(R.id.spYear_List)
+        spinner = binding.spYearList
+        spinner.onItemSelectedListener = this
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter.createFromResource(
             this,
@@ -57,46 +63,37 @@ class MainActivity : AppCompatActivity() {
             // Apply the adapter to the spinner
             spinner.adapter = adapter
         }
-
-
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         name = pref.getString("name", "").toString()
         birthday = pref.getString("birthday", "").toString()
         firebaseDatabase = FirebaseDatabase.getInstance("https://cumplesdepablo-default-rtdb.europe-west1.firebasedatabase.app/")
         hint = String.format(getString(R.string.hint), name)
         welcomeText = String.format(getString(R.string.texto_etiqueta), name)
-        //Creando binding
 
-            binding = ActivityMainBinding.inflate(layoutInflater)
-            setContentView(binding.root)
+        //Textos
+        resultText = binding.cuadroTextoResultadoCalculo
+        binding.cuadroTextoResultadoCalculo.hint = hint
+        binding.etiquetaEncimaEditText.text = welcomeText
 
-            //Textos
-            resultText = binding.cuadroTextoResultadoCalculo
-            binding.cuadroTextoResultadoCalculo.hint = hint
-            binding.etiquetaEncimaEditText.text = welcomeText
+        //Fotos
+        foto = binding.carruselFotos
+        foto.setCropToPadding(true)
+        foto.setVisibility(View.VISIBLE)
 
-            //Fecha
-            fecha = binding.editTextFecha
+        //Botón
+        binding.btnCalculaEdad.setOnClickListener{ calculoEdad(it) }
 
-            //Fotos
-            foto = binding.carruselFotos
-            foto.setCropToPadding(true)
-            foto.setVisibility(View.VISIBLE)
+        //Fondo de pantalla
+        binding.ivBackground.setImageResource(R.drawable.fondocalculo)
 
-            //Botón
-            binding.btnCalculaEdad.setOnClickListener{ calculoEdad(it) }
-
-            //Fondo de pantalla
-            binding.ivBackground.setImageResource(R.drawable.fondocalculo)
-
-            //Progress bar
-            progressbar = binding.determinateBar
+        //Progress bar
+        progressbar = binding.determinateBar
     }
 
    private fun calculoEdad (view: View) {
 
        progressbar.visibility = View.VISIBLE
-       val year = datosFecha() - birthday.toInt()
+       val year = yearSelected - birthday.toInt()
        val felicidades = String.format(getString(R.string.felicidades), name, year)
        val frase1 = String.format((getString(R.string.text1)), name, year)
        val frase2 = String.format((getString(R.string.text2)), name, year)
@@ -115,26 +112,26 @@ class MainActivity : AppCompatActivity() {
             0 -> {
                 resultText.text = frase2
                 getBirthdayNoImage (HAPPYBIRTHDAY)
-                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
+                foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
             }
             in 1..13 -> {
                 resultText.text = felicidades + "\uD83D\uDE0D"
                 runBlocking {
-                    getBirthdayImage(datosFecha().toString())
+                    getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
             }
             in 14..18 -> {
                 resultText.text =  "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
                 runBlocking {
-                    getBirthdayImage(datosFecha().toString())
+                    getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
             }
             in 19..70 -> {
                 resultText.text = "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
                 runBlocking {
-                    getBirthdayImage(datosFecha().toString())
+                    getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
             }
@@ -142,7 +139,7 @@ class MainActivity : AppCompatActivity() {
                 resultText.text =
                 "$felicidades. ¡¡Se te ve joven todavía!! \uD83D\uDE05"
                 runBlocking {
-                    getBirthdayImage(datosFecha().toString())
+                    getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
             }
@@ -161,22 +158,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
     //Toma la fecha del input text
-    private fun datosFecha(): Int {
-       return if (fecha.text.isEmpty() || fecha.text.contains(".") || fecha.text.contains("/")
-            || fecha.text.contains("*") || fecha.text.contains("-") || fecha.text.contains("+")){
-           progressbar.visibility = View.INVISIBLE
-           Toast.makeText(this, "Fecha no válida", Toast.LENGTH_SHORT).show()
-           -9999
-           } else {
-           val fechaInt = fecha.text.toString().toInt()
-           fechaInt
-        }
-    }
+//    private fun datosFecha(): Int {
+//       return if (fecha.text.isEmpty() || fecha.text.contains(".") || fecha.text.contains("/")
+//            || fecha.text.contains("*") || fecha.text.contains("-") || fecha.text.contains("+")){
+//           progressbar.visibility = View.INVISIBLE
+//           Toast.makeText(this, "Fecha no válida", Toast.LENGTH_SHORT).show()
+//           -9999
+//           } else {
+//           val fechaInt = fecha.text.toString().toInt()
+//           fechaInt
+//        }
+//    }
 
     private suspend fun getBirthdayImage (name: String){
             val storage = Firebase.storage
             val storageRef = storage.reference
-            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesCumple/${datosFecha()}.png")}
+            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesCumple/${yearSelected}.png")}
             val localfile = File.createTempFile(name, "png")
             radius = 30
             spaceRef.getFile(localfile).addOnSuccessListener {
@@ -228,16 +225,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkFireRef() {
-        database = firebaseDatabase!!.getReference("efemerides").child(datosFecha().toString()).child("title")
+        database = firebaseDatabase!!.getReference("efemerides").child(yearSelected.toString()).child("title")
         database.get().addOnSuccessListener{
             if(it.value.toString().isNotEmpty()){
-                foto.setOnClickListener{yearDescription(datosFecha().toString(), datosFecha())}
+                foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
             } else {
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
           }.addOnFailureListener {
             Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()
         }
+    }
+
+    override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
+        yearSelected = parent?.getItemAtPosition(pos).toString().toInt()
+    }
+
+    override fun onNothingSelected(p0: AdapterView<*>?) {
+
     }
 }
 

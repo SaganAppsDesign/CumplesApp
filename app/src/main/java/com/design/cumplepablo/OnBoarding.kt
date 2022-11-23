@@ -13,6 +13,7 @@ import com.design.cumplepablo.databinding.ActivityOnBoardingBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import java.util.ArrayList
 
 
 class OnBoarding : AppCompatActivity() {
@@ -25,6 +26,7 @@ class OnBoarding : AppCompatActivity() {
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var goToMain: Intent
     private lateinit var inputMethodManager: InputMethodManager
+    private lateinit var yearList: ArrayList<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +34,8 @@ class OnBoarding : AppCompatActivity() {
         setContentView(binding.root)
         // Initialize Firebase Auth
         auth = Firebase.auth
+
+        yearList = intent.getStringArrayListExtra("yearList") as ArrayList<String>
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
@@ -69,9 +73,10 @@ class OnBoarding : AppCompatActivity() {
                 editor.putString("name", name)
                 editor.putString("birthday", birthday)
                 editor.apply()
-                finish()
                 goToMain = Intent(this, MainActivity::class.java)
+                goToMain.putStringArrayListExtra("yearList", yearList)
                 startActivity(goToMain)
+                finish()
             }
         }
     }

@@ -37,6 +37,7 @@ class SplashScreen : AppCompatActivity() {
     private fun activityOnboarding(activity: Class<OnBoarding>){
         Handler().postDelayed({
             val intent = Intent(this, activity)
+            intent.putStringArrayListExtra("yearList",getYearList())
             startActivity(intent)
             finish()
         }, 1500)
@@ -48,7 +49,7 @@ class SplashScreen : AppCompatActivity() {
             val pref = getSharedPreferences("datos", MODE_PRIVATE)
             name = pref.getString("name", "").toString()
             intent.putExtra("name", name)
-            intent.putStringArrayListExtra("yearList",getYearList())
+            intent.putStringArrayListExtra("yearList", getYearList())
             finish()
             startActivity(intent)
         }, 1500)
@@ -61,7 +62,7 @@ class SplashScreen : AppCompatActivity() {
             .addOnSuccessListener {
                 for (i in it.items){
                     yearItem = i.toString().substring(i.toString().length-8,i.toString().length-4)
-                    yearList = (yearList?.plus(yearItem)) as ArrayList<String>
+                    yearList = (yearList.plus(yearItem)) as ArrayList<String>
                 }
             }
             .addOnFailureListener {

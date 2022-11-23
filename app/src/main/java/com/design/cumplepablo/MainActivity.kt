@@ -103,42 +103,35 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
        progressbar.visibility = View.VISIBLE
        val year = yearSelected - birthday.toInt()
-       val felicidades = String.format(getString(R.string.felicidades), name, year)
-       val frase1 = String.format((getString(R.string.text1)), name, year)
-       val frase2 = String.format((getString(R.string.text2)), name, year)
+       val congrats = String.format(getString(R.string.felicidades), name, year)
+       val welcomeText = String.format((getString(R.string.text2)), name, year)
        foto.setVisibility(View.VISIBLE)
        //Esconder teclado
        inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
         when (year) {
-
-            in -8000 until 0 -> {
-                resultText.text = frase1
-                getBirthdayNoImage ("0000")
-                foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
-            }
             0 -> {
-                resultText.text = frase2
+                resultText.text = welcomeText
                 getBirthdayNoImage (HAPPYBIRTHDAY)
                 foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
             }
             in 1..13 -> {
-                resultText.text = felicidades + "\uD83D\uDE0D"
+                resultText.text = congrats + "\uD83D\uDE0D"
                 runBlocking {
                     getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
             }
             in 14..18 -> {
-                resultText.text =  "$felicidades. Estás en la etapa adolescente...\uD83D\uDE0E"
+                resultText.text =  "$congrats. Estás en la etapa adolescente...\uD83D\uDE0E"
                 runBlocking {
                     getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
             }
             in 19..70 -> {
-                resultText.text = "$felicidades. Ya vas siendo una persona madurita... \uD83D\uDE0F"
+                resultText.text = "$congrats. Ya vas siendo una persona madurita... \uD83D\uDE0F"
                 runBlocking {
                     getBirthdayImage(yearSelected.toString())
                 }
@@ -146,7 +139,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                }
             in 71..100 -> {
                 resultText.text =
-                "$felicidades. ¡¡Se te ve joven todavía!! \uD83D\uDE05"
+                "$congrats. ¡¡Se te ve joven todavía!! \uD83D\uDE05"
                 runBlocking {
                     getBirthdayImage(yearSelected.toString())
                 }
@@ -154,7 +147,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
             in 100..6000 -> {
                 resultText.text =
-                "$felicidades. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
+                "$congrats. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
                 runBlocking {
                     getBirthdayNoImage("9999")
                 }
@@ -188,20 +181,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun getBirthdayNoImage (name: String){
-        val spaceRef = storageRef.child("imagenesCumple/$name.png")
-        val localfile = File.createTempFile(name, "png")
-        radius = 30
-        spaceRef.getFile(localfile).addOnSuccessListener {
-            Glide.with(this)
-                .load(localfile)
+           radius = 30
+           Glide.with(this)
+                .load(R.drawable.happybirthday)
                 .transform(RoundedCorners(radius))
                 .into(binding.carruselFotos)
-
             progressbar.visibility = View.INVISIBLE
-
-        }.addOnFailureListener {
-            Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()
-        }
     }
 
     private fun yearDescription (imagen: String, year: Int){

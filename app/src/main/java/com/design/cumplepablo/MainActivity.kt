@@ -22,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.ArrayList
 
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -38,13 +39,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var firebaseDatabase: FirebaseDatabase? = null
     private var storage = Firebase.storage
     private val storageRef = storage.reference
-    private var yearList: MutableList<String> = mutableListOf()
     private var yearSelected: Int = 0
+    private lateinit var yearList: ArrayList<String>
     var name: String = ""
     var birthday: String = ""
     var radius: Int = 0
-    var yearItem = ""
-    var list = emptyList<String>()
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,19 +53,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         //Creando binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val spaceRef2 = storageRef.child("imagenesCumple/")
-        spaceRef2.listAll()
-            .addOnSuccessListener {
-                for (i in it.items){
-                    yearItem = i.toString().substring(i.toString().length-8,i.toString().length-4)
-                    yearList.add(yearItem)
-                }
-                Log.i("yearList",yearList.toString())
-            }
-            .addOnFailureListener {
-                Log.e("yearList","Error charging list")
-            }
+        //getyearlistfrom splash
+        yearList = intent.getStringArrayListExtra("yearList") as ArrayList<String>
 
         //Spinner
         spinner = binding.spYearList
@@ -73,7 +62,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter(
             this,
-            android.R.layout.simple_spinner_item, yearList
+            android.R.layout.simple_spinner_item,
+            yearList
         ).also { adapter ->
             // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -130,7 +120,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
             0 -> {
                 resultText.text = frase2
-                getBirthdayNoImage ("0000")
+                getBirthdayNoImage (HAPPYBIRTHDAY)
                 foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
             }
             in 1..13 -> {
@@ -153,7 +143,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
-            }
+               }
             in 71..100 -> {
                 resultText.text =
                 "$felicidades. ¡¡Se te ve joven todavía!! \uD83D\uDE05"
@@ -241,6 +231,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
     }
 
+    //Spinner
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
         yearSelected = parent?.getItemAtPosition(pos).toString().toInt()
     }

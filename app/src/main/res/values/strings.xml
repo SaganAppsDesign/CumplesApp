@@ -2,7 +2,7 @@
     <string name="app_name">Cumples</string>
     <string name="calcula_tu_edad">⬅️ Calcula tu edad</string>
     <string name="siguiente">Siguiente</string>
-    <string name="open_photo">Sube foto año XXX</string>
+    <string name="open_photo">Sube tu foto</string>
     <string name="texto_etiqueta">¡Hola %1$s!</string>
     <string name="hint">%1$s, aquí podrás ver el cálculo de tu edad…</string>
     <string name="hint_fecha">MMMM</string>

@@ -13,16 +13,13 @@ import kotlin.collections.ArrayList
 
 class SplashScreen : AppCompatActivity() {
     private var storage = Firebase.storage
-    private val storageRef = storage.reference
-    private var yearList: ArrayList<String> = arrayListOf()
     var name = ""
-    var yearItem = ""
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        getYearList()
         //shared preferences
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         name = pref.getString("name", "").toString()
@@ -39,7 +36,6 @@ class SplashScreen : AppCompatActivity() {
     private fun activityOnboarding(activity: Class<OnBoarding>){
         Handler().postDelayed({
             val intent = Intent(this, activity)
-            intent.putStringArrayListExtra("yearList",getYearList())
             startActivity(intent)
             finish()
         }, 1500)
@@ -51,25 +47,8 @@ class SplashScreen : AppCompatActivity() {
             val pref = getSharedPreferences("datos", MODE_PRIVATE)
             name = pref.getString("name", "").toString()
             intent.putExtra("name", name)
-            intent.putStringArrayListExtra("yearList", getYearList())
             finish()
             startActivity(intent)
         }, 1500)
     }
-
-    private fun getYearList(): ArrayList<String>? {
-        val spaceRef =  storageRef.child("imagenesCumple/")
-        spaceRef.listAll()
-            .addOnSuccessListener {
-                for (i in it.items){
-                    yearItem = i.toString().substring(i.toString().length-8,i.toString().length-4)
-                    yearList = (yearList.plus(yearItem)) as ArrayList<String>
-                }
-            }
-            .addOnFailureListener {
-                Log.e("yearList","Error charging list")
-            }
-        return yearList
-    }
-
 }

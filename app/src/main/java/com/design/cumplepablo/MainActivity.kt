@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.design.cumplepablo.databinding.ActivityMainBinding
 import com.github.chrisbanes.photoview.PhotoView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
@@ -38,8 +40,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var firebaseDatabase: FirebaseDatabase? = null
     private var storage = Firebase.storage
     private val storageRef = storage.reference
+    private lateinit var auth: FirebaseAuth
     private var yearSelected: Int = 0
-    private lateinit var yearList: ArrayList<String>
+    private var yearList: ArrayList<String> = arrayListOf()
     var name: String = ""
     var birthday: String = ""
     var radius: Int = 0
@@ -112,7 +115,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         when (year) {
             0 -> {
                 resultText.text = welcomeText
-                getBirthdayNoImage (HAPPYBIRTHDAY)
+                getBirthdayNoImage ()
                 foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
             }
             in 1..13 -> {
@@ -136,21 +139,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
                 checkFireRef()
                }
-            in 71..100 -> {
+            in 71..110 -> {
                 resultText.text =
                 "$congrats. ¡¡Se te ve joven todavía!! \uD83D\uDE05"
                 runBlocking {
                     getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
-            }
-            in 100..6000 -> {
-                resultText.text =
-                "$congrats. Pero es imposible con la tecnología actual..." + "\uD83D\uDE14"
-                runBlocking {
-                    getBirthdayNoImage("9999")
-                }
-                foto.setOnClickListener{Toast.makeText(this, getString(R.string.mayor_100), Toast.LENGTH_LONG).show()}
             }
             else -> {
                 resultText.text = getString(R.string.introduce_fecha)
@@ -160,8 +155,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private suspend fun getBirthdayImage (name: String){
-
-            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesCumple/${yearSelected}.png")}
+            auth = Firebase.auth
+            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesCumple/${auth.currentUser?.uid}/${yearSelected}.png")}
             val localfile = File.createTempFile(name, "png")
             radius = 30
             spaceRef.getFile(localfile).addOnSuccessListener {
@@ -175,11 +170,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 progressbar.visibility = View.INVISIBLE
 
             }.addOnFailureListener {
-                getBirthdayNoImage (HAPPYBIRTHDAY)
+                getBirthdayNoImage ()
             }
     }
 
-    private fun getBirthdayNoImage (name: String){
+    private fun getBirthdayNoImage (){
            radius = 30
            Glide.with(this)
                 .load(R.drawable.happybirthday)

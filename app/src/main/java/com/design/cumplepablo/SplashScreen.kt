@@ -27,11 +27,13 @@ class SplashScreen : AppCompatActivity() {
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         name = pref.getString("name", "").toString()
 
-        if (name.isNotEmpty()) {
-            activityMain(MainActivity::class.java)
-        } else {
-            activityOnboarding(OnBoarding::class.java)
-        }
+//        if (name.isNotEmpty()) {
+//            activityMain(MainActivity::class.java)
+//        } else {
+//            activityOnboarding(OnBoarding::class.java)
+//        }
+        activityOnboarding(OnBoarding::class.java)
+
    }
 
     private fun activityOnboarding(activity: Class<OnBoarding>){

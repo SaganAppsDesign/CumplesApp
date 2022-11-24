@@ -90,14 +90,16 @@
 
     <Spinner
         android:id="@+id/spYear_List"
-        android:layout_width="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_marginBottom="32dp"
         android:textAlignment="center"
         android:background="@drawable/text_background2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnCalculaEdad"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="1944"
+        />
 
     <Button
         android:id="@+id/btnCalculaEdad"

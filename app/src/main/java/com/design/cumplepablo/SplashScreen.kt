@@ -55,7 +55,6 @@ class SplashScreen : AppCompatActivity() {
         }, 1500)
     }
 
-
     private fun getYearList(): ArrayList<String>? {
         val spaceRef =  storageRef.child("imagenesCumple/")
         spaceRef.listAll()

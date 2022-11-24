@@ -24,7 +24,6 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.ArrayList
 
-
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private lateinit var binding : ActivityMainBinding

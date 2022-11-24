@@ -35,11 +35,20 @@ class OnBoarding : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = Firebase.auth
 
+
         yearList = intent.getStringArrayListExtra("yearList") as ArrayList<String>
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
         binding.etPersonName.setText(pref.getString("birthday", ""))
+
+        binding.btOpenPhoto.setOnClickListener{
+            val intent = Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT)
+
+            startActivityForResult(Intent.createChooser(intent, "Select a file"), 111)
+        }
 
         binding.btSiguiente.setOnClickListener{
 
@@ -78,6 +87,15 @@ class OnBoarding : AppCompatActivity() {
                 startActivity(goToMain)
                 finish()
             }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 111 && resultCode == RESULT_OK) {
+            val selectedFile = data?.data // The URI with the location of the file
         }
     }
 }

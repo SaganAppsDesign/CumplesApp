@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -21,6 +22,9 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.util.ArrayList
 
 
@@ -58,6 +62,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        getYearList()
 
         initViews()
         //Spinner
@@ -87,17 +92,11 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             auth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Log.i("SUCCESS authentication", "Authentication success.")
                         Toast.makeText(this, String.format(getString(com.design.cumplepablo.R.string.texto_etiqueta), name), Toast.LENGTH_LONG).show()
                     } else {
-                        // If sign in fails, display a message to the user.
-                        Log.e("ERROR authentication", "Authentication failed.")
-                        Toast.makeText(baseContext, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show()
+                        Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                    }
                 }
-
             activeViews()
         }
 
@@ -109,23 +108,24 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
 
          binding.btSiguiente.setOnClickListener{
-            val years = getYearList()
-            var goToMain = Intent()
-            name = binding.etPersonName.text.toString()
-            birthday = binding.etBirthday.text.toString()
-            Log.i("yearList in", years.toString())
+             var goToMain = Intent()
+             val lista =  runBlocking { getYearList() }
+             Log.i("lista",lista.toString())
+             name = binding.etPersonName.text.toString()
+             birthday = binding.etBirthday.text.toString()
+
             if (birthday.isEmpty() || birthday.contains(".") || birthday.contains("/") || birthday.contains("*")
                 || birthday.contains("-")|| birthday.contains("+")){
-               Toast.makeText(this, "Fecha no valid", Toast.LENGTH_SHORT).show()
+               Toast.makeText(this, "Fecha no válida", Toast.LENGTH_SHORT).show()
             } else {
                 editor = pref.edit()
                 editor.putString("name", name)
                 editor.putString("birthday", birthday)
                 editor.apply()
-                finish()
-                goToMain.putStringArrayListExtra("yearList", getYearList())
+                goToMain.putStringArrayListExtra("yearList", yearList)
                 goToMain = Intent(this, MainActivity::class.java)
                 startActivity(goToMain)
+                finish()
              }
         }
     }

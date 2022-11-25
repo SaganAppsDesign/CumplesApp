@@ -36,8 +36,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var storage = Firebase.storage
     private val storageRef = storage.reference
     private lateinit var editor: SharedPreferences.Editor
-    private lateinit var goToMain: Intent
-    private var yearList: ArrayList<String> = arrayListOf()
+//    private lateinit var goToMain: Intent
+//    private var yearList: ArrayList<String> = arrayListOf()
     private var yearsSpinner: ArrayList<String> = arrayListOf()
     //Subir imagen a Storage de firebase
     private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
@@ -59,6 +59,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initViews()
         //Spinner
         spinner = binding.spYears
         spinner.onItemSelectedListener = this
@@ -82,44 +84,49 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.etPersonName.setText(pref.getString("name", ""))
         binding.etBirthday.setText(pref.getString("birthday", ""))
 
-        //content://com.android.providers.downloads.documents/document/244
-        binding.btOpenPhoto.setOnClickListener{
-            val intent = Intent()
-                .setType("*/*")
-                .setAction(Intent.ACTION_GET_CONTENT)
-                 intent.putStringArrayListExtra("yearList", getYearList())
-                 imagePickerActivityResult.launch(intent)
-            }
-
-        binding.btSiguiente.setOnClickListener{
+        binding.btRegister.setOnClickListener{
             auth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.i("SUCCESS authentication", "Authentication success.")
+                        Toast.makeText(this, getString(com.design.cumplepablo.R.string.texto_etiqueta), Toast.LENGTH_LONG).show()
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.e("ERROR authentication", "Authentication failed.")
                         Toast.makeText(baseContext, "Authentication failed.",
                             Toast.LENGTH_SHORT).show()
-                        //updateUI(null)
-                    }
+                   }
                 }
+            activeViews()
+        }
+
+        binding.btOpenPhoto.setOnClickListener{
+            val intent = Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT)
+                 imagePickerActivityResult.launch(intent)
+            }
+
+         binding.btSiguiente.setOnClickListener{
+            val years = getYearList()
+            var goToMain = Intent()
             name = binding.etPersonName.text.toString()
             birthday = binding.etBirthday.text.toString()
-
+            Log.i("yearList in", years.toString())
             if (birthday.isEmpty() || birthday.contains(".") || birthday.contains("/") || birthday.contains("*")
                 || birthday.contains("-")|| birthday.contains("+")){
-               Toast.makeText(this, "Fecha no válida", Toast.LENGTH_SHORT).show()
+               Toast.makeText(this, "Fecha no valid", Toast.LENGTH_SHORT).show()
             } else {
                 editor = pref.edit()
                 editor.putString("name", name)
                 editor.putString("birthday", birthday)
                 editor.apply()
+                finish()
+                goToMain.putStringArrayListExtra("yearList", years)
                 goToMain = Intent(this, MainActivity::class.java)
                 startActivity(goToMain)
-                finish()
-            }
+             }
         }
     }
 
@@ -132,6 +139,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun getYearList(): ArrayList<String> {
+        var yearList: ArrayList<String> = arrayListOf()
         auth = Firebase.auth
         val spaceRef =  storageRef.child("imagenesCumple/${auth.currentUser?.uid}")
         spaceRef.listAll()
@@ -140,10 +148,34 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     yearItem = i.toString().substring(i.toString().length-8,i.toString().length-4)
                     yearList = (yearList.plus(yearItem)) as ArrayList<String>
                 }
+                Log.i("yearList", yearList.toString())
+
             }
             .addOnFailureListener {
                 Log.e("yearList","Error charging list")
             }
         return yearList
+    }
+
+    private fun initViews(){
+        binding.tvLabel2.isEnabled = false
+        binding.tvLabel2.alpha = 0.5F
+        binding.spYears.isEnabled = false
+        binding.spYears.alpha = 0.5F
+        binding.btOpenPhoto.isEnabled = false
+        binding.btOpenPhoto.alpha = 0.5F
+        binding.btSiguiente.isEnabled = false
+        binding.btSiguiente.alpha = 0.5F
+    }
+
+    private fun activeViews(){
+        binding.tvLabel2.isEnabled = true
+        binding.tvLabel2.alpha = 1F
+        binding.spYears.isEnabled = true
+        binding.spYears.alpha = 1F
+        binding.btOpenPhoto.isEnabled = true
+        binding.btOpenPhoto.alpha = 1F
+        binding.btSiguiente.isEnabled = true
+        binding.btSiguiente.alpha = 1F
     }
 }

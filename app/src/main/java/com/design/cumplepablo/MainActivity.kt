@@ -56,6 +56,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         //getyearlistfrom splash
+        Log.i("yearList",yearList.toString())
         yearList = intent.getStringArrayListExtra("yearList") as ArrayList<String>
 
         //Spinner

@@ -36,9 +36,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var storage = Firebase.storage
     private val storageRef = storage.reference
     private lateinit var editor: SharedPreferences.Editor
-//    private lateinit var goToMain: Intent
-//    private var yearList: ArrayList<String> = arrayListOf()
     private var yearsSpinner: ArrayList<String> = arrayListOf()
+    private var yearList: ArrayList<String> = arrayListOf()
     //Subir imagen a Storage de firebase
     private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
           registerForActivityResult( ActivityResultContracts.StartActivityForResult()) { result ->
@@ -83,7 +82,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
         binding.etBirthday.setText(pref.getString("birthday", ""))
-
+        name = binding.etPersonName.text.toString()
+        birthday = binding.etBirthday.text.toString()
         binding.btRegister.setOnClickListener{
             auth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
@@ -94,10 +94,10 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.e("ERROR authentication", "Authentication failed.")
-                        Toast.makeText(baseContext, "Authentication failed.",
-                            Toast.LENGTH_SHORT).show()
+                        Toast.makeText(baseContext, "Authentication failed.",Toast.LENGTH_SHORT).show()
                    }
                 }
+
             activeViews()
         }
 
@@ -111,8 +111,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
          binding.btSiguiente.setOnClickListener{
             val years = getYearList()
             var goToMain = Intent()
-            name = binding.etPersonName.text.toString()
-            birthday = binding.etBirthday.text.toString()
+
             Log.i("yearList in", years.toString())
             if (birthday.isEmpty() || birthday.contains(".") || birthday.contains("/") || birthday.contains("*")
                 || birthday.contains("-")|| birthday.contains("+")){
@@ -123,7 +122,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 editor.putString("birthday", birthday)
                 editor.apply()
                 finish()
-                goToMain.putStringArrayListExtra("yearList", years)
+                goToMain.putStringArrayListExtra("yearList", getYearList())
                 goToMain = Intent(this, MainActivity::class.java)
                 startActivity(goToMain)
              }
@@ -139,7 +138,6 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun getYearList(): ArrayList<String> {
-        var yearList: ArrayList<String> = arrayListOf()
         auth = Firebase.auth
         val spaceRef =  storageRef.child("imagenesCumple/${auth.currentUser?.uid}")
         spaceRef.listAll()
@@ -149,7 +147,6 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     yearList = (yearList.plus(yearItem)) as ArrayList<String>
                 }
                 Log.i("yearList", yearList.toString())
-
             }
             .addOnFailureListener {
                 Log.e("yearList","Error charging list")

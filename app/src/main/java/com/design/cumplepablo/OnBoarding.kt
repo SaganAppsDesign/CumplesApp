@@ -82,19 +82,19 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
         binding.etBirthday.setText(pref.getString("birthday", ""))
-        name = binding.etPersonName.text.toString()
-        birthday = binding.etBirthday.text.toString()
+
         binding.btRegister.setOnClickListener{
             auth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         Log.i("SUCCESS authentication", "Authentication success.")
-                        Toast.makeText(this, getString(com.design.cumplepablo.R.string.texto_etiqueta), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, String.format(getString(com.design.cumplepablo.R.string.texto_etiqueta), name), Toast.LENGTH_LONG).show()
                     } else {
                         // If sign in fails, display a message to the user.
                         Log.e("ERROR authentication", "Authentication failed.")
-                        Toast.makeText(baseContext, "Authentication failed.",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show()
                    }
                 }
 
@@ -111,7 +111,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
          binding.btSiguiente.setOnClickListener{
             val years = getYearList()
             var goToMain = Intent()
-
+            name = binding.etPersonName.text.toString()
+            birthday = binding.etBirthday.text.toString()
             Log.i("yearList in", years.toString())
             if (birthday.isEmpty() || birthday.contains(".") || birthday.contains("/") || birthday.contains("*")
                 || birthday.contains("-")|| birthday.contains("+")){
@@ -155,15 +156,27 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun initViews(){
-        binding.tvLabel2.isEnabled = false
-        binding.tvLabel2.alpha = 0.5F
-        binding.spYears.isEnabled = false
-        binding.spYears.alpha = 0.5F
-        binding.btOpenPhoto.isEnabled = false
-        binding.btOpenPhoto.alpha = 0.5F
-        binding.btSiguiente.isEnabled = false
-        binding.btSiguiente.alpha = 0.5F
-    }
+        auth = Firebase.auth
+        if(auth.currentUser?.uid.isNullOrEmpty()){
+            binding.tvLabel2.isEnabled = false
+            binding.tvLabel2.alpha = 0.5F
+            binding.spYears.isEnabled = false
+            binding.spYears.alpha = 0.5F
+            binding.btOpenPhoto.isEnabled = false
+            binding.btOpenPhoto.alpha = 0.5F
+            binding.btSiguiente.isEnabled = false
+            binding.btSiguiente.alpha = 0.5F
+          } else {
+            binding.tvLabel.isEnabled = false
+            binding.tvLabel.alpha = 0.5F
+            binding.etPersonName.isEnabled = false
+            binding.etPersonName.alpha = 0.5F
+            binding.etBirthday.isEnabled = false
+            binding.etBirthday.alpha = 0.5F
+            binding.btRegister.isEnabled = false
+            binding.btRegister.alpha = 0.5F
+        }
+        }
 
     private fun activeViews(){
         binding.tvLabel2.isEnabled = true
@@ -174,5 +187,13 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.btOpenPhoto.alpha = 1F
         binding.btSiguiente.isEnabled = true
         binding.btSiguiente.alpha = 1F
+        binding.tvLabel.isEnabled = false
+        binding.tvLabel.alpha = 0.5F
+        binding.etPersonName.isEnabled = false
+        binding.etPersonName.alpha = 0.5F
+        binding.etBirthday.isEnabled = false
+        binding.etBirthday.alpha = 0.5F
+        binding.btRegister.isEnabled = false
+        binding.btRegister.alpha = 0.5F
     }
 }

@@ -44,20 +44,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var yearSelected: Int = 0
     private var yearList: ArrayList<String> = arrayListOf()
     var name: String = ""
-    var birthday: String = ""
+    var birthday: Int = 0
     var radius: Int = 0
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         //Creando binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         //getyearlistfrom splash
 
-        val intent = Intent()
         yearList = intent.getStringArrayListExtra("yearList") as ArrayList<String>
 
         //Spinner
@@ -69,16 +67,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             android.R.layout.simple_spinner_item,
             yearList
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
             spinner.adapter = adapter
         }
 
         //shared preferences
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         name = pref.getString("name", "").toString()
-        birthday = pref.getString("birthday", "").toString()
+        birthday = pref.getInt("birthday", 0)
         firebaseDatabase = FirebaseDatabase.getInstance("https://cumplesdepablo-default-rtdb.europe-west1.firebasedatabase.app/")
         hint = String.format(getString(R.string.hint), name)
         welcomeText = String.format(getString(R.string.texto_etiqueta), name)
@@ -96,6 +92,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         //Botón
         binding.btnCalculaEdad.setOnClickListener{ calculoEdad(it) }
 
+        //Botón back
+        binding.btBack.setOnClickListener {
+            val intent = Intent(this, OnBoarding::class.java)
+            startActivity(intent)
+        }
+
         //Fondo de pantalla
         binding.ivBackground.setImageResource(R.drawable.fondocalculo)
 
@@ -106,7 +108,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
    private fun calculoEdad (view: View) {
 
        progressbar.visibility = View.VISIBLE
-       val year = yearSelected - birthday.toInt()
+       val year = yearSelected - birthday
        val congrats = String.format(getString(R.string.felicidades), name, year)
        val welcomeText = String.format((getString(R.string.text2)), name, year)
        foto.setVisibility(View.VISIBLE)

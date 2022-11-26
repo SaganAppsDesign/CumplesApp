@@ -1,15 +1,12 @@
 package com.design.cumplepablo
 
 import android.R
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -22,16 +19,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
-import java.util.ArrayList
+import java.util.*
 
 
 class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     var name = ""
-    var birthday = ""
+    var birthday = 0
     var yearItem = ""
     private var yearSelected: Int = 0
     private lateinit var spinner: Spinner
@@ -50,7 +45,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                val uploadTask = imageUri?.let { storageRef.child("imagenesCumple/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
                 // On success, download the file URL and display it
                 uploadTask?.addOnSuccessListener {
-                    Toast.makeText(this, "imagen subida correctamente", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_LONG).show()
 
                 }?.addOnFailureListener {
                     Log.e("Firebase", "Image Upload fail")
@@ -62,14 +57,12 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getYearList()
-
         initViews()
         //Spinner
         spinner = binding.spYears
         spinner.onItemSelectedListener = this
 
-        for (i in 1930..2022){
+        for (i in 1970..2022){
            yearsSpinner = (yearsSpinner.plus(i) as ArrayList<String>)
         }
 
@@ -86,7 +79,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
-        binding.etBirthday.setText(pref.getString("birthday", ""))
+        binding.etBirthday.setText(pref.getInt("birthday", 0).toString())
 
         binding.btRegister.setOnClickListener{
             auth.signInAnonymously()
@@ -105,29 +98,24 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT)
                  imagePickerActivityResult.launch(intent)
-            }
+                 binding.btSiguiente.isEnabled = true
+                 binding.btSiguiente.alpha = 1F
+                }
 
          binding.btSiguiente.setOnClickListener{
-             var goToMain = Intent()
-             val lista =  runBlocking { getYearList() }
-             Log.i("lista",lista.toString())
              name = binding.etPersonName.text.toString()
-             birthday = binding.etBirthday.text.toString()
+             birthday = binding.etBirthday.text.toString().toInt()
 
-            if (birthday.isEmpty() || birthday.contains(".") || birthday.contains("/") || birthday.contains("*")
-                || birthday.contains("-")|| birthday.contains("+")){
-               Toast.makeText(this, "Fecha no válida", Toast.LENGTH_SHORT).show()
-            } else {
-                editor = pref.edit()
-                editor.putString("name", name)
-                editor.putString("birthday", birthday)
-                editor.apply()
-                goToMain.putStringArrayListExtra("yearList", yearList)
-                goToMain = Intent(this, MainActivity::class.java)
-                startActivity(goToMain)
-                finish()
+             editor = pref.edit()
+             editor.putString("name", name)
+             editor.putInt("birthday", birthday)
+             editor.apply()
+
+             val intent = Intent(this, MainActivity::class.java).apply {
+                 putStringArrayListExtra("yearList", getYearList())
              }
-        }
+             startActivity(intent)
+         }
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
@@ -185,8 +173,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.spYears.alpha = 1F
         binding.btOpenPhoto.isEnabled = true
         binding.btOpenPhoto.alpha = 1F
-        binding.btSiguiente.isEnabled = true
-        binding.btSiguiente.alpha = 1F
+        binding.btSiguiente.isEnabled = false
+        binding.btSiguiente.alpha = 0.5F
         binding.tvLabel.isEnabled = false
         binding.tvLabel.alpha = 0.5F
         binding.etPersonName.isEnabled = false

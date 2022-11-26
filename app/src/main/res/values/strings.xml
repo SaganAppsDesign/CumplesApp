@@ -5,6 +5,7 @@
     <string name="open_photo">Sube tu foto</string>
     <string name="register">Aceptar</string>
     <string name="texto_etiqueta">¡Hola %1$s!</string>
+    <string name="back_buttom">Back</string>
     <string name="hint">%1$s, aquí podrás ver el cálculo de tu edad…</string>
     <string name="hint_fecha">MMMM</string>
     <string name="carrusel_imagenes">carrusel_imagenes</string>

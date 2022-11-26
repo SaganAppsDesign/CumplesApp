@@ -12,9 +12,8 @@ import com.google.firebase.storage.ktx.storage
 import kotlin.collections.ArrayList
 
 class SplashScreen : AppCompatActivity() {
-    private var storage = Firebase.storage
-    var name = ""
 
+    var name = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,18 +23,15 @@ class SplashScreen : AppCompatActivity() {
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         name = pref.getString("name", "").toString()
 
-//        if (name.isNotEmpty()) {
-//            activityMain(MainActivity::class.java)
-//        } else {
-//            activityOnboarding(OnBoarding::class.java)
-//        }
         activityOnboarding(OnBoarding::class.java)
-
    }
 
     private fun activityOnboarding(activity: Class<OnBoarding>){
         Handler().postDelayed({
             val intent = Intent(this, activity)
+            val pref = getSharedPreferences("datos", MODE_PRIVATE)
+            name = pref.getString("name", "").toString()
+            intent.putExtra("name", name)
             startActivity(intent)
             finish()
         }, 1500)

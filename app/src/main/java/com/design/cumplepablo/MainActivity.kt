@@ -119,43 +119,27 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         when (year) {
             0 -> {
                 resultText.text = welcomeText
-                getBirthdayNoImage ()
-                foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
+                checkFireRef()
             }
             1 -> {
                 resultText.text = congrats
-                runBlocking {
-                    getBirthdayImage(yearSelected.toString())
-                }
                 checkFireRef()
             }
             in 2..13 -> {
                 resultText.text = congrats2 + " \uD83D\uDE0D"
-                runBlocking {
-                    getBirthdayImage(yearSelected.toString())
-                }
                 checkFireRef()
             }
             in 14..18 -> {
                 resultText.text =  "$congrats2. Estabas en la etapa adolescente... \uD83D\uDE0E"
-                runBlocking {
-                    getBirthdayImage(yearSelected.toString())
-                }
                 checkFireRef()
             }
             in 19..70 -> {
                 resultText.text = "$congrats2. Ya empezabas a ser una persona madurita... \uD83D\uDE0F"
-                runBlocking {
-                    getBirthdayImage(yearSelected.toString())
-                }
                 checkFireRef()
                }
             in 71..110 -> {
                 resultText.text =
                 "$congrats2. ¡¡Los años no pasan por ti!! \uD83D\uDE05"
-                runBlocking {
-                    getBirthdayImage(yearSelected.toString())
-                }
                 checkFireRef()
             }
             else -> {
@@ -209,6 +193,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun checkFireRef() {
+        runBlocking {
+            getBirthdayImage(yearSelected.toString())
+        }
         database = firebaseDatabase!!.getReference("efemerides").child(yearSelected.toString()).child("title")
         database?.get()?.addOnSuccessListener{
             if(it.value.toString().isNotEmpty()){
@@ -225,7 +212,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
         yearSelected = parent?.getItemAtPosition(pos).toString().toInt()
     }
-
     override fun onNothingSelected(p0: AdapterView<*>?) {
             Log.i("Error", "Error")
     }

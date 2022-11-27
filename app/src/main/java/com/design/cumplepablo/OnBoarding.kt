@@ -35,7 +35,6 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var storage = Firebase.storage
     private val storageRef = storage.reference
     private lateinit var editor: SharedPreferences.Editor
-    private var yearsSpinner: ArrayList<String> = arrayListOf()
     private var yearList: ArrayList<String> = arrayListOf()
     //Subir imagen a Storage de firebase
     private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
@@ -56,18 +55,18 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //Shared preferences
+        val pref = getSharedPreferences("datos", MODE_PRIVATE)
+        binding.etPersonName.setText(pref.getString("name", ""))
+        binding.etBirthday.setText(pref.getInt("birthday", 1950).toString())
         // Initialize Firebase Auth
         auth = Firebase.auth
         getYearList()
-        initSpinner()
         initViews()
-
-        val pref = getSharedPreferences("datos", MODE_PRIVATE)
-        binding.etPersonName.setText(pref.getString("name", ""))
-        binding.etBirthday.setText(pref.getInt("birthday", 1900).toString())
 
         binding.btRegister.setOnClickListener{
             name = binding.etPersonName.text.toString()
+            birthday = binding.etBirthday.text.toString().toInt()
             auth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -103,6 +102,11 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
              }
              startActivity(intent)
          }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initSpinner()
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
@@ -152,6 +156,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
     private fun activeViews(){
+        initSpinner()
         binding.tvLabel2.isEnabled = true
         binding.tvLabel2.alpha = 1F
         binding.spYears.isEnabled = true
@@ -170,10 +175,14 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.btRegister.alpha = 0.5F
     }
     private fun initSpinner(){
+        var yearsSpinner: ArrayList<String> = arrayListOf()
+        val calendar = Calendar.getInstance()
+        val year = calendar[Calendar.YEAR]
+        birthday = binding.etBirthday.text.toString().toInt()
         spinner = binding.spYears
         spinner.onItemSelectedListener = this
 
-        for (i in 1970..2022){
+        for (i in birthday..year){
             yearsSpinner = (yearsSpinner.plus(i) as ArrayList<String>)
         }
         ArrayAdapter(

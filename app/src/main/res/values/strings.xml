@@ -5,8 +5,8 @@
     <string name="open_photo">Sube tu foto</string>
     <string name="register">Aceptar</string>
     <string name="texto_etiqueta">¡Hola %1$s!</string>
-    <string name="back_buttom">Back</string>
-    <string name="hint">%1$s, aquí podrás ver el cálculo de tu edad…</string>
+    <string name="back_buttom">⬅️ Back</string>
+    <string name="hint">%1$s, aquí podrás ver el cálculo de tu edad con una foto asociada…</string>
     <string name="hint_fecha">MMMM</string>
     <string name="carrusel_imagenes">carrusel_imagenes</string>
     <string name="fondo_imagen_cumple">fondo imagen cumple</string>
@@ -15,8 +15,8 @@
     <string name="texto_fragment_more2">Aparecerán fotos tuyas asociadas a dicho año.</string>
     <string name="texto_fragment2">Pasa a calcular tu edad</string>
     <string name="efemerides">Efemérides</string>
-    <string name="felicidades">Felicidades  %1$s, este año cumples %2$s primaveras</string>
-    <string name="felicidades2">Felicidades %1$s, hoy cumples %2$s años</string>
+    <string name="felicidades">Felicidades  %1$s, en esta fecha ibas a cumplir %2$s año 😍</string>
+    <string name="felicidades2">Felicidades %1$s, en esta fecha ibas a cumplir %2$s años</string>
     <string name="introduce_fecha">Introduce una fecha para continuar</string>
     <string name="introduce_tu_nombre">1. Introduce tu nombre y año de nacimiento:</string>
     <string name="introduce_tu_fechas">2. Introduce las fotos por años:</string>

@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         setContentView(binding.root)
 
         //getyearlistfrom splash
-
         yearList = intent.getStringArrayListExtra("yearList") as ArrayList<String>
 
         //Spinner
@@ -110,6 +109,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
        progressbar.visibility = View.VISIBLE
        val year = yearSelected - birthday
        val congrats = String.format(getString(R.string.felicidades), name, year)
+       val congrats2 = String.format(getString(R.string.felicidades2), name, year)
        val welcomeText = String.format((getString(R.string.text2)), name, year)
        foto.setVisibility(View.VISIBLE)
        //Esconder teclado
@@ -122,22 +122,29 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 getBirthdayNoImage ()
                 foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
             }
-            in 1..13 -> {
-                resultText.text = congrats + "\uD83D\uDE0D"
+            1 -> {
+                resultText.text = congrats
+                runBlocking {
+                    getBirthdayImage(yearSelected.toString())
+                }
+                checkFireRef()
+            }
+            in 2..13 -> {
+                resultText.text = congrats2 + " \uD83D\uDE0D"
                 runBlocking {
                     getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
             }
             in 14..18 -> {
-                resultText.text =  "$congrats. Estás en la etapa adolescente...\uD83D\uDE0E"
+                resultText.text =  "$congrats2. Estabas en la etapa adolescente... \uD83D\uDE0E"
                 runBlocking {
                     getBirthdayImage(yearSelected.toString())
                 }
                 checkFireRef()
             }
             in 19..70 -> {
-                resultText.text = "$congrats. Ya vas siendo una persona madurita... \uD83D\uDE0F"
+                resultText.text = "$congrats2. Ya empezabas a ser una persona madurita... \uD83D\uDE0F"
                 runBlocking {
                     getBirthdayImage(yearSelected.toString())
                 }
@@ -145,7 +152,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                }
             in 71..110 -> {
                 resultText.text =
-                "$congrats. ¡¡Se te ve joven todavía!! \uD83D\uDE05"
+                "$congrats2. ¡¡Los años no pasan por ti!! \uD83D\uDE05"
                 runBlocking {
                     getBirthdayImage(yearSelected.toString())
                 }
@@ -160,7 +167,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private suspend fun getBirthdayImage (name: String){
             auth = Firebase.auth
-            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesCumple/${auth.currentUser?.uid}/${yearSelected}.png")}
+            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenes/${auth.currentUser?.uid}/${yearSelected}.png")}
             val localfile = File.createTempFile(name, "png")
             radius = 30
             spaceRef.getFile(localfile).addOnSuccessListener {

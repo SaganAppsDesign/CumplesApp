@@ -42,10 +42,9 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
           registerForActivityResult( ActivityResultContracts.StartActivityForResult()) { result ->
             if (result != null) {
                val imageUri: Uri? = result.data?.data
-               val uploadTask = imageUri?.let { storageRef.child("imagenesCumple/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
-                // On success, download the file URL and display it
+               val uploadTask = imageUri?.let { storageRef.child("imagenes/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
                 uploadTask?.addOnSuccessListener {
-                    Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show()
 
                 }?.addOnFailureListener {
                     Log.e("Firebase", "Image Upload fail")
@@ -57,6 +56,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        getYearList()
         initViews()
         //Spinner
         spinner = binding.spYears
@@ -82,6 +82,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.etBirthday.setText(pref.getInt("birthday", 0).toString())
 
         binding.btRegister.setOnClickListener{
+            name = binding.etPersonName.text.toString()
             auth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
@@ -103,6 +104,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
 
          binding.btSiguiente.setOnClickListener{
+             getYearList()
              name = binding.etPersonName.text.toString()
              birthday = binding.etBirthday.text.toString().toInt()
 
@@ -112,7 +114,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
              editor.apply()
 
              val intent = Intent(this, MainActivity::class.java).apply {
-                 putStringArrayListExtra("yearList", getYearList())
+                 putStringArrayListExtra("yearList", yearList)
              }
              startActivity(intent)
          }
@@ -126,22 +128,20 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         Log.i("Error", "onNothingSelected")
     }
 
-    private fun getYearList(): ArrayList<String> {
+    private fun getYearList(){
         auth = Firebase.auth
-        val spaceRef =  storageRef.child("imagenesCumple/${auth.currentUser?.uid}")
+        val spaceRef =  storageRef.child("imagenes/${auth.currentUser?.uid}")
         spaceRef.listAll()
             .addOnSuccessListener {
                 for (i in it.items){
                     yearItem = i.toString().substring(i.toString().length-8,i.toString().length-4)
                     yearList = (yearList.plus(yearItem)) as ArrayList<String>
                 }
-                Log.i("yearList", yearList.toString())
             }
             .addOnFailureListener {
                 Log.e("yearList","Error charging list")
             }
-        return yearList
-    }
+     }
 
     private fun initViews(){
         auth = Firebase.auth

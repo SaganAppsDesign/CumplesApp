@@ -56,30 +56,15 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getYearList()
-        initViews()
-        //Spinner
-        spinner = binding.spYears
-        spinner.onItemSelectedListener = this
-
-        for (i in 1970..2022){
-           yearsSpinner = (yearsSpinner.plus(i) as ArrayList<String>)
-        }
-
-        ArrayAdapter(
-            this,
-            R.layout.simple_spinner_item,
-            yearsSpinner
-        ).also { adapter ->
-            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = adapter
-        }
         // Initialize Firebase Auth
         auth = Firebase.auth
+        getYearList()
+        initSpinner()
+        initViews()
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
-        binding.etBirthday.setText(pref.getInt("birthday", 0).toString())
+        binding.etBirthday.setText(pref.getInt("birthday", 1900).toString())
 
         binding.btRegister.setOnClickListener{
             name = binding.etPersonName.text.toString()
@@ -130,8 +115,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun getYearList(){
         auth = Firebase.auth
-        val spaceRef =  storageRef.child("imagenes/${auth.currentUser?.uid}")
-        spaceRef.listAll()
+        storageRef.child("imagenes/${auth.currentUser?.uid}")
+            .listAll()
             .addOnSuccessListener {
                 for (i in it.items){
                     yearItem = i.toString().substring(i.toString().length-8,i.toString().length-4)
@@ -163,7 +148,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             binding.etBirthday.alpha = 0.5F
             binding.btRegister.isEnabled = false
             binding.btRegister.alpha = 0.5F
-        }
+          }
         }
 
     private fun activeViews(){
@@ -183,5 +168,21 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.etBirthday.alpha = 0.5F
         binding.btRegister.isEnabled = false
         binding.btRegister.alpha = 0.5F
+    }
+    private fun initSpinner(){
+        spinner = binding.spYears
+        spinner.onItemSelectedListener = this
+
+        for (i in 1970..2022){
+            yearsSpinner = (yearsSpinner.plus(i) as ArrayList<String>)
+        }
+        ArrayAdapter(
+            this,
+            R.layout.simple_spinner_item,
+            yearsSpinner
+        ).also { adapter ->
+            adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        }
     }
 }

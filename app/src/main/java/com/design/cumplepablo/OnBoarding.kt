@@ -21,6 +21,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.runBlocking
 import java.util.*
+import com.airbnb.lottie.LottieAnimationView
 
 
 class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
@@ -40,11 +41,13 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
           registerForActivityResult( ActivityResultContracts.StartActivityForResult()) { result ->
             if (result != null) {
+               Toast.makeText(this, "Espera a que aparezca mensaje de subida correcta", Toast.LENGTH_SHORT).show()
+               initAnimation()
                val imageUri: Uri? = result.data?.data
                val uploadTask = imageUri?.let { storageRef.child("imagenes/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
                 uploadTask?.addOnSuccessListener {
                     Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show()
-                }?.addOnFailureListener {
+                    }?.addOnFailureListener {
                     Log.e("Firebase", "Image Upload fail")
                 }
             }
@@ -87,10 +90,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
 
          binding.btSiguiente.setOnClickListener{
-
              name = binding.etPersonName.text.toString()
              birthday = binding.etBirthday.text.toString().toInt()
-
              editor = pref.edit()
              editor.putString("name", name)
              editor.putInt("birthday", birthday)
@@ -103,7 +104,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onResume()
         initSpinner()
     }
-
+    override fun onBackPressed() {}
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
         yearSelected = parent?.getItemAtPosition(pos).toString().toInt()
     }
@@ -132,6 +133,9 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
      }
 
     private fun initViews(){
+        binding.animationView.setOnClickListener{
+            Toast.makeText(this, "¡No le des más al calendario, que no hace na Juan!", Toast.LENGTH_SHORT).show()
+        }
         auth = Firebase.auth
         if(auth.currentUser?.uid.isNullOrEmpty()){
             binding.tvLabel2.isEnabled = false
@@ -142,6 +146,9 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             binding.btOpenPhoto.alpha = 0.5F
             binding.btSiguiente.isEnabled = false
             binding.btSiguiente.alpha = 0.5F
+            binding.animationView.isEnabled = false
+            binding.animationView.alpha = 0.5F
+
           } else {
             binding.tvLabel.isEnabled = false
             binding.tvLabel.alpha = 0.5F
@@ -156,6 +163,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun activeViews(){
         initSpinner()
+        initAnimation()
         binding.tvLabel2.isEnabled = true
         binding.tvLabel2.alpha = 1F
         binding.spYears.isEnabled = true
@@ -193,4 +201,10 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             spinner.adapter = adapter
         }
     }
+
+    private fun initAnimation(){
+        binding.animationView.alpha = 1F
+        binding.animationView.playAnimation()
+        binding.animationView.repeatCount = 3
+     }
 }

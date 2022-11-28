@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.SoundEffectConstants
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
@@ -104,6 +105,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         progressbar = binding.determinateBar
     }
 
+   override fun onBackPressed() {}
+
    private fun calculoEdad (view: View) {
 
        progressbar.visibility = View.VISIBLE
@@ -134,7 +137,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 checkFireRef()
             }
             in 19..70 -> {
-                resultText.text = "$congrats2. Ya empezabas a ser una persona madurita... \uD83D\uDE0F"
+                resultText.text = "$congrats2. Ya empiezas a ser una persona madurita... \uD83D\uDE0F"
                 checkFireRef()
                }
             in 71..110 -> {
@@ -200,13 +203,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         database?.get()?.addOnSuccessListener{
             if(it.value.toString().isNotEmpty()){
                 foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
+                initAnimation()
             } else {
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
           }?.addOnFailureListener {
-            Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_SHORT).show()
         }
-    }
+        initAnimation()
+     }
+
+    private fun initAnimation(){
+        binding.animationView.visibility = View.VISIBLE
+        binding.animationView.playAnimation()
+     }
 
     //Spinner
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {

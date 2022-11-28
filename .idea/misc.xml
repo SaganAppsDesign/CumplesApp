@@ -36,9 +36,9 @@
         <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/drawable/round_corner.xml" value="0.25052083333333336" />
         <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/drawable/text_background.xml" value="0.24322916666666666" />
         <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/drawable/text_background2.xml" value="0.24322916666666666" />
-        <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/layout/activity_description_screen.xml" value="0.25169409486931266" />
-        <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/layout/activity_main.xml" value="0.536" />
-        <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/layout/activity_on_boarding.xml" value="0.4485294117647059" />
+        <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/layout/activity_description_screen.xml" value="0.4" />
+        <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/layout/activity_main.xml" value="0.4" />
+        <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/layout/activity_on_boarding.xml" value="0.4" />
         <entry key="..\:/Users/david/StudioProjects/CumplePablo/app/src/main/res/layout/activity_splash_screen.xml" value="0.25" />
         <entry key="..\:/Users/david/StudioProjects/CumplePablo2/app/src/main/res/drawable/buttom_default.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/david/StudioProjects/CumplePablo2/app/src/main/res/drawable/buttom_focused.xml" value="0.37864583333333335" />
@@ -64,7 +64,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

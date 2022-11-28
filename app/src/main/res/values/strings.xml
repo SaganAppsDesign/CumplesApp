@@ -21,7 +21,7 @@
     <string name="introduce_tu_nombre">1. Introduce tu nombre y año de nacimiento:</string>
     <string name="introduce_tu_fechas">2. Introduce las fotos por años:</string>
     <string name="nombre">Nombre</string>
-    <string name="birthday">Fecha cumpleaños</string>
+    <string name="birthday">Año cumpleaños</string>
     <string name="text_splash">Tus cumples</string>
     <string name="fondoinfo">fondoinfo</string>
     <string name="text2">¡¡En esta fecha, acababas de nacer, %1$s!! ¡¡Bienvenido a este mundo!!</string>

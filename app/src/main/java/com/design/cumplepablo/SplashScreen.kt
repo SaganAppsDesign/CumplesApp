@@ -34,7 +34,7 @@ class SplashScreen : AppCompatActivity() {
             intent.putExtra("name", name)
             startActivity(intent)
             finish()
-        }, 1500)
+        }, 2000)
     }
 
     private fun activityMain(activity: Class<MainActivity>){

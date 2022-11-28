@@ -44,7 +44,6 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                val uploadTask = imageUri?.let { storageRef.child("imagenes/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
                 uploadTask?.addOnSuccessListener {
                     Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show()
-
                 }?.addOnFailureListener {
                     Log.e("Firebase", "Image Upload fail")
                 }
@@ -61,7 +60,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.etBirthday.setText(pref.getInt("birthday", 1950).toString())
         // Initialize Firebase Auth
         auth = Firebase.auth
-        getYearList()
+
         initViews()
 
         binding.btRegister.setOnClickListener{
@@ -88,7 +87,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 }
 
          binding.btSiguiente.setOnClickListener{
-             getYearList()
+
              name = binding.etPersonName.text.toString()
              birthday = binding.etBirthday.text.toString().toInt()
 
@@ -96,12 +95,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
              editor.putString("name", name)
              editor.putInt("birthday", birthday)
              editor.apply()
-
-             val intent = Intent(this, MainActivity::class.java).apply {
-                 putStringArrayListExtra("yearList", yearList)
-             }
-             startActivity(intent)
-         }
+             getYearList()
+           }
     }
 
     override fun onResume() {
@@ -125,6 +120,10 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 for (i in it.items){
                     yearItem = i.toString().substring(i.toString().length-8,i.toString().length-4)
                     yearList = (yearList.plus(yearItem)) as ArrayList<String>
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        putStringArrayListExtra("yearList", yearList)
+                    }
+                    startActivity(intent)
                 }
             }
             .addOnFailureListener {

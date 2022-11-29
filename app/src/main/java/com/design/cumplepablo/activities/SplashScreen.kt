@@ -3,22 +3,32 @@ package com.design.cumplepablo.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.R
+import com.design.cumplepablo.databinding.ActivityDescriptionScreenBinding
+import com.design.cumplepablo.databinding.ActivitySplashScreenBinding
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfig
+import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 
 class SplashScreen : AppCompatActivity() {
 
     var name = ""
+    private lateinit var binding : ActivitySplashScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash_screen)
+        binding = ActivitySplashScreenBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        //shared preferences
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         name = pref.getString("name", "").toString()
 
         activityOnboarding(OnBoarding::class.java)
+        initRemoteConfig()
    }
 
     private fun activityOnboarding(activity: Class<OnBoarding>){
@@ -32,4 +42,24 @@ class SplashScreen : AppCompatActivity() {
         }, 2000)
     }
 
+    private fun initRemoteConfig(){
+        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+        val configSettings = remoteConfigSettings {
+            minimumFetchIntervalInSeconds = 3600
+        }
+        remoteConfig.setConfigSettingsAsync(configSettings)
+        remoteConfig.fetchAndActivate()
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val updated = task.result
+                    Log.d("remoteConfigSuccess", "Config params updated: $updated")
+                    Toast.makeText(this, "Fetch and activate succeeded",
+                        Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Fetch failed",
+                        Toast.LENGTH_SHORT).show()
+                }
+                binding.textView.text =  remoteConfig.getString("title_splash_screen")
+            }
+    }
 }

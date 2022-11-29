@@ -1,9 +1,12 @@
 package com.design.cumplepablo.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.AttributeSet
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.R
@@ -48,16 +51,13 @@ class SplashScreen : AppCompatActivity() {
             minimumFetchIntervalInSeconds = 3600
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
-        remoteConfig.fetchAndActivate()
+        remoteConfig.activate()
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val updated = task.result
-                    Log.d("remoteConfigSuccess", "Config params updated: $updated")
-                    Toast.makeText(this, "Fetch and activate succeeded",
-                        Toast.LENGTH_SHORT).show()
+                    Log.d("remoteConfigSuccess", "Config params updated: $updated:${binding.textView.text}")
                 } else {
-                    Toast.makeText(this, "Fetch failed",
-                        Toast.LENGTH_SHORT).show()
+                    Log.e("Failed remote config", "Failed remote config")
                 }
                 binding.textView.text =  remoteConfig.getString("title_splash_screen")
             }

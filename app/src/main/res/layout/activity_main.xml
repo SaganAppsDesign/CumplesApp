@@ -23,15 +23,14 @@
         tools:ignore="ImageContrastCheck"
         tools:srcCompat="@drawable/fondocalculo" />
 
-
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/carruselFotos"
-        android:layout_width="395dp"
-        android:layout_height="737dp"
-        android:layout_marginTop="120dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/black_70"
         android:contentDescription="@string/carrusel_imagenes"
         android:padding="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"

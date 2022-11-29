@@ -18,7 +18,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.ConnectionReceiver
-import com.design.cumplepablo.MainActivity
 import com.design.cumplepablo.databinding.ActivityOnBoardingBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth

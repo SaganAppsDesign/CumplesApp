@@ -1,4 +1,4 @@
-package com.design.cumplepablo
+package com.design.cumplepablo.activities
 
 import android.app.Activity
 import android.content.BroadcastReceiver

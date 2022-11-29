@@ -1,10 +1,9 @@
 package com.design.cumplepablo.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import com.design.cumplepablo.MainActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.R
 
 class SplashScreen : AppCompatActivity() {

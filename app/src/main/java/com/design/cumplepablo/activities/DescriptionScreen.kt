@@ -1,10 +1,11 @@
-package com.design.cumplepablo
+package com.design.cumplepablo.activities
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.design.cumplepablo.R
 import com.design.cumplepablo.databinding.ActivityDescriptionScreenBinding
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage

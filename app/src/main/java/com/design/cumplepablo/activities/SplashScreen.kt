@@ -1,15 +1,10 @@
-package com.design.cumplepablo
+package com.design.cumplepablo.activities
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import kotlin.collections.ArrayList
+import com.design.cumplepablo.R
 
 class SplashScreen : AppCompatActivity() {
 

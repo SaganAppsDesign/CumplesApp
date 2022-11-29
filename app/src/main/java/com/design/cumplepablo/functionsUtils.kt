@@ -1,4 +1,5 @@
 package com.design.cumplepablo
 
-class functionsUtils {
-}
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+

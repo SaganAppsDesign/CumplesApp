@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#303030"
     android:orientation="vertical"
-    tools:context=".OnBoarding"
+    tools:context=".activities.OnBoarding"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="6dp">
 

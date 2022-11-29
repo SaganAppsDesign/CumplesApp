@@ -1,8 +1,11 @@
-package com.design.cumplepablo
+package com.design.cumplepablo.activities
 
 import android.R
+import android.content.BroadcastReceiver
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -14,12 +17,12 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.design.cumplepablo.ConnectionReceiver
 import com.design.cumplepablo.databinding.ActivityOnBoardingBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.runBlocking
 import java.util.*
 
 
@@ -36,6 +39,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private val storageRef = storage.reference
     private lateinit var editor: SharedPreferences.Editor
     private var yearList: ArrayList<String> = arrayListOf()
+    private var br: BroadcastReceiver = ConnectionReceiver()
     //Subir imagen a Storage de firebase
     private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
           registerForActivityResult( ActivityResultContracts.StartActivityForResult()) { result ->
@@ -82,9 +86,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT)
                  imagePickerActivityResult.launch(intent)
-                 binding.btSiguiente.isEnabled = true
-                 binding.btSiguiente.alpha = 1F
-                }
+              }
 
          binding.btSiguiente.setOnClickListener{
 
@@ -99,9 +101,15 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
            }
     }
 
+    override fun onStart() {
+        super.onStart()
+        activeReceiver()
+    }
+
     override fun onResume() {
         super.onResume()
         initSpinner()
+        activeReceiver()
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
@@ -192,5 +200,11 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         }
+    }
+
+    private fun activeReceiver(){
+        val networkIntentFilter = IntentFilter()
+        networkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver(br, networkIntentFilter)
     }
 }

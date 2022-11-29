@@ -15,6 +15,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.design.cumplepablo.ConnectionReceiver
 import com.design.cumplepablo.R
+import com.design.cumplepablo.activities.DescriptionScreen
+import com.design.cumplepablo.activities.OnBoarding
 import com.design.cumplepablo.databinding.ActivityMainBinding
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.auth.FirebaseAuth

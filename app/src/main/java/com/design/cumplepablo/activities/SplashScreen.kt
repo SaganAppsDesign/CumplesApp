@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import com.design.cumplepablo.MainActivity
 import com.design.cumplepablo.R
 
 class SplashScreen : AppCompatActivity() {
@@ -32,14 +33,4 @@ class SplashScreen : AppCompatActivity() {
         }, 2000)
     }
 
-    private fun activityMain(activity: Class<MainActivity>){
-        Handler().postDelayed({
-            val intent = Intent(this, activity)
-            val pref = getSharedPreferences("datos", MODE_PRIVATE)
-            name = pref.getString("name", "").toString()
-            intent.putExtra("name", name)
-            finish()
-            startActivity(intent)
-        }, 1500)
-    }
 }

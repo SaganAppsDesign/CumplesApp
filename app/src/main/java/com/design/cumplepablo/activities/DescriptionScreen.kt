@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.design.cumplepablo.MainActivity
 import com.design.cumplepablo.R
 import com.design.cumplepablo.databinding.ActivityDescriptionScreenBinding
 import com.google.firebase.ktx.Firebase

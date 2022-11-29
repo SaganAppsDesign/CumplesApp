@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Cumples</string>
-    <string name="calcula_tu_edad">⬅️ Calcula tu edad</string>
+    <string name="calcula_tu_edad">Calcula tu edad</string>
     <string name="siguiente">Siguiente</string>
     <string name="open_photo">Sube tu foto</string>
     <string name="register">Aceptar</string>
     <string name="texto_etiqueta">¡Hola %1$s!</string>
     <string name="back_buttom">⬅️ Back</string>
-    <string name="hint">%1$s, aquí podrás ver el cálculo de tu edad con una foto asociada…</string>
+    <string name="hint">%1$s, Selecciona primero un año en la parte inferior y después dale al botón…</string>
     <string name="hint_fecha">MMMM</string>
     <string name="carrusel_imagenes">carrusel_imagenes</string>
     <string name="fondo_imagen_cumple">fondo imagen cumple</string>
@@ -19,7 +19,7 @@
     <string name="felicidades2">Felicidades %1$s, en esta fecha tenías %2$s años</string>
     <string name="introduce_fecha">Introduce una fecha para continuar</string>
     <string name="introduce_tu_nombre">1. Introduce tu nombre y año de nacimiento:</string>
-    <string name="introduce_tu_fechas">2. Introduce las fotos por años:</string>
+    <string name="introduce_tu_fechas">2. Selecciona primero el año y después sube la foto:</string>
     <string name="nombre">Nombre</string>
     <string name="birthday">Año cumpleaños</string>
     <string name="text_splash">Tus cumples</string>

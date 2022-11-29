@@ -1,4 +1,4 @@
-package com.design.cumplepablo.activities
+package com.design.cumplepablo
 
 import android.app.Activity
 import android.content.BroadcastReceiver
@@ -112,6 +112,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         activeReceiver()
     }
 
+   override fun onBackPressed() {}
+
    private fun calculoEdad (view: View) {
 
        progressbar.visibility = View.VISIBLE
@@ -142,7 +144,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 checkFireRef()
             }
             in 19..70 -> {
-                resultText.text = "$congrats2. Ya empezabas a ser una persona madurita... \uD83D\uDE0F"
+                resultText.text = "$congrats2. Ya empiezas a ser una persona madurita... \uD83D\uDE0F"
                 checkFireRef()
                }
             in 71..110 -> {
@@ -208,13 +210,20 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         database?.get()?.addOnSuccessListener{
             if(it.value.toString().isNotEmpty()){
                 foto.setOnClickListener{yearDescription(yearSelected.toString(), yearSelected)}
+                initAnimation()
             } else {
                 foto.setOnClickListener{Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()}
             }
           }?.addOnFailureListener {
-            Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.no_data), Toast.LENGTH_SHORT).show()
         }
-    }
+        initAnimation()
+     }
+
+    private fun initAnimation(){
+        binding.animationView.visibility = View.VISIBLE
+        binding.animationView.playAnimation()
+     }
 
     private fun activeReceiver(){
         val networkIntentFilter = IntentFilter()

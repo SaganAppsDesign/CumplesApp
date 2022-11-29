@@ -1,5 +1,6 @@
 package com.design.cumplepablo.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -40,7 +41,15 @@ class DescriptionScreen : AppCompatActivity() {
         runBlocking {
             imagen?.let {getEfemeridesImage(it)}
         }
+
+        //Botón back
+        binding.btBack.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
      }
+
+    override fun onBackPressed() {}
 
     private suspend fun getEfemeridesImage (name: String){
         val storage = Firebase.storage

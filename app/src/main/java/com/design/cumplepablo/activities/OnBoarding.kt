@@ -18,7 +18,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.ConnectionReceiver
-import com.design.cumplepablo.RemoteConfig
 import com.design.cumplepablo.databinding.ActivityOnBoardingBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -89,6 +88,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT)
                  imagePickerActivityResult.launch(intent)
+                binding.btRegister.isEnabled = true
+                binding.btRegister.alpha = 1F
               }
 
          binding.btSiguiente.setOnClickListener{
@@ -112,7 +113,9 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         initSpinner()
         activeReceiver()
     }
+
     override fun onBackPressed() {}
+
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
         yearSelected = parent?.getItemAtPosition(pos).toString().toInt()
     }
@@ -216,7 +219,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.animationView.repeatCount = 3
      }
 
-    private fun activeReceiver(){
+    fun activeReceiver(){
         val networkIntentFilter = IntentFilter()
         networkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(br, networkIntentFilter)

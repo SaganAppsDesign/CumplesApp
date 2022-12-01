@@ -22,13 +22,15 @@ class SplashScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.textView.text = remoteConfig.getSplashTitle()
 
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         name = pref.getString("name", "").toString()
+
         Handler().postDelayed({
-        binding.textView.text = remoteConfig.getSplashTitle()
+            activityOnboarding(OnBoarding::class.java)
         }, 1000)
-        activityOnboarding(OnBoarding::class.java)
+
    }
 
     private fun activityOnboarding(activity: Class<OnBoarding>){

@@ -11,12 +11,9 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.design.cumplepablo.ConnectionReceiver
+import com.design.cumplepablo.ExtenFuncs.loadUrl
 import com.design.cumplepablo.R
-import com.design.cumplepablo.activities.DescriptionScreen
-import com.design.cumplepablo.activities.OnBoarding
 import com.design.cumplepablo.databinding.ActivityMainBinding
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.firebase.auth.FirebaseAuth
@@ -168,12 +165,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             radius = 30
             spaceRef.getFile(localfile).addOnSuccessListener {
 
-                Glide.with(this)
-                    .load(localfile)
-                    .transform(RoundedCorners(radius))
-                    .fitCenter()
-                    .into(binding.carruselFotos)
-
+                binding.carruselFotos.loadUrl(localfile, radius)
                 progressbar.visibility = View.INVISIBLE
 
             }.addOnFailureListener {
@@ -182,12 +174,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun getBirthdayNoImage (){
-           radius = 30
-           Glide.with(this)
-                .load(R.drawable.happybirthday)
-                .transform(RoundedCorners(radius))
-                .into(binding.carruselFotos)
-            progressbar.visibility = View.INVISIBLE
+          radius = 30
+          binding.carruselFotos.loadUrl(null, radius)
+          progressbar.visibility = View.INVISIBLE
     }
 
     private fun yearDescription (imagen: String, year: Int){
@@ -227,18 +216,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.animationView.playAnimation()
      }
 
-    private fun activeReceiver(){
-        val networkIntentFilter = IntentFilter()
-        networkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
-        registerReceiver(br, networkIntentFilter)
-    }
-
     //Spinner
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
         yearSelected = parent?.getItemAtPosition(pos).toString().toInt()
     }
     override fun onNothingSelected(p0: AdapterView<*>?) {
             Log.i("Error", "Error")
+    }
+
+    fun activeReceiver(){
+        val networkIntentFilter = IntentFilter()
+        networkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver(br, networkIntentFilter)
     }
 }
 

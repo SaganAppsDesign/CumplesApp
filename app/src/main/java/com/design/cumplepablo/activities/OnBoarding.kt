@@ -44,12 +44,15 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
           registerForActivityResult( ActivityResultContracts.StartActivityForResult()) { result ->
             if (result != null) {
-               Toast.makeText(this, "Espera a que aparezca mensaje de subida correcta", Toast.LENGTH_SHORT).show()
+               //Toast.makeText(this, "Espera a que aparezca mensaje de subida correcta", Toast.LENGTH_SHORT).show()
                initAnimation()
                val imageUri: Uri? = result.data?.data
                val uploadTask = imageUri?.let { storageRef.child("imagenes/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
                 uploadTask?.addOnSuccessListener {
                     Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show()
+                    binding.animationView.pauseAnimation()
+                    binding.btSiguiente.isEnabled = true
+                    binding.btSiguiente.alpha = 1F
                     }?.addOnFailureListener {
                     Log.e("Firebase", "Image Upload fail")
                 }
@@ -88,8 +91,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 .setType("*/*")
                 .setAction(Intent.ACTION_GET_CONTENT)
                  imagePickerActivityResult.launch(intent)
-                binding.btRegister.isEnabled = true
-                binding.btRegister.alpha = 1F
+                 binding.btSiguiente.isEnabled = false
+                 binding.btSiguiente.alpha = 0.5F
               }
 
          binding.btSiguiente.setOnClickListener{
@@ -167,14 +170,11 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             binding.etPersonName.alpha = 0.5F
             binding.etBirthday.isEnabled = false
             binding.etBirthday.alpha = 0.5F
-            binding.btRegister.isEnabled = false
-            binding.btRegister.alpha = 0.5F
           }
         }
 
     private fun activeViews(){
         initSpinner()
-        initAnimation()
         binding.tvLabel2.isEnabled = true
         binding.tvLabel2.alpha = 1F
         binding.spYears.isEnabled = true
@@ -216,7 +216,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private fun initAnimation(){
         binding.animationView.alpha = 1F
         binding.animationView.playAnimation()
-        binding.animationView.repeatCount = 3
+        binding.animationView
+        binding.animationView.repeatCount = 10
      }
 
     fun activeReceiver(){

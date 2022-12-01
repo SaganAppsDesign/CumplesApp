@@ -26,6 +26,6 @@
     <string name="fondoinfo">fondoinfo</string>
     <string name="text2">¡¡En esta fecha, acababas de nacer, %1$s!! ¡¡Bienvenido a este mundo!!</string>
     <string name="no_data">No existen efemérides de este año en estos momentos. Pronto subiremos más</string>
-
+    <string name="battery_level">Nivel de batería</string>
 
 </resources>

@@ -16,6 +16,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.ConnectionReceiver
+import com.design.cumplepablo.ExtenFuncs.batteryLevel
 import com.design.cumplepablo.databinding.ActivityOnBoardingBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -29,6 +30,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     var name = ""
     var birthday = 0
     var yearItem = ""
+    var imagesListSize = 0
     private var yearSelected: Int = 0
     private lateinit var spinner: Spinner
     private lateinit var binding : ActivityOnBoardingBinding
@@ -62,7 +64,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        batteryLevel(this)
+        batteryLevel(this, binding)
         //Shared preferences
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
@@ -115,7 +117,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onResume()
         initSpinner()
         activeReceiver()
-        batteryLevel(this)
+        batteryLevel(this, binding)
     }
 
     override fun onBackPressed() {}
@@ -139,6 +141,9 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     val intent = Intent(this, MainActivity::class.java).apply {
                         putStringArrayListExtra("yearList", yearList)
                     }
+                    editor.putInt("listImageSize", yearList.size)
+                    editor.apply()
+
                     startActivity(intent)
                 }
             }
@@ -227,18 +232,5 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         registerReceiver(br, networkIntentFilter)
     }
 
-    fun batteryLevel(context: Context){
-        val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
-            context.registerReceiver(null, ifilter)
-        }
-        val batteryPct: Float? = batteryStatus?.let { intent ->
-            val level: Int = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
-            val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
-            level * 100 / scale.toFloat()
-        }
 
-        binding.tvbatteryLevel.text = "Nivel de batería: " + batteryPct.toString() + " %"
-
-        Log.i("Nivel de batería", batteryPct.toString())
-    }
 }

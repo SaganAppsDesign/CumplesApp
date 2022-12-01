@@ -8,7 +8,7 @@
     android:layout_gravity="center_vertical"
     android:background="#303030"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activities.MainActivity">
 
     <ImageView
         android:id="@+id/ivBackground"
@@ -23,15 +23,16 @@
         tools:ignore="ImageContrastCheck"
         tools:srcCompat="@drawable/fondocalculo" />
 
-
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/carruselFotos"
-        android:layout_width="395dp"
-        android:layout_height="737dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/black_70"
         android:contentDescription="@string/carrusel_imagenes"
         android:padding="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -50,17 +51,30 @@
         tools:visibility="visible"/>
 
     <TextView
+        android:id="@+id/btBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center"
+        android:padding="7dp"
+        android:text="@string/back_buttom"
+        android:textColor="#ffffff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/etiqueta_encima_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/text_background"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center"
         android:padding="7dp"
         android:text="@string/texto_etiqueta"
-        android:textColor="#000000"
+        android:textColor="#ffffff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,7 +94,7 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/black"
-        android:textColorHint="#FFFFFF"
+        android:textColorHint="#040303"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,28 +102,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/carruselFotos" />
 
-    <Spinner
-        android:id="@+id/spYear_List"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="32dp"
-        android:textAlignment="center"
-        android:background="@drawable/text_background2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnCalculaEdad"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <Button
         android:id="@+id/btnCalculaEdad"
-        android:layout_width="151dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="24dp"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="32dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/button_custom"
+        android:background="@drawable/text_background2"
+        android:padding="3dp"
         android:text="@string/calcula_tu_edad"
         android:textColor="#090909"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Spinner
+        android:id="@+id/spYear_List"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/text_background2"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnCalculaEdad"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/ivBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/ivBackground"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/papelillos"
+        tools:visibility="visible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

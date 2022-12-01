@@ -8,12 +8,16 @@ class RemoteConfig {
 
     private val remoteConfig = Firebase.remoteConfig
 
+    companion object {
+        private const val MIN_REFRESH_SECONDS = 0L
+     }
+
      init {
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 0
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
-        remoteConfig.fetch(0)
+        remoteConfig.fetch(MIN_REFRESH_SECONDS)
         remoteConfig.fetchAndActivate()
     }
 

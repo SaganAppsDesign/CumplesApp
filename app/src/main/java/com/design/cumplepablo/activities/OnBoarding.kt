@@ -1,12 +1,10 @@
 package com.design.cumplepablo.activities
 
 import android.R
-import android.content.BroadcastReceiver
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.SharedPreferences
+import android.content.*
 import android.net.ConnectivityManager
 import android.net.Uri
+import android.os.BatteryManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -63,6 +61,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        batteryLevel(this)
         //Shared preferences
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
@@ -115,6 +115,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onResume()
         initSpinner()
         activeReceiver()
+        batteryLevel(this)
     }
 
     override fun onBackPressed() {}
@@ -224,5 +225,20 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val networkIntentFilter = IntentFilter()
         networkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(br, networkIntentFilter)
+    }
+
+    fun batteryLevel(context: Context){
+        val batteryStatus: Intent? = IntentFilter(Intent.ACTION_BATTERY_CHANGED).let { ifilter ->
+            context.registerReceiver(null, ifilter)
+        }
+        val batteryPct: Float? = batteryStatus?.let { intent ->
+            val level: Int = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1)
+            val scale: Int = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1)
+            level * 100 / scale.toFloat()
+        }
+
+        binding.tvbatteryLevel.text = "Nivel de batería: " + batteryPct.toString() + " %"
+
+        Log.i("Nivel de batería", batteryPct.toString())
     }
 }

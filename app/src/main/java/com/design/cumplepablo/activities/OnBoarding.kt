@@ -44,15 +44,20 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
           registerForActivityResult( ActivityResultContracts.StartActivityForResult()) { result ->
             if (result != null) {
-               //Toast.makeText(this, "Espera a que aparezca mensaje de subida correcta", Toast.LENGTH_SHORT).show()
                initAnimation()
                val imageUri: Uri? = result.data?.data
+                if (imageUri == null){
+                    binding.animationView.pauseAnimation()
+                    binding.btSiguiente.isEnabled = true
+                    binding.btSiguiente.alpha = 1F
+                }
                val uploadTask = imageUri?.let { storageRef.child("imagenes/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
                 uploadTask?.addOnSuccessListener {
                     Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show()
                     binding.animationView.pauseAnimation()
                     binding.btSiguiente.isEnabled = true
                     binding.btSiguiente.alpha = 1F
+
                     }?.addOnFailureListener {
                     Log.e("Firebase", "Image Upload fail")
                 }
@@ -176,6 +181,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             binding.etPersonName.alpha = 0.5F
             binding.etBirthday.isEnabled = false
             binding.etBirthday.alpha = 0.5F
+            binding.btRegister.isEnabled = false
+            binding.btRegister.alpha = 0.5F
           }
         }
 

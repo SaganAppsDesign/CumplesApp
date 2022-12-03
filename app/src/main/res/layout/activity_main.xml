@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/carruselFotos"
         tools:ignore="ImageContrastCheck"
-        tools:srcCompat="@drawable/fondocalculo" />
+        tools:srcCompat="@drawable/background" />
 
     <com.github.chrisbanes.photoview.PhotoView
         android:id="@+id/carruselFotos"
@@ -60,6 +60,7 @@
         android:gravity="center"
         android:padding="7dp"
         android:text="@string/back_buttom"
+        android:textSize="18sp"
         android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center"
         android:padding="7dp"
@@ -79,7 +80,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/cuadro_texto_resultado_calculo"
+        android:id="@+id/tv_cuadro_calculo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -89,16 +90,18 @@
         android:background="@drawable/text_background2"
         android:fontFamily="@font/roboto_medium"
         android:gravity="center|center_horizontal"
-        android:hint="@string/hint"
         android:padding="5dp"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/black"
         android:textColorHint="#040303"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:textStyle="bold"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Selecciona primero un año en la parte inferior y después dale al botón"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/carruselFotos" />
 
@@ -144,4 +147,25 @@
         app:lottie_rawRes="@raw/papelillos"
         tools:visibility="visible"/>
 
+    <TextView
+        android:id="@+id/tvInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/text_background2"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="center|center_horizontal"
+        android:padding="5dp"
+        android:text="@string/hint"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/carruselFotos" />
 </androidx.constraintlayout.widget.ConstraintLayout>

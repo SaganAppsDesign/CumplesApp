@@ -47,17 +47,17 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                initAnimation()
                val imageUri: Uri? = result.data?.data
                 if (imageUri == null){
-                    binding.animationView.pauseAnimation()
                     binding.btSiguiente.isEnabled = true
                     binding.btSiguiente.alpha = 1F
+                    finishAnimation()
                 }
                val uploadTask = imageUri?.let { storageRef.child("imagenes/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
                 uploadTask?.addOnSuccessListener {
                     Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show()
-                    binding.animationView.pauseAnimation()
+                    finishAnimation()
                     binding.btSiguiente.isEnabled = true
                     binding.btSiguiente.alpha = 1F
-
+                    finishAnimation()
                     }?.addOnFailureListener {
                     Log.e("Firebase", "Image Upload fail")
                 }
@@ -74,6 +74,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
         binding.etBirthday.setText(pref.getInt("birthday", 1950).toString())
+
         // Initialize Firebase Auth
         auth = Firebase.auth
 
@@ -85,7 +86,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             auth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, String.format(getString(com.design.cumplepablo.R.string.texto_etiqueta), name), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, String.format(getString(com.design.cumplepablo.R.string.register_ok), name), Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
                    }
@@ -145,10 +146,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     yearList = (yearList.plus(yearItem)) as ArrayList<String>
                     val intent = Intent(this, MainActivity::class.java).apply {
                         putStringArrayListExtra("yearList", yearList)
+                        putExtra("size",yearList.size.toString())
                     }
-                    editor.putInt("listImageSize", yearList.size)
-                    editor.apply()
-
                     startActivity(intent)
                 }
             }
@@ -158,9 +157,6 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
      }
 
     private fun initViews(){
-        binding.animationView.setOnClickListener{
-            Toast.makeText(this, "¡No le des más al calendario, que no hace na Juan!", Toast.LENGTH_SHORT).show()
-        }
         auth = Firebase.auth
         if(auth.currentUser?.uid.isNullOrEmpty()){
             binding.tvLabel2.isEnabled = false
@@ -171,7 +167,6 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             binding.btOpenPhoto.alpha = 0.5F
             binding.btSiguiente.isEnabled = false
             binding.btSiguiente.alpha = 0.5F
-            binding.animationView.isEnabled = false
             binding.animationView.alpha = 0.5F
 
           } else {
@@ -194,6 +189,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.spYears.alpha = 1F
         binding.btOpenPhoto.isEnabled = true
         binding.btOpenPhoto.alpha = 1F
+        binding.animationView.alpha = 1F
         binding.btSiguiente.isEnabled = false
         binding.btSiguiente.alpha = 0.5F
         binding.tvLabel.isEnabled = false
@@ -227,11 +223,13 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun initAnimation(){
-        binding.animationView.alpha = 1F
         binding.animationView.playAnimation()
-        binding.animationView
         binding.animationView.repeatCount = 10
      }
+
+    private fun finishAnimation(){
+       binding.animationView.pauseAnimation()
+    }
 
     fun activeReceiver(){
         val networkIntentFilter = IntentFilter()

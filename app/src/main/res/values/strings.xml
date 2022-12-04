@@ -4,10 +4,11 @@
     <string name="siguiente">Siguiente</string>
     <string name="open_photo">Sube tu foto</string>
     <string name="register">Aceptar</string>
+    <string name="edit">Editar</string>
     <string name="texto_etiqueta">Tienes subidas %1$s imágenes</string>
     <string name="register_ok">Te has registrado correctamente, %1$s</string>
     <string name="back_buttom">⬅️ Back</string>
-    <string name="hint">%1$s, Selecciona primero un año en la parte inferior y después dale al botón…</string>
+    <string name="hint">%1$s, selecciona primero un año en la parte inferior y después dale al botón…</string>
     <string name="carrusel_imagenes">carrusel_imagenes</string>
     <string name="fondo_imagen_cumple">fondo imagen cumple</string>
     <string name="texto_fragment2">Pasa a calcular tu edad</string>

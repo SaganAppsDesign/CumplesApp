@@ -169,7 +169,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private suspend fun getBirthdayImage (name: String){
             auth = Firebase.auth
-            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenes/${auth.currentUser?.uid}/${yearSelected}.png")}
+            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesTest/${auth.currentUser?.uid}/${yearSelected}.png")}
             val localfile = File.createTempFile(name, "png")
             radius = 30
             spaceRef.getFile(localfile).addOnSuccessListener {

@@ -93,6 +93,7 @@
         android:gravity="center"
         android:padding="7dp"
         android:text="@string/back_buttom"
+        android:textSize="18sp"
         android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

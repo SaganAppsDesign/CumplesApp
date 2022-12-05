@@ -26,6 +26,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private lateinit var foto: PhotoView
     private lateinit var progressbar: ProgressBar
     private lateinit var spinner: Spinner
-    private lateinit var hint: String
+    private lateinit var info: String
     private lateinit var welcomeText: String
     private var database: DatabaseReference? = null
     private lateinit var inputMethodManager: InputMethodManager
@@ -45,9 +47,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var br: BroadcastReceiver = ConnectionReceiver()
     private var yearSelected: Int = 0
     private var yearList: ArrayList<String> = arrayListOf()
-    var name: String = ""
-    var birthday: Int = 0
-    var radius: Int = 0
+    private var name: String = ""
+    private var birthday: Int = 0
+    private var radius: Int = 0
+    private var yearListSize: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -58,6 +61,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         //getyearlistfrom splash
         yearList = intent.getStringArrayListExtra("yearList") as ArrayList<String>
+        yearListSize = intent.getStringExtra("size").toString()
+        if(yearListSize.toInt() > 1) binding.tvInfo.visibility = View.GONE
 
         //Spinner
         spinner = binding.spYearList
@@ -77,12 +82,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         name = pref.getString("name", "").toString()
         birthday = pref.getInt("birthday", 0)
         firebaseDatabase = FirebaseDatabase.getInstance("https://cumplesdepablo-default-rtdb.europe-west1.firebasedatabase.app/")
-        hint = String.format(getString(R.string.hint), name)
-        welcomeText = String.format(getString(R.string.texto_etiqueta), name)
+        info = String.format(getString(R.string.hint), name)
+        welcomeText = String.format(getString(R.string.texto_etiqueta), yearListSize)
 
         //Textos
-        resultText = binding.cuadroTextoResultadoCalculo
-        binding.cuadroTextoResultadoCalculo.hint = hint
+        resultText = binding.tvCuadroCalculo
+        binding.tvInfo.text = info
         binding.etiquetaEncimaEditText.text = welcomeText
 
         //Fotos
@@ -91,7 +96,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         foto.setVisibility(View.VISIBLE)
 
         //Botón
-        binding.btnCalculaEdad.setOnClickListener{ calculoEdad(it) }
+        binding.btnCalculaEdad.setOnClickListener{
+            calculoEdad(it)
+            binding.tvCuadroCalculo.visibility = View.VISIBLE
+            binding.tvInfo.visibility = View.GONE
+        }
 
         //Botón back
         binding.btBack.setOnClickListener {
@@ -100,7 +109,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         }
 
         //Fondo de pantalla
-        binding.ivBackground.setImageResource(R.drawable.fondocalculo)
+        binding.ivBackground.setImageResource(R.drawable.background)
 
         //Progress bar
         progressbar = binding.determinateBar
@@ -114,18 +123,26 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
    override fun onBackPressed() {}
 
    private fun calculoEdad (view: View) {
-
        progressbar.visibility = View.VISIBLE
        val year = yearSelected - birthday
        val congrats = String.format(getString(R.string.felicidades), name, year)
        val congrats2 = String.format(getString(R.string.felicidades2), name, year)
+       val congrats3 = String.format(getString(R.string.felicidades3), name, year)
        val welcomeText = String.format((getString(R.string.text2)), name, year)
        foto.setVisibility(View.VISIBLE)
+
+       val calendar = Calendar.getInstance()
+       val currentYear = calendar[Calendar.YEAR]
        //Esconder teclado
        inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 
         when (year) {
+
+            currentYear - birthday -> {
+                resultText.text = congrats3
+                checkFireRef()
+            }
             0 -> {
                 resultText.text = welcomeText
                 checkFireRef()
@@ -134,21 +151,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 resultText.text = congrats
                 checkFireRef()
             }
-            in 2..13 -> {
-                resultText.text = congrats2 + " \uD83D\uDE0D"
+            in 2..70 -> {
+                resultText.text = congrats2
                 checkFireRef()
             }
-            in 14..18 -> {
-                resultText.text =  "$congrats2. Estabas en la etapa adolescente... \uD83D\uDE0E"
-                checkFireRef()
-            }
-            in 19..70 -> {
-                resultText.text = "$congrats2. Ya empiezas a ser una persona madurita... \uD83D\uDE0F"
-                checkFireRef()
-               }
             in 71..110 -> {
                 resultText.text =
-                "$congrats2. ¡¡Los años no pasan por ti!! \uD83D\uDE05"
+                "$congrats2. ¡Los años no pasan por ti!!"
                 checkFireRef()
             }
             else -> {
@@ -160,7 +169,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private suspend fun getBirthdayImage (name: String){
             auth = Firebase.auth
-            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenes/${auth.currentUser?.uid}/${yearSelected}.png")}
+            val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesTest/${auth.currentUser?.uid}/${yearSelected}.png")}
             val localfile = File.createTempFile(name, "png")
             radius = 30
             spaceRef.getFile(localfile).addOnSuccessListener {

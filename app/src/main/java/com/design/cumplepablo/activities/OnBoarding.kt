@@ -44,15 +44,20 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     private var imagePickerActivityResult: ActivityResultLauncher<Intent> =
           registerForActivityResult( ActivityResultContracts.StartActivityForResult()) { result ->
             if (result != null) {
-               //Toast.makeText(this, "Espera a que aparezca mensaje de subida correcta", Toast.LENGTH_SHORT).show()
                initAnimation()
                val imageUri: Uri? = result.data?.data
-               val uploadTask = imageUri?.let { storageRef.child("imagenes/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
-                uploadTask?.addOnSuccessListener {
-                    Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show()
-                    binding.animationView.pauseAnimation()
+                if (imageUri == null){
                     binding.btSiguiente.isEnabled = true
                     binding.btSiguiente.alpha = 1F
+                    finishAnimation()
+                }
+               val uploadTask = imageUri?.let { storageRef.child("imagenesTest/${auth.currentUser?.uid}/$yearSelected.png").putFile(it) }
+                uploadTask?.addOnSuccessListener {
+                    Toast.makeText(this, "Imagen subida correctamente", Toast.LENGTH_SHORT).show()
+                    finishAnimation()
+                    binding.btSiguiente.isEnabled = true
+                    binding.btSiguiente.alpha = 1F
+                    finishAnimation()
                     }?.addOnFailureListener {
                     Log.e("Firebase", "Image Upload fail")
                 }
@@ -69,6 +74,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
         binding.etBirthday.setText(pref.getInt("birthday", 1950).toString())
+
         // Initialize Firebase Auth
         auth = Firebase.auth
 
@@ -80,12 +86,40 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             auth.signInAnonymously()
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        Toast.makeText(this, String.format(getString(com.design.cumplepablo.R.string.texto_etiqueta), name), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, String.format(getString(com.design.cumplepablo.R.string.register_ok), name), Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
-                   }
+                    }
                 }
             activeViews()
+        }
+        var bool: Boolean
+        binding.btEdit.setOnClickListener {
+            bool = false
+            binding.etPersonName.alpha = 1F
+            binding.etPersonName.isEnabled = true
+            binding.etBirthday.alpha = 1F
+            binding.etBirthday.isEnabled = true
+            if (bool) {
+                binding.btEdit.text = "Editar"
+            } else  {
+                binding.btEdit.text = "Finaliza edición"
+                bool = true
+            }
+            if (binding.etBirthday.length()<4){
+                Toast.makeText(this, "Se requiere año con 4 dígitos", Toast.LENGTH_LONG).show()
+                binding.btRegister.isEnabled = false
+                binding.btRegister.alpha = 0.2F
+                binding.tvLabel2.isEnabled = false
+                binding.tvLabel2.alpha = 0.5F
+                binding.spYears.isEnabled = false
+                binding.spYears.alpha = 0.5F
+                binding.btOpenPhoto.isEnabled = false
+                binding.btOpenPhoto.alpha = 0.5F
+                binding.btSiguiente.isEnabled = false
+                binding.btSiguiente.alpha = 0.5F
+                binding.animationView.alpha = 0.5F
+            }
         }
 
         binding.btOpenPhoto.setOnClickListener{
@@ -106,7 +140,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
              editor.apply()
              getYearList()
            }
-    }
+     }
 
     override fun onStart() {
         super.onStart()
@@ -132,7 +166,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun getYearList(){
         auth = Firebase.auth
-        storageRef.child("imagenes/${auth.currentUser?.uid}")
+        storageRef.child("imagenesTest/${auth.currentUser?.uid}")
             .listAll()
             .addOnSuccessListener {
                 for (i in it.items){
@@ -140,10 +174,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     yearList = (yearList.plus(yearItem)) as ArrayList<String>
                     val intent = Intent(this, MainActivity::class.java).apply {
                         putStringArrayListExtra("yearList", yearList)
+                        putExtra("size",yearList.size.toString())
                     }
-                    editor.putInt("listImageSize", yearList.size)
-                    editor.apply()
-
                     startActivity(intent)
                 }
             }
@@ -153,9 +185,6 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
      }
 
     private fun initViews(){
-        binding.animationView.setOnClickListener{
-            Toast.makeText(this, "¡No le des más al calendario, que no hace na Juan!", Toast.LENGTH_SHORT).show()
-        }
         auth = Firebase.auth
         if(auth.currentUser?.uid.isNullOrEmpty()){
             binding.tvLabel2.isEnabled = false
@@ -166,7 +195,6 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             binding.btOpenPhoto.alpha = 0.5F
             binding.btSiguiente.isEnabled = false
             binding.btSiguiente.alpha = 0.5F
-            binding.animationView.isEnabled = false
             binding.animationView.alpha = 0.5F
 
           } else {
@@ -176,6 +204,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             binding.etPersonName.alpha = 0.5F
             binding.etBirthday.isEnabled = false
             binding.etBirthday.alpha = 0.5F
+            binding.btRegister.isEnabled = false
+            binding.btRegister.alpha = 0.5F
           }
         }
 
@@ -187,8 +217,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.spYears.alpha = 1F
         binding.btOpenPhoto.isEnabled = true
         binding.btOpenPhoto.alpha = 1F
-        binding.btSiguiente.isEnabled = false
-        binding.btSiguiente.alpha = 0.5F
+        binding.animationView.alpha = 1F
         binding.tvLabel.isEnabled = false
         binding.tvLabel.alpha = 0.5F
         binding.etPersonName.isEnabled = false
@@ -220,11 +249,13 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     }
 
     private fun initAnimation(){
-        binding.animationView.alpha = 1F
         binding.animationView.playAnimation()
-        binding.animationView
         binding.animationView.repeatCount = 10
      }
+
+    private fun finishAnimation(){
+       binding.animationView.pauseAnimation()
+    }
 
     fun activeReceiver(){
         val networkIntentFilter = IntentFilter()

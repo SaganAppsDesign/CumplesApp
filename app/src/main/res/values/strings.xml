@@ -4,19 +4,18 @@
     <string name="siguiente">Siguiente</string>
     <string name="open_photo">Sube tu foto</string>
     <string name="register">Aceptar</string>
-    <string name="texto_etiqueta">¡Hola %1$s!</string>
+    <string name="edit">Editar</string>
+    <string name="texto_etiqueta">Tienes subidas %1$s imágenes</string>
+    <string name="register_ok">Te has registrado correctamente, %1$s</string>
     <string name="back_buttom">⬅️ Back</string>
-    <string name="hint">%1$s, Selecciona primero un año en la parte inferior y después dale al botón…</string>
-    <string name="hint_fecha">MMMM</string>
+    <string name="hint">%1$s, selecciona primero un año en la parte inferior y después dale al botón…</string>
     <string name="carrusel_imagenes">carrusel_imagenes</string>
     <string name="fondo_imagen_cumple">fondo imagen cumple</string>
-    <string name="texto_fragment">¡Hola %1$s! En esta App podrás calcular tu edad, introduciendo el año que te interese. \uD83D\uDE09</string>
-    <string name="texto_fragment_more">¡¡Será muy divertido, ya verás!! \uD83D\uDE0A</string>
-    <string name="texto_fragment_more2">Aparecerán fotos tuyas asociadas a dicho año.</string>
     <string name="texto_fragment2">Pasa a calcular tu edad</string>
     <string name="efemerides">Efemérides</string>
-    <string name="felicidades">Felicidades  %1$s, en esta fecha tenías %2$s año 😍</string>
+    <string name="felicidades">Felicidades  %1$s, en esta fecha tenías %2$s año</string>
     <string name="felicidades2">Felicidades %1$s, en esta fecha tenías %2$s años</string>
+    <string name="felicidades3">Felicidades %1$s, acabas de cumplir %2$s años</string>
     <string name="introduce_fecha">Introduce una fecha para continuar</string>
     <string name="introduce_tu_nombre">1. Introduce tu nombre y año de nacimiento:</string>
     <string name="introduce_tu_fechas">2. Selecciona primero el año y después sube la foto:</string>
@@ -24,8 +23,8 @@
     <string name="birthday">Año cumpleaños</string>
     <string name="text_splash">Tus cumples</string>
     <string name="fondoinfo">fondoinfo</string>
-    <string name="text2">¡¡En esta fecha, acababas de nacer, %1$s!! ¡¡Bienvenido a este mundo!!</string>
-    <string name="no_data">No existen efemérides de este año en estos momentos. Pronto subiremos más</string>
+    <string name="text2">¡¡En esta fecha, acababas de nacer, %1$s!!</string>
+    <string name="no_data">No hemos subido efemérides de este año de momento</string>
     <string name="battery_level">Nivel de batería</string>
 
 </resources>

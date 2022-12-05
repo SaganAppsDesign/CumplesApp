@@ -129,6 +129,8 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                         }
                     }
                 activeViews()
+                binding.btEdit.isEnabled = true
+                binding.btEdit.alpha = 1F
             }
         }
 
@@ -156,11 +158,15 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 bool = false
             } else  {
                 binding.btEdit.text = "Editar"
-                activeViews()
-                binding.btSiguiente.isEnabled = true
-                binding.btSiguiente.alpha = 1F
-                Toast.makeText(this, "Edición finalizada con éxito, $name", Toast.LENGTH_SHORT).show()
-                bool = true
+                if (binding.etBirthday.length()<4){
+                    checkDigitsYearNumber()}
+                else {
+                    activeViews()
+                    binding.btSiguiente.isEnabled = true
+                    binding.btSiguiente.alpha = 1F
+                    Toast.makeText(this, "Edición finalizada con éxito, $name", Toast.LENGTH_SHORT).show()
+                    bool = true
+                    }
             }
         }
 
@@ -229,7 +235,6 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun initViews(){
         auth = Firebase.auth
-        Toast.makeText(baseContext, "Introduce uno mayor a 1930 o inferior al actual $year", Toast.LENGTH_LONG).show()
         if(auth.currentUser?.uid.isNullOrEmpty()){
             binding.btEdit.isEnabled = false
             binding.btEdit.alpha = 0.5F
@@ -274,6 +279,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.etBirthday.alpha = 0.5F
         binding.btRegister.isEnabled = false
         binding.btRegister.alpha = 0.5F
+
     }
     private fun initSpinner(){
         var yearsSpinner: ArrayList<String> = arrayListOf()

@@ -3,8 +3,8 @@
     <string name="calcula_tu_edad">Calcula tu edad</string>
     <string name="siguiente">Siguiente</string>
     <string name="open_photo">Sube tu foto</string>
-    <string name="register">Aceptar</string>
-    <string name="edit">Editar</string>
+    <string name="register">Registra tus datos</string>
+    <string name="edit">Edita tus datos</string>
     <string name="texto_etiqueta">Tienes subidas %1$s imágenes</string>
     <string name="register_ok">Te has registrado correctamente, %1$s</string>
     <string name="back_buttom">⬅️ Back</string>

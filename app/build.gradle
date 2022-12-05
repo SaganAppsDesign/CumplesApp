@@ -76,5 +76,7 @@ dependencies {
     //Lottie
     def lottieVersion = "3.4.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+    //Moshi
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
 
 }

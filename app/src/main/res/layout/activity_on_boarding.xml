@@ -42,7 +42,7 @@
 
     <Button
         android:id="@+id/btRegister"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="30dp"
         android:layout_marginStart="32dp"
         android:background="@drawable/text_background2"
@@ -56,17 +56,17 @@
 
     <Button
         android:id="@+id/btEdit"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="30dp"
+        android:layout_marginTop="9dp"
         android:background="@drawable/text_background2"
         android:text="@string/edit"
         android:textColor="#090909"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/btRegister"
+        android:textSize="11sp"
         app:layout_constraintDimensionRatio="h,3:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.471"
-        app:layout_constraintStart_toEndOf="@+id/btRegister" />
+        app:layout_constraintEnd_toEndOf="@+id/btRegister"
+        app:layout_constraintStart_toStartOf="@+id/btRegister"
+        app:layout_constraintTop_toBottomOf="@+id/btRegister" />
 
     <Button
         android:id="@+id/btOpenPhoto"
@@ -89,7 +89,7 @@
         android:layout_width="280dp"
         android:layout_height="41dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="68dp"
         android:fontFamily="sans-serif-smallcaps"
         android:text="@string/introduce_tu_nombre"
         android:textColor="#EFEAEA"
@@ -135,7 +135,7 @@
         android:layout_width="325dp"
         android:layout_height="43dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="sans-serif-smallcaps"
         android:lineSpacingExtra="5sp"
         android:minLines="2"

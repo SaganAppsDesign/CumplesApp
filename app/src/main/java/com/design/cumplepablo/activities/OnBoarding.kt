@@ -1,11 +1,15 @@
 package com.design.cumplepablo.activities
 
 import android.R
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Intent
+import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.Uri
-import android.os.BatteryManager
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
@@ -27,10 +31,13 @@ import java.util.*
 
 class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
-    var name = ""
-    var birthday = 0
-    var yearItem = ""
-    var imagesListSize = 0
+    private var name = ""
+    private var birthday = 0
+    private var yearItem = ""
+    private var bool: Boolean = true
+    private var yearsSpinner: ArrayList<String> = arrayListOf()
+    private val calendar: Calendar = Calendar.getInstance()
+    private val year = calendar[Calendar.YEAR]
     private var yearSelected: Int = 0
     private lateinit var spinner: Spinner
     private lateinit var binding : ActivityOnBoardingBinding
@@ -68,48 +75,75 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         super.onCreate(savedInstanceState)
         binding = ActivityOnBoardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Initialize Firebase Auth
+        auth = Firebase.auth
 
+        initViews()
         batteryLevel(this, binding)
+
         //Shared preferences
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
         binding.etBirthday.setText(pref.getInt("birthday", 1950).toString())
 
-        // Initialize Firebase Auth
-        auth = Firebase.auth
+        // Add a text changed listener to the EditText
+        binding.etBirthday.addTextChangedListener(object: TextWatcher {
+            override fun afterTextChanged(s: Editable?) {
+                Log.i("LOG afterTextChanged", "$s")
+                val str: String = binding.etBirthday.text.toString()
+                var number = 0
+                number = try {
+                    str.toInt()
+                  } catch (e: NumberFormatException) {
+                    0
+                }
+                if (number > year){
+                    Toast.makeText(baseContext, "Se requiere un año igual o inferior al actual $year", Toast.LENGTH_SHORT).show()
+                } else if(number < 1930){
+                   Log.i("INFO control años", "No tenemos registros para ese año. Introduce uno mayor a 1930 o inferior al actual $year")
+                } else Toast.makeText(baseContext, "Año correcto", Toast.LENGTH_SHORT).show()
+            }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // This method is called to notify you that, within s,
+                // the count characters beginning at start are about to be replaced by new text with length after.
+                Log.i("LOG beforeTextChanged", "$s - $start - $count - $after")
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                Log.i("LOG onTextChanged", "$s - $start - $before - $count")
 
-        initViews()
+            }
+        })
 
         binding.btRegister.setOnClickListener{
             name = binding.etPersonName.text.toString()
             birthday = binding.etBirthday.text.toString().toInt()
-            auth.signInAnonymously()
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        Toast.makeText(this, String.format(getString(com.design.cumplepablo.R.string.register_ok), name), Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+            if (binding.etBirthday.length()<4){
+                checkDigitsYearNumber()
+            } else {
+                auth.signInAnonymously()
+                    .addOnCompleteListener(this) { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(this, String.format(getString(com.design.cumplepablo.R.string.register_ok), name), Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(baseContext, "Authentication failed.", Toast.LENGTH_SHORT).show()
+                        }
                     }
-                }
-            activeViews()
+                activeViews()
+            }
         }
-        var bool: Boolean
+
         binding.btEdit.setOnClickListener {
-            bool = false
             binding.etPersonName.alpha = 1F
             binding.etPersonName.isEnabled = true
             binding.etBirthday.alpha = 1F
             binding.etBirthday.isEnabled = true
             if (bool) {
-                binding.btEdit.text = "Editar"
-            } else  {
+                Toast.makeText(baseContext, "Introduce uno mayor a 1930 o inferior al actual $year", Toast.LENGTH_SHORT).show()
                 binding.btEdit.text = "Finaliza edición"
-                bool = true
-            }
-            if (binding.etBirthday.length()<4){
-                Toast.makeText(this, "Se requiere año con 4 dígitos", Toast.LENGTH_LONG).show()
-                binding.btRegister.isEnabled = false
-                binding.btRegister.alpha = 0.2F
+                binding.etPersonName.isEnabled = true
+                binding.etPersonName.alpha = 1F
+                binding.etBirthday.isEnabled = true
+                binding.etBirthday.alpha = 1F
                 binding.tvLabel2.isEnabled = false
                 binding.tvLabel2.alpha = 0.5F
                 binding.spYears.isEnabled = false
@@ -119,6 +153,14 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                 binding.btSiguiente.isEnabled = false
                 binding.btSiguiente.alpha = 0.5F
                 binding.animationView.alpha = 0.5F
+                bool = false
+            } else  {
+                binding.btEdit.text = "Editar"
+                activeViews()
+                binding.btSiguiente.isEnabled = true
+                binding.btSiguiente.alpha = 1F
+                Toast.makeText(this, "Edición finalizada con éxito, $name", Toast.LENGTH_SHORT).show()
+                bool = true
             }
         }
 
@@ -156,6 +198,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     override fun onBackPressed() {}
 
+    //Spinner
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
         yearSelected = parent?.getItemAtPosition(pos).toString().toInt()
     }
@@ -186,7 +229,10 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun initViews(){
         auth = Firebase.auth
+        Toast.makeText(baseContext, "Introduce uno mayor a 1930 o inferior al actual $year", Toast.LENGTH_LONG).show()
         if(auth.currentUser?.uid.isNullOrEmpty()){
+            binding.btEdit.isEnabled = false
+            binding.btEdit.alpha = 0.5F
             binding.tvLabel2.isEnabled = false
             binding.tvLabel2.alpha = 0.5F
             binding.spYears.isEnabled = false
@@ -211,6 +257,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
     private fun activeViews(){
         initSpinner()
+
         binding.tvLabel2.isEnabled = true
         binding.tvLabel2.alpha = 1F
         binding.spYears.isEnabled = true
@@ -218,6 +265,7 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding.btOpenPhoto.isEnabled = true
         binding.btOpenPhoto.alpha = 1F
         binding.animationView.alpha = 1F
+
         binding.tvLabel.isEnabled = false
         binding.tvLabel.alpha = 0.5F
         binding.etPersonName.isEnabled = false
@@ -257,11 +305,23 @@ class OnBoarding : AppCompatActivity(), AdapterView.OnItemSelectedListener {
        binding.animationView.pauseAnimation()
     }
 
-    fun activeReceiver(){
+    private fun activeReceiver(){
         val networkIntentFilter = IntentFilter()
         networkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(br, networkIntentFilter)
     }
 
+    private fun checkDigitsYearNumber(){
+        Toast.makeText(this, "Se requiere el año con 4 dígitos para poder continuar.", Toast.LENGTH_LONG).show()
+        binding.tvLabel2.isEnabled = false
+        binding.tvLabel2.alpha = 0.5F
+        binding.spYears.isEnabled = false
+        binding.spYears.alpha = 0.5F
+        binding.btOpenPhoto.isEnabled = false
+        binding.btOpenPhoto.alpha = 0.5F
+        binding.btSiguiente.isEnabled = false
+        binding.btSiguiente.alpha = 0.5F
+        binding.animationView.alpha = 0.5F
+    }
 
 }

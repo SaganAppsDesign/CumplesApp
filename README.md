@@ -1,7 +1,7 @@
 Esta app de para Android te permite calcular tu edad y subir la foto asociada a esa año, desde tu dispositivo Android. También tiene links a las efemérides del año elegido. 
 
 - Kotlin code. 
-- Firebase.
+- Firebase Real Time Database.
 - Glide.
 - Photoview.
 - Lottie.

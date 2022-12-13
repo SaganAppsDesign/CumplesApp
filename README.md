@@ -1,6 +1,7 @@
 This Android app allows you to calculate your age and upload the photo associated with that year, from your Android device. It also has links to the ephemeris of the chosen year.
 
 - Kotlin code. 
+- DataBinding.
 - Firebase (Real Time Database, Storage, Remote Config).
 - Glide.
 - Photoview.

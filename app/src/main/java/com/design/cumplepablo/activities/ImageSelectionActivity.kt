@@ -116,7 +116,7 @@ class ImageSelectionActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
         binding.btRegister.setOnClickListener{
             name = binding.etPersonName.text.toString()
             birthday = binding.etBirthday.text.toString().toInt()
-            if (binding.etBirthday.length()<4){
+            if (binding.etBirthday.length()<4 || birthday < 1930){
                 checkDigitsYearNumber()
             } else {
                 auth.signInAnonymously()
@@ -159,7 +159,7 @@ class ImageSelectionActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
                 bool = false
             } else  {
                 binding.btEdit.text = "Editar"
-                if (binding.etBirthday.length()<4){
+                if (binding.etBirthday.length()<4 || birthday < 1930){
                     checkDigitsYearNumber()}
                 else {
                     activeViews()
@@ -226,12 +226,21 @@ class ImageSelectionActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
                 for (i in it.items){
                     yearItem = i.toString().substring(i.toString().length-8,i.toString().length-4)
                     yearList = (yearList.plus(yearItem)) as ArrayList<String>
-                    val intent = Intent(this, MainActivity::class.java).apply {
-                        putStringArrayListExtra("yearList", yearList)
-                        putExtra("size",yearList.size.toString())
+                    if(birthday > yearItem.toInt()){
+                        val desertRef =  storageRef.child("imagenesTest/${auth.currentUser?.uid}/$yearItem.png")
+                        desertRef.delete().addOnSuccessListener {
+                            Toast.makeText(this, "Imagen del año $yearItem, borrada correctamente", Toast.LENGTH_SHORT).show()
+                        }.addOnFailureListener {
+                            Toast.makeText(this, "Imagen del año $yearItem, no borrada", Toast.LENGTH_SHORT).show()
+                        }
+                        yearList = arrayListOf()
                     }
-                    startActivity(intent)
                 }
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putStringArrayListExtra("yearList", yearList)
+                    putExtra("size",yearList.size.toString())
+                }
+                startActivity(intent)
             }
             .addOnFailureListener {
                 Log.e("yearList","Error charging list")
@@ -326,7 +335,7 @@ class ImageSelectionActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
     }
 
     private fun checkDigitsYearNumber(){
-        Toast.makeText(this, "Se requiere el año con 4 dígitos para poder continuar.", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Se requiere el año con 4 dígitos o año mayor a 1930", Toast.LENGTH_LONG).show()
         binding.tvLabel2.isEnabled = false
         binding.tvLabel2.alpha = 0.5F
         binding.spYears.isEnabled = false

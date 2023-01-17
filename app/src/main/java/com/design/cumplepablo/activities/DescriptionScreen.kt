@@ -39,7 +39,7 @@ class DescriptionScreen : AppCompatActivity() {
         binding.textEfemerides.text = "Efemérides año " + year
 
         runBlocking {
-            imagen?.let {getEfemeridesImage(it)}
+            imagen.let {getEfemeridesImage(it)}
         }
 
         //Botón back

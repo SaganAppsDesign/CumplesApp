@@ -7,4 +7,9 @@
         <item name="android:textColor">#101010</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="DatePickerTheme" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">#FFA726</item>
+    </style>
 </resources>
+

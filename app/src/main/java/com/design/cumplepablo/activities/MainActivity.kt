@@ -91,8 +91,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         //Fotos
         foto = binding.carruselFotos
-        foto.setCropToPadding(true)
-        foto.setVisibility(View.VISIBLE)
+        foto.cropToPadding = true
+        foto.visibility = View.VISIBLE
 
         //Botón
         binding.btnCalculaEdad.setOnClickListener{
@@ -112,6 +112,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         //Progress bar
         progressbar = binding.determinateBar
+
+
+
+
+
+
     }
 
     override fun onStart() {
@@ -171,8 +177,16 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             val spaceRef = withContext(Dispatchers.IO){storageRef.child("imagenesTest/${auth.currentUser?.uid}/${yearSelected}.png")}
             val localfile = File.createTempFile(name, "png")
             radius = 30
-            spaceRef.getFile(localfile).addOnSuccessListener {
+            binding.bnShare.setOnClickListener{
+                spaceRef.downloadUrl.addOnSuccessListener { uri ->
+                    val imageIntent = Intent(Intent.ACTION_SEND)
+                    imageIntent.type = "text/plain"
+                    imageIntent.putExtra(Intent.EXTRA_TEXT, "Esta es mi foto del año $yearSelected: $uri")
+                    startActivity(Intent.createChooser(imageIntent, "Envía imagen..."))
+                }
+            }
 
+            spaceRef.getFile(localfile).addOnSuccessListener {
                 binding.carruselFotos.loadUrl(localfile, radius)
                 progressbar.visibility = View.INVISIBLE
 

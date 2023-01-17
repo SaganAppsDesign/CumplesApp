@@ -1,6 +1,7 @@
 package com.design.cumplepablo.activities
 
 import android.R
+import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
@@ -22,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.ConnectionReceiver
 import com.design.cumplepablo.Funcs.batteryLevel
 import com.design.cumplepablo.databinding.ActivityImageSelectionBinding
+import com.design.cumplepablo.fragments.DatePickerFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -83,35 +85,37 @@ class ImageSelectionActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
         //Shared preferences
         val pref = getSharedPreferences("datos", MODE_PRIVATE)
         binding.etPersonName.setText(pref.getString("name", ""))
-        binding.etBirthday.setText(pref.getInt("birthday", 1950).toString())
+        binding.etBirthday.setText(pref.getInt("birthday", 0).toString())
 
-        // Add a text changed listener to the EditText
-        binding.etBirthday.addTextChangedListener(object: TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                Log.i("LOG afterTextChanged", "$s")
-                val str: String = binding.etBirthday.text.toString()
-                var number = 0
-                number = try {
-                    str.toInt()
-                  } catch (e: NumberFormatException) {
-                    0
-                }
-                if (number > year){
-                    Toast.makeText(baseContext, "Se requiere un año igual o inferior al actual $year", Toast.LENGTH_SHORT).show()
-                } else if(number < 1930){
-                   Log.i("INFO control años", "No tenemos registros para ese año. Introduce uno mayor a 1930 o inferior al actual $year")
-                } else Toast.makeText(baseContext, "Año correcto", Toast.LENGTH_SHORT).show()
-            }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // This method is called to notify you that, within s,
-                // the count characters beginning at start are about to be replaced by new text with length after.
-                Log.i("LOG beforeTextChanged", "$s - $start - $count - $after")
-            }
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.i("LOG onTextChanged", "$s - $start - $before - $count")
 
-            }
-        })
+        binding.etBirthday.setOnClickListener {
+            showDatePickerDialog()
+        }
+
+//        // Add a text changed listener to the EditText
+//        binding.etBirthday.addTextChangedListener(object: TextWatcher {
+//            override fun afterTextChanged(s: Editable?) {
+//                Log.i("LOG afterTextChanged", "$s")
+//                val str: String = binding.etBirthday.text.toString()
+//                var number = 0
+//                number = try {
+//                    str.toInt()
+//                  } catch (e: NumberFormatException) {
+//                    0
+//                }
+//                if (number > year){
+//                    Toast.makeText(baseContext, "Se requiere un año igual o inferior al actual $year", Toast.LENGTH_SHORT).show()
+//                } else if(number < 1930){
+//                   Log.i("INFO control años", "No tenemos registros para ese año. Introduce uno mayor a 1930 o inferior al actual $year")
+//                } else  Log.i("Año correcto", "Año correcto")
+//            }
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//                 Log.i("LOG beforeTextChanged", "$s - $start - $count - $after")
+//            }
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                Log.i("LOG onTextChanged", "$s - $start - $before - $count")
+//            }
+//        })
 
         binding.btRegister.setOnClickListener{
             name = binding.etPersonName.text.toString()
@@ -228,11 +232,7 @@ class ImageSelectionActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
                     yearList = (yearList.plus(yearItem)) as ArrayList<String>
                     if(birthday > yearItem.toInt()){
                         val desertRef =  storageRef.child("imagenesTest/${auth.currentUser?.uid}/$yearItem.png")
-                        desertRef.delete().addOnSuccessListener {
-                            Toast.makeText(this, "Imagen del año $yearItem, borrada correctamente", Toast.LENGTH_SHORT).show()
-                        }.addOnFailureListener {
-                            Toast.makeText(this, "Imagen del año $yearItem, no borrada", Toast.LENGTH_SHORT).show()
-                        }
+                        desertRef.delete()
                         yearList = arrayListOf()
                     }
                 }
@@ -355,5 +355,14 @@ class ImageSelectionActivity : AppCompatActivity(), AdapterView.OnItemSelectedLi
           Toast.makeText(this, "Imagen del año $yearSelected, no borrada correctamente", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun showDatePickerDialog() {
+        val datePicker = DatePickerFragment { year, month, day -> onDateSelected(year, month, day) }
+        datePicker.show(supportFragmentManager, "datePicker")
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun onDateSelected(year: Int, month: Int, day: Int) =
+        this.binding.etBirthday.setText("$year")
 
 }

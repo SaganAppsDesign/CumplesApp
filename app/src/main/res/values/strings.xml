@@ -19,13 +19,12 @@
     <string name="felicidades3">Felicidades %1$s, acabas de cumplir %2$s años</string>
     <string name="introduce_fecha">Introduce una fecha para continuar</string>
     <string name="introduce_tu_nombre">1. Introduce tu nombre y año de nacimiento:</string>
-    <string name="introduce_tu_fechas">2. Selecciona primero el año y después sube la foto:</string>
+    <string name="introduce_tu_fechas">2. Selecciona primero el año y después sube la foto o borra la que no te interese:</string>
     <string name="nombre">Nombre</string>
-    <string name="birthday">Año cumpleaños</string>
+    <string name="birthday">Elige tu fecha de nacimiento</string>
     <string name="text_splash">Tus cumples</string>
     <string name="fondoinfo">fondoinfo</string>
     <string name="text2">¡¡En esta fecha, acababas de nacer, %1$s!!</string>
     <string name="no_data">No hemos subido efemérides de este año de momento</string>
     <string name="battery_level">Nivel de batería</string>
-
 </resources>

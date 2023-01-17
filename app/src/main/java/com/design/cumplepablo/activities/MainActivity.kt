@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.ConnectionReceiver
-import com.design.cumplepablo.ExtenFuncs.loadUrl
+import com.design.cumplepablo.Funcs.loadUrl
 import com.design.cumplepablo.R
 import com.design.cumplepablo.databinding.ActivityMainBinding
 import com.github.chrisbanes.photoview.PhotoView
@@ -55,7 +55,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        //Creando binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -104,7 +103,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         //Botón back
         binding.btBack.setOnClickListener {
-            val intent = Intent(this, OnBoarding::class.java)
+            val intent = Intent(this, ImageSelectionActivity::class.java)
             startActivity(intent)
         }
 
@@ -129,7 +128,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
        val congrats2 = String.format(getString(R.string.felicidades2), name, year)
        val congrats3 = String.format(getString(R.string.felicidades3), name, year)
        val welcomeText = String.format((getString(R.string.text2)), name, year)
-       foto.setVisibility(View.VISIBLE)
+       foto.visibility = View.VISIBLE
 
        val calendar = Calendar.getInstance()
        val currentYear = calendar[Calendar.YEAR]
@@ -229,11 +228,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, pos: Int, id: Long) {
         yearSelected = parent?.getItemAtPosition(pos).toString().toInt()
     }
+
     override fun onNothingSelected(p0: AdapterView<*>?) {
             Log.i("Error", "Error")
     }
 
-    fun activeReceiver(){
+    private fun activeReceiver(){
         val networkIntentFilter = IntentFilter()
         networkIntentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
         registerReceiver(br, networkIntentFilter)

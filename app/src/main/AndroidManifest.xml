@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CumplePablo">
         <activity
-            android:name=".activities.OnBoarding"
+            android:name=".activities.ImageSelectionActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>

@@ -3,10 +3,17 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
-
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('C:\\Android\\cumpleApp\\keystore.jks')
+            storePassword 'cadiz2022'
+            keyPassword 'cadiz2022'
+            keyAlias 'cumplekey'
+        }
+    }
     compileSdk 32
 
     defaultConfig {
@@ -22,7 +29,6 @@ android {
     dataBinding {
         enabled = true
     }
-
 
     buildTypes {
         release {
@@ -60,8 +66,8 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.2.2"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    // Firebase
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
+    // Firebase
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-auth-ktx'

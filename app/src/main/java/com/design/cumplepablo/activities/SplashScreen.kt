@@ -3,14 +3,9 @@ package com.design.cumplepablo.activities
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.design.cumplepablo.RemoteConfig
 import com.design.cumplepablo.databinding.ActivitySplashScreenBinding
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 
 class SplashScreen : AppCompatActivity() {
 
@@ -28,12 +23,12 @@ class SplashScreen : AppCompatActivity() {
         name = pref.getString("name", "").toString()
 
         Handler().postDelayed({
-            activityOnboarding(OnBoarding::class.java)
+            activityOnboarding(ImageSelectionActivity::class.java)
         }, 1000)
 
    }
 
-    private fun activityOnboarding(activity: Class<OnBoarding>){
+    private fun activityOnboarding(activity: Class<ImageSelectionActivity>){
         Handler().postDelayed({
             val intent = Intent(this, activity)
             val pref = getSharedPreferences("datos", MODE_PRIVATE)

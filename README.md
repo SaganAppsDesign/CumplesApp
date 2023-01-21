@@ -5,7 +5,7 @@ This Android app allows you to calculate your age and upload the photo associate
 - Kotlin
 - DataBinding
 - Firebase (Real Time Database, Storage, Remote Config)
-- Shared Preferencesa
+- Shared Preferences
 - Glide
 - Photoview
 - Lottie
